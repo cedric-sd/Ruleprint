@@ -12,7 +12,9 @@
       "type": "string",
       "const": "0.1"
     },
-    "project": { "$ref": "#/definitions/Project" },
+    "project": {
+      "$ref": "#/definitions/Project"
+    },
     "generatedAt": {
       "description": "When the document was generated (RFC 3339 date-time).",
       "type": "string",
@@ -21,7 +23,9 @@
     "rules": {
       "description": "All rules known for this commit. Rule ids must be unique within the document.",
       "type": "array",
-      "items": { "$ref": "#/definitions/Rule" }
+      "items": {
+        "$ref": "#/definitions/Rule"
+      }
     }
   },
   "definitions": {
@@ -40,6 +44,11 @@
           "description": "Git commit the document was generated from (7 to 40 hex chars).",
           "type": "string",
           "pattern": "^[0-9a-f]{7,40}$"
+        },
+        "repository": {
+          "description": "Web URL of the repository, used to link sources to files and lines (e.g. https://github.com/owner/repo).",
+          "type": "string",
+          "pattern": "^https?://[^\\s]+$"
         }
       }
     },
@@ -101,7 +110,9 @@
           "type": "string",
           "minLength": 1
         },
-        "kind": { "$ref": "#/definitions/SourceKind" }
+        "kind": {
+          "$ref": "#/definitions/SourceKind"
+        }
       }
     },
     "RuleOrigin": {
@@ -116,11 +127,15 @@
           "type": "string",
           "minLength": 1
         },
-        "confidence": { "$ref": "#/definitions/Confidence" },
+        "confidence": {
+          "$ref": "#/definitions/Confidence"
+        },
         "sources": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/definitions/RuleSource" }
+          "items": {
+            "$ref": "#/definitions/RuleSource"
+          }
         }
       }
     },
@@ -133,9 +148,14 @@
         "tests": {
           "description": "Full names of the tests that exercise the rule.",
           "type": "array",
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "lastRunStatus": { "$ref": "#/definitions/RunStatus" },
+        "lastRunStatus": {
+          "$ref": "#/definitions/RunStatus"
+        },
         "coveredLines": {
           "description": "Number of source lines covered by the tests listed above.",
           "type": "integer",
@@ -150,7 +170,9 @@
       "additionalProperties": false,
       "required": ["id", "title", "origin", "fingerprint", "status"],
       "properties": {
-        "id": { "$ref": "#/definitions/RuleId" },
+        "id": {
+          "$ref": "#/definitions/RuleId"
+        },
         "title": {
           "description": "One-line statement of the rule in business language.",
           "type": "string",
@@ -163,12 +185,23 @@
         "tags": {
           "type": "array",
           "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
-        "origin": { "$ref": "#/definitions/RuleOrigin" },
-        "evidence": { "$ref": "#/definitions/RuleEvidence" },
-        "fingerprint": { "$ref": "#/definitions/Fingerprint" },
-        "status": { "$ref": "#/definitions/RuleStatus" },
+        "origin": {
+          "$ref": "#/definitions/RuleOrigin"
+        },
+        "evidence": {
+          "$ref": "#/definitions/RuleEvidence"
+        },
+        "fingerprint": {
+          "$ref": "#/definitions/Fingerprint"
+        },
+        "status": {
+          "$ref": "#/definitions/RuleStatus"
+        },
         "approvedAt": {
           "description": "When the current fingerprint was approved (RFC 3339 date-time).",
           "type": "string",

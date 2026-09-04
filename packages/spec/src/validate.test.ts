@@ -104,6 +104,7 @@ describe('validate()', () => {
           '/specVersion',
           '/project/name',
           '/project/commit',
+          '/project/repository',
           '/generatedAt',
           '/extra',
           '/rules/0/id',

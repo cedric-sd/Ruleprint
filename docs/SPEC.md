@@ -53,13 +53,14 @@ Todos os objetos são fechados: propriedade desconhecida é erro.
 
 ### Documento
 
-| Campo            | Tipo               | Obrigatório | Descrição                     |
-| ---------------- | ------------------ | ----------- | ----------------------------- |
-| `specVersion`    | `"0.1"`            | sim         | versão da especificação       |
-| `project.name`   | string não vazia   | sim         | nome do projeto               |
-| `project.commit` | hex, 7 a 40 chars  | não         | commit de origem              |
-| `generatedAt`    | RFC 3339 date-time | sim         | quando o documento foi gerado |
-| `rules`          | `Rule[]`           | sim         | pode ser vazio; ids únicos    |
+| Campo                | Tipo               | Obrigatório | Descrição                                          |
+| -------------------- | ------------------ | ----------- | -------------------------------------------------- |
+| `specVersion`        | `"0.1"`            | sim         | versão da especificação                            |
+| `project.name`       | string não vazia   | sim         | nome do projeto                                    |
+| `project.commit`     | hex, 7 a 40 chars  | não         | commit de origem                                   |
+| `project.repository` | URL http(s)        | não         | repositório web, base dos links para arquivo/linha |
+| `generatedAt`        | RFC 3339 date-time | sim         | quando o documento foi gerado                      |
+| `rules`              | `Rule[]`           | sim         | pode ser vazio; ids únicos                         |
 
 ### `Rule`
 

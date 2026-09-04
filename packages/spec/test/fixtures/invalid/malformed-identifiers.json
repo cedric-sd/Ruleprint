@@ -1,6 +1,10 @@
 {
   "specVersion": "1.0",
-  "project": { "name": "", "commit": "not-a-sha" },
+  "project": {
+    "name": "",
+    "commit": "not-a-sha",
+    "repository": "git@github.com:empresa/checkout-service.git"
+  },
   "generatedAt": "yesterday",
   "extra": true,
   "rules": [
@@ -11,7 +15,12 @@
       "origin": {
         "collector": "",
         "confidence": "derived",
-        "sources": [{ "file": "", "line": 0 }]
+        "sources": [
+          {
+            "file": "",
+            "line": 0
+          }
+        ]
       },
       "fingerprint": "md5:abc",
       "status": "pending"
