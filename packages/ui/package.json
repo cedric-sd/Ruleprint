@@ -6,19 +6,25 @@
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    ".": {
-      "ruleprint-source": "./src/index.ts",
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
     "./package.json": "./package.json",
     "./dist/*": "./dist/*"
   },
   "scripts": {
-    "build": "tsc -b tsconfig.build.json",
+    "build": "vite build",
+    "dev": "vite",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@ruleprint/spec": "workspace:*",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "vite": "^8.2.2"
+  }
 }
