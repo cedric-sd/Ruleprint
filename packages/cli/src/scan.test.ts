@@ -42,6 +42,18 @@ describe('scanProject()', () => {
     expect(result.document.rules.length).toBeGreaterThan(15);
   });
 
+  it('keeps source paths relative to the git root when scanning a subdirectory', async () => {
+    const result = await scanProject(FIXTURE, { now: NOW, git: true });
+    const files = new Set(result.document.rules.map((rule) => rule.origin.sources[0].file));
+    expect([...files].sort()).toEqual([
+      'examples/fixture-express-api/test/broken.spec.ts',
+      'examples/fixture-express-api/test/order.spec.ts',
+      'examples/fixture-express-api/test/refund.spec.ts',
+      'examples/fixture-express-api/test/shipping.spec.ts',
+    ]);
+    expect(result.warnings[0]).toContain('examples/fixture-express-api/test/broken.spec.ts');
+  });
+
   it('falls back to the directory name when there is no package.json', async () => {
     const result = await scanProject(join(FIXTURE, 'test'), { now: NOW, git: false });
     expect(result.document.project.name).toBe('test');

@@ -10,7 +10,7 @@ import {
 } from '@ruleprint/core';
 import type { Project, RulePrintDocument } from '@ruleprint/spec';
 
-import { currentCommit, repositoryUrl } from './git.js';
+import { currentCommit, pathPrefixInRepo, repositoryUrl } from './git.js';
 
 export interface ScanOptions {
   /** Clock override, for reproducible output. */
@@ -79,10 +79,12 @@ export async function scanProject(dir: string, options: ScanOptions = {}): Promi
     throw new Error(`${root} is not a directory`);
   }
   const collectors = options.collectors ?? DEFAULT_COLLECTORS;
+  const useGit = options.git ?? true;
+  const prefix = useGit ? pathPrefixInRepo(root) : '';
 
   const files: SourceFile[] = [];
   for (const abs of walk(root)) {
-    const path = toPosix(relative(root, abs));
+    const path = prefix + toPosix(relative(root, abs));
     if (collectors.some((collector) => collector.match(path))) {
       files.push({ path, content: readFileSync(abs, 'utf8') });
     }
@@ -93,7 +95,7 @@ export async function scanProject(dir: string, options: ScanOptions = {}): Promi
     warn: (message) => warnings.push(message),
   });
   const document = await assembleDocument({
-    project: describeProject(root, options.git ?? true),
+    project: describeProject(root, useGit),
     candidates,
     generatedAt: (options.now ?? new Date()).toISOString(),
   });

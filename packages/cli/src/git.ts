@@ -46,6 +46,15 @@ export function normalizeRepositoryUrl(raw: string): string | undefined {
   return `https://${parsed.hostname}${path}`;
 }
 
+/**
+ * Path of `dir` relative to the root of its git work tree, with a trailing slash, or '' when
+ * `dir` is the root or not inside a repository. Source paths are prefixed with it so they stay
+ * relative to the repository root, as the spec requires.
+ */
+export function pathPrefixInRepo(dir: string): string {
+  return git(dir, ['rev-parse', '--show-prefix']) ?? '';
+}
+
 /** Browsable URL of the `origin` remote, or `undefined`. */
 export function repositoryUrl(dir: string): string | undefined {
   const raw = git(dir, ['remote', 'get-url', 'origin']);
