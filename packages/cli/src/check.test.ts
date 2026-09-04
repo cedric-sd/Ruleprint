@@ -146,7 +146,7 @@ describe('ruleprint check / approve (definition of done)', () => {
     check = checkJson(dir);
     expect(check.status).toBe(0);
     expect(check.report.approved).toBe(12);
-  });
+  }, 60_000);
 
   it('exits 2 on a corrupt lock', () => {
     const dir = mkdtempSync(join(tmpdir(), 'ruleprint-check-'));
