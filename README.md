@@ -13,8 +13,9 @@ npx ruleprint init   # coming in M3 — see docs/ROADMAP.md
 
 ## Status
 
-Pre-alpha. The repository is at **M0 (skeleton)**: monorepo, tooling and CI only. There is no
-product logic yet. Follow the milestones in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+Pre-alpha. **M0 (skeleton)** is done and **M1 (the specification)** is in progress:
+`@ruleprint/spec` ships the JSON Schema, generated types and a `validate()` function. No
+collectors, CLI or UI yet. Follow the milestones in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## How it works
 
@@ -59,6 +60,7 @@ pnpm test:watch
 pnpm lint          # eslint
 pnpm format        # prettier --write
 pnpm typecheck     # tsc --noEmit in every package
+pnpm generate      # regenerate files derived from the schema (CI checks they are current)
 ```
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for conventions.

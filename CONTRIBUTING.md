@@ -16,16 +16,17 @@ pnpm test
 
 ## Commands
 
-| Command             | What it does                                      |
-| ------------------- | ------------------------------------------------- |
-| `pnpm test`         | runs vitest once across all packages              |
-| `pnpm test:watch`   | vitest in watch mode                              |
-| `pnpm lint`         | ESLint (type-aware) on the whole repo             |
-| `pnpm format`       | Prettier, writes changes                          |
-| `pnpm format:check` | Prettier, fails on unformatted files (used in CI) |
-| `pnpm typecheck`    | `tsc --noEmit` in every package                   |
+| Command             | What it does                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `pnpm test`         | runs vitest once across all packages                                                        |
+| `pnpm test:watch`   | vitest in watch mode                                                                        |
+| `pnpm lint`         | ESLint (type-aware) on the whole repo                                                       |
+| `pnpm format`       | Prettier, writes changes                                                                    |
+| `pnpm format:check` | Prettier, fails on unformatted files (used in CI)                                           |
+| `pnpm typecheck`    | `tsc --noEmit` in every package                                                             |
+| `pnpm generate`     | regenerates `packages/spec/src/types.generated.ts` from the schema; CI fails if it is stale |
 
-CI runs lint, format check, typecheck and tests on every pull request.
+CI runs the generated-file check, lint, format check, typecheck and tests on every pull request.
 
 ## Ground rules
 

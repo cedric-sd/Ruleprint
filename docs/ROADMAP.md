@@ -81,7 +81,7 @@ para viabilizar `npx ruleprint`.
 
 Cada milestone é uma branch, um PR e algo demonstrável. Nada de "semana de infraestrutura".
 
-### M0 — Esqueleto (em andamento)
+### M0 — Esqueleto (concluído)
 
 Monorepo pnpm, TS strict, vitest, ESLint/Prettier, CI de lint+test em Node 20 e 22, Apache-2.0,
 README com a promessa em uma frase.
@@ -90,10 +90,11 @@ README com a promessa em uma frase.
 Fica para depois: changesets, `CODE_OF_CONDUCT.md`, build/dist dos pacotes, e os scripts
 `pnpm dev` e `pnpm check:golden` citados no `CLAUDE.md` (dependem de M2/M3).
 
-### M1 — A especificação
+### M1 — A especificação (em andamento)
 
-`ruleprint.schema.json` v0.1, tipos TS gerados via `json-schema-to-typescript`, validador
-exportado, três `ruleprint.json` de exemplo em `examples/golden/`.
+`ruleprint.schema.json` v0.1, tipos TS gerados via `json-schema-to-typescript` (commitados;
+`pnpm generate` regenera e o CI confere), validador exportado, três `ruleprint.json` de exemplo em
+`examples/golden/`. Decisões do formato em `docs/adr/0002-schema-v0-1.md`.
 **DoD:** validador rejeita os casos inválidos de fixture e aceita os golden.
 
 ### M2 — Coletor de testes (aqui o produto nasce)
