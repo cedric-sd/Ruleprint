@@ -1,0 +1,14 @@
+{
+  "name": "@ruleprint/collector-config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Collector that reads declared rules from .ruleprint/rules/*.md.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}
