@@ -29,6 +29,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - name: Generated files are up to date
+        run: |
+          pnpm generate
+          git diff --exit-code -- packages/spec/src/types.generated.ts
+
       - run: pnpm lint
 
       - run: pnpm format:check

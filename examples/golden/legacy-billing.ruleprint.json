@@ -47,7 +47,9 @@
       "origin": {
         "collector": "annotations",
         "confidence": "inferred",
-        "sources": [{ "file": "src/tax.ts", "line": 77, "symbol": "applyTax", "kind": "annotation" }]
+        "sources": [
+          { "file": "src/tax.ts", "line": 77, "symbol": "applyTax", "kind": "annotation" }
+        ]
       },
       "fingerprint": "sha256:786538040bbc00bd6e7fbed687bc7b9fc0b231db8179b5f5f45dbe475470b5c3",
       "status": "pending"

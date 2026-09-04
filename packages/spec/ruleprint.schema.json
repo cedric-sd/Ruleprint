@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ruleprint.dev/schema/v0.json",
+  "title": "RulePrintDocument",
+  "description": "A ruleprint.json document: the book of business rules generated for one commit of a project.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "project", "generatedAt", "rules"],
+  "properties": {
+    "specVersion": {
+      "description": "Version of this specification the document conforms to.",
+      "type": "string",
+      "const": "0.1"
+    },
+    "project": { "$ref": "#/definitions/Project" },
+    "generatedAt": {
+      "description": "When the document was generated (RFC 3339 date-time).",
+      "type": "string",
+      "format": "date-time"
+    },
+    "rules": {
+      "description": "All rules known for this commit. Rule ids must be unique within the document.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/Rule" }
+    }
+  },
+  "definitions": {
+    "Project": {
+      "title": "Project",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "description": "Human-readable project name, usually the repository or package name.",
+          "type": "string",
+          "minLength": 1
+        },
+        "commit": {
+          "description": "Git commit the document was generated from (7 to 40 hex chars).",
+          "type": "string",
+          "pattern": "^[0-9a-f]{7,40}$"
+        }
+      }
+    },
+    "RuleId": {
+      "title": "RuleId",
+      "description": "Stable rule identifier: RP- followed by at least four digits.",
+      "type": "string",
+      "pattern": "^RP-[0-9]{4,}$"
+    },
+    "Confidence": {
+      "title": "Confidence",
+      "description": "How much a rule can be trusted: declared by a human, derived from a test, or inferred from code.",
+      "type": "string",
+      "enum": ["declared", "derived", "inferred"]
+    },
+    "RuleStatus": {
+      "title": "RuleStatus",
+      "description": "Review status of the rule relative to ruleprint.lock.",
+      "type": "string",
+      "enum": ["approved", "pending", "drifted", "orphan"]
+    },
+    "RunStatus": {
+      "title": "RunStatus",
+      "description": "Outcome of the last known execution of the tests backing a rule.",
+      "type": "string",
+      "enum": ["passed", "failed", "unknown"]
+    },
+    "SourceKind": {
+      "title": "SourceKind",
+      "description": "What kind of artifact a source location points at.",
+      "type": "string",
+      "enum": ["code", "test", "config", "annotation"]
+    },
+    "Fingerprint": {
+      "title": "Fingerprint",
+      "description": "SHA-256 of the normalised AST of the rule's origin, prefixed with the algorithm.",
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "RuleSource": {
+      "title": "RuleSource",
+      "description": "A location in the repository that contributes to a rule.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["file"],
+      "properties": {
+        "file": {
+          "description": "Path relative to the repository root, with forward slashes.",
+          "type": "string",
+          "minLength": 1
+        },
+        "line": {
+          "description": "1-based line number.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "symbol": {
+          "description": "Function, class or test name at the location, when known.",
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": { "$ref": "#/definitions/SourceKind" }
+      }
+    },
+    "RuleOrigin": {
+      "title": "RuleOrigin",
+      "description": "Where the rule came from and how much it can be trusted.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collector", "confidence", "sources"],
+      "properties": {
+        "collector": {
+          "description": "Name of the collector that produced the rule (built-ins: tests, config, annotations, ast).",
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": { "$ref": "#/definitions/Confidence" },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/RuleSource" }
+        }
+      }
+    },
+    "RuleEvidence": {
+      "title": "RuleEvidence",
+      "description": "Automated evidence backing the rule.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tests": {
+          "description": "Full names of the tests that exercise the rule.",
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "lastRunStatus": { "$ref": "#/definitions/RunStatus" },
+        "coveredLines": {
+          "description": "Number of source lines covered by the tests listed above.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "Rule": {
+      "title": "Rule",
+      "description": "One business rule.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "origin", "fingerprint", "status"],
+      "properties": {
+        "id": { "$ref": "#/definitions/RuleId" },
+        "title": {
+          "description": "One-line statement of the rule in business language.",
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "description": "Longer explanation, conditions and exceptions.",
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "origin": { "$ref": "#/definitions/RuleOrigin" },
+        "evidence": { "$ref": "#/definitions/RuleEvidence" },
+        "fingerprint": { "$ref": "#/definitions/Fingerprint" },
+        "status": { "$ref": "#/definitions/RuleStatus" },
+        "approvedAt": {
+          "description": "When the current fingerprint was approved (RFC 3339 date-time).",
+          "type": "string",
+          "format": "date-time"
+        },
+        "approvedBy": {
+          "description": "Who approved it, as '<provider>:<identity>', e.g. git:maria@empresa.com.",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

@@ -124,7 +124,11 @@ describe('validate()', () => {
     expect(result.valid).toBe(false);
     if (result.valid) return;
     expect(result.issues).toEqual([
-      { path: '/rules/1/id', keyword: 'uniqueRuleId', message: expect.stringContaining('RP-0001') as string },
+      {
+        path: '/rules/1/id',
+        keyword: 'uniqueRuleId',
+        message: expect.stringContaining('RP-0001') as string,
+      },
     ]);
   });
 

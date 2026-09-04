@@ -13,9 +13,11 @@ describe('ruleprint.schema.json', () => {
   });
 
   it('closes every object to unknown properties', () => {
-    const objects = [schema, ...Object.values(schema.definitions)].filter(
-      (node) => node.type === 'object',
-    );
+    const nodes: { type?: string; additionalProperties?: unknown }[] = [
+      schema,
+      ...Object.values(schema.definitions),
+    ];
+    const objects = nodes.filter((node) => node.type === 'object');
     expect(objects.length).toBeGreaterThan(0);
     for (const node of objects) {
       expect(node.additionalProperties).toBe(false);
