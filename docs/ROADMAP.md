@@ -90,18 +90,19 @@ README com a promessa em uma frase.
 Fica para depois: changesets, `CODE_OF_CONDUCT.md`, build/dist dos pacotes, e os scripts
 `pnpm dev` e `pnpm check:golden` citados no `CLAUDE.md` (dependem de M2/M3).
 
-### M1 — A especificação (em andamento)
+### M1 — A especificação (concluído)
 
 `ruleprint.schema.json` v0.1, tipos TS gerados via `json-schema-to-typescript` (commitados;
 `pnpm generate` regenera e o CI confere), validador exportado, três `ruleprint.json` de exemplo em
 `examples/golden/`. Decisões do formato em `docs/adr/0002-schema-v0-1.md`.
 **DoD:** validador rejeita os casos inválidos de fixture e aceita os golden.
 
-### M2 — Coletor de testes (aqui o produto nasce)
+### M2 — Coletor de testes (em andamento; aqui o produto nasce)
 
-Lê `*.spec.ts` / `*.test.ts`, monta a árvore `describe`/`it` via AST, converte cada folha em uma
-regra `derived` herdando o contexto dos `describe` pais. Opcionalmente cruza com o reporter do
-vitest para `lastRunStatus`. Exige zero trabalho novo do dev.
+Lê `*.spec.ts` / `*.test.ts`, monta a árvore `describe`/`it` via AST (tree-sitter em WASM,
+ver `docs/adr/0003-parser-do-coletor-de-testes.md`), converte cada folha em uma regra `derived`
+herdando o contexto dos `describe` pais. Opcionalmente cruza com o reporter do vitest para
+`lastRunStatus`. Exige zero trabalho novo do dev.
 **DoD:** rodar contra `examples/fixture-express-api` e contra o próprio repo do ruleprint com saída
 legível. Se a saída for ruim aqui, pare e reformule antes de investir em UI.
 
