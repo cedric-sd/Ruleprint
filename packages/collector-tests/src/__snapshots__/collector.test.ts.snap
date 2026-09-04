@@ -9,6 +9,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "still yields the rule before the syntax error",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments number:1 ) ) property_identifier:toBe ) (arguments number:1 ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -29,6 +30,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "is cut short",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments number:1 ) ) property_identifier:toBe ) (arguments ERROR:} ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -51,6 +53,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "order validation > rejects an empty order",
         ],
       },
+      "normalized": "(call_expression identifier:test (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (arrow_function formal_parameters:() (call_expression identifier:assertValidOrder (arguments array:[] ) ) ) ) ) property_identifier:toThrow ) (arguments identifier:OrderError ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -71,6 +74,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "order validation > rejects an order below the minimum value",
         ],
       },
+      "normalized": "(call_expression identifier:test (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (arrow_function formal_parameters:() (call_expression identifier:assertValidOrder (arguments (array (call_expression identifier:item (arguments number:1 number:5 ) ) ) ) ) ) ) ) property_identifier:toThrow ) (arguments string:"below minimum" ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -91,6 +95,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "order validation > rejects more than \${MAX_ITEMS_PER_ORDER} items in one order",
         ],
       },
+      "normalized": "(call_expression identifier:test (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (arrow_function formal_parameters:() (call_expression identifier:assertValidOrder (arguments (array (call_expression identifier:item (arguments (binary_expression identifier:MAX_ITEMS_PER_ORDER number:1 ) number:10 ) ) ) ) ) ) ) ) property_identifier:toThrow ) (arguments string:"too many items" ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -111,6 +116,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "order validation > rejects duplicated skus",
         ],
       },
+      "normalized": "(call_expression (member_expression identifier:test property_identifier:skip ) (arguments <title> (arrow_function formal_parameters:() (statement_block ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -131,6 +137,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "order validation > accepts a valid order",
         ],
       },
+      "normalized": "(call_expression identifier:test (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (member_expression (call_expression identifier:expect (arguments (arrow_function formal_parameters:() (call_expression identifier:assertValidOrder (arguments (array (call_expression identifier:item (arguments number:2 number:15 ) ) ) ) ) ) ) ) property_identifier:not ) property_identifier:toThrow ) arguments:() ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -153,6 +160,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "refund > janela de 7 dias > permite reembolso dentro da janela",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:canRefund (arguments (call_expression identifier:charge (arguments number:3 ) ) (new_expression identifier:Date arguments:() ) ) ) ) ) property_identifier:toBe ) (arguments true:true ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -173,6 +181,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "refund > janela de 7 dias > bloqueia reembolso após a janela",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:canRefund (arguments (call_expression identifier:charge (arguments number:8 ) ) (new_expression identifier:Date arguments:() ) ) ) ) ) property_identifier:toBe ) (arguments false:false ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -193,6 +202,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "refund > cobrança %s > nunca é reembolsável",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:canRefund (arguments (call_expression identifier:charge (arguments number:1 true:true ) ) (new_expression identifier:Date arguments:() ) ) ) ) ) property_identifier:toBe ) (arguments false:false ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -213,6 +223,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "refund > ignora cobranças com valor zero",
         ],
       },
+      "normalized": "(call_expression (member_expression identifier:it property_identifier:only ) (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:canRefund (arguments (object (spread_element (call_expression identifier:charge (arguments number:1 ) ) ) (pair property_identifier:amount number:0 ) ) (new_expression identifier:Date arguments:() ) ) ) ) ) property_identifier:toBe ) (arguments true:true ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -235,6 +246,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "shipping > frete grátis > acima de 300 reais no Sudeste",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:calcFreight (arguments number:350 identifier:southeast ) ) ) ) property_identifier:toBe ) (arguments number:0 ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -255,6 +267,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "shipping > frete grátis > exatamente \${FREE_SHIPPING_THRESHOLD} reais também é grátis",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:calcFreight (arguments identifier:FREE_SHIPPING_THRESHOLD identifier:southeast ) ) ) ) property_identifier:toBe ) (arguments number:0 ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -275,6 +288,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "shipping > frete grátis > não vale fora do Sudeste",
         ],
       },
+      "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:calcFreight (arguments number:350 identifier:northeast ) ) ) ) property_identifier:toBe ) (arguments number:34.9 ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",
@@ -295,6 +309,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
           "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região",
         ],
       },
+      "normalized": "(call_expression (call_expression (member_expression identifier:it property_identifier:each ) (arguments (array (array string:"Sudeste" identifier:southeast number:19.9 ) (array string:"Nordeste" identifier:northeast number:34.9 ) ) ) ) (arguments <title> (arrow_function (formal_parameters (required_parameter identifier:$0 ) (required_parameter identifier:$1 ) (required_parameter identifier:$2 ) ) (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:calcFreight (arguments number:100 identifier:$1 ) ) ) ) property_identifier:toBe ) (arguments identifier:$2 ) ) ) ) ) ) )",
       "origin": {
         "collector": "tests",
         "confidence": "derived",

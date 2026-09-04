@@ -151,7 +151,7 @@ describe('normalised test bodies', () => {
   });
 
   it('renames destructured, rest, catch and loop bindings', async () => {
-    const a = `it('t', ({ a, b: [c, ...d] }) => { for (const e of d) { try { use(e); } catch (err) { log(err); } } });`;
+    const a = `it('t', ({ a: p, b: [c, ...d] }) => { for (const e of d) { try { use(e); } catch (err) { log(err); } } });`;
     const b = `it('t', ({ a: x, b: [y, ...z] }) => { for (const item of z) { try { use(item); } catch (e) { log(e); } } });`;
     expect(await normalizedOf(a)).toBe(await normalizedOf(b));
   });
