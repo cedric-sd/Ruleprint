@@ -9,6 +9,15 @@
     ".": "./src/index.ts"
   },
   "scripts": {
+    "dogfood": "tsx scripts/dogfood.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@ruleprint/core": "workspace:*",
+    "@ruleprint/spec": "workspace:*",
+    "@vscode/tree-sitter-wasm": "0.3.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.13"
   }
 }

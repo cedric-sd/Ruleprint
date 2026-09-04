@@ -39,6 +39,7 @@ export default tseslint.config(
       '**/node_modules/**',
       '**/coverage/**',
       '**/*.generated.ts',
+      'examples/**',
       'pnpm-lock.yaml',
     ],
   },
