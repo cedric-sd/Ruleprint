@@ -1,0 +1,14 @@
+{
+  "name": "@ruleprint/collector-ast",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Collector that infers rules from the AST using tree-sitter and domain heuristics.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}
