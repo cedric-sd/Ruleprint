@@ -43,16 +43,48 @@ CI runs the generated-file check, lint, format check, typecheck and tests on eve
 
 ## Writing your first collector
 
-The `Collector` interface lands with the first collector in M2 (`packages/collector-tests`). Once
-it exists this section becomes a 30-line walkthrough; until then, the shape to expect is:
+A collector is a plain object that satisfies the `Collector` interface from `@ruleprint/core`
+(`packages/core/src/collector.ts`). It receives files as `{ path, content }`, never touches the
+filesystem itself, and returns `RuleCandidate[]`: everything a rule needs except what only core
+decides (`id`, `fingerprint`, `status`). Here is a complete one that turns `// RULE: ...` comments
+into rules:
 
 ```ts
-interface Collector {
-  name: string;
-  match(file: SourceFile): boolean;
-  collect(file: SourceFile, ctx: CollectContext): RuleCandidate[];
-}
+import type { Collector, RuleCandidate, SourceFile, CollectContext } from '@ruleprint/core';
+
+export const ruleCommentsCollector: Collector = {
+  name: 'rule-comments',
+
+  match(path) {
+    return /\.[jt]sx?$/.test(path);
+  },
+
+  collect(file: SourceFile, _ctx: CollectContext): RuleCandidate[] {
+    const candidates: RuleCandidate[] = [];
+    file.content.split('\n').forEach((text, index) => {
+      const match = /\/\/\s*RULE:\s*(.+)$/.exec(text);
+      if (!match?.[1]) return;
+      candidates.push({
+        title: match[1].trim(),
+        origin: {
+          collector: 'rule-comments',
+          confidence: 'inferred',
+          sources: [{ file: file.path, line: index + 1, kind: 'annotation' }],
+        },
+      });
+    });
+    return candidates;
+  },
+};
 ```
+
+Rules of the road:
+
+- `match` is a cheap check on the path alone; `collect` runs only for files that match.
+- `collect` may be `async` (the tests collector loads a WASM parser on first use).
+- Never throw for bad input: report through `ctx.warn(message)` and return what you could get.
+- Ship a snapshot test against a fixture in `examples/` before the implementation. See
+  `packages/collector-tests/src/collector.test.ts` for the pattern.
 
 ## Pull requests
 

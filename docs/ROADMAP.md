@@ -106,6 +106,10 @@ herdando o contexto dos `describe` pais. Opcionalmente cruza com o reporter do v
 **DoD:** rodar contra `examples/fixture-express-api` e contra o próprio repo do ruleprint com saída
 legível. Se a saída for ruim aqui, pare e reformule antes de investir em UI.
 
+Estado: coletor implementado em `packages/collector-tests` (contrato `Collector` em
+`packages/core`); `pnpm --filter @ruleprint/collector-tests dogfood <dir>` imprime a saída crua.
+A decisão de continuar ou parar, com base nessa saída, é do dono do projeto (secção 7.4 do brief).
+
 ### M3 — CLI + UI mínima
 
 `ruleprint scan`, `ruleprint serve` (porta 4141, hot reload), `ruleprint build` (estático).
