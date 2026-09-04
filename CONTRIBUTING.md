@@ -44,6 +44,10 @@ CI runs the generated-file check, lint, format check, typecheck, build and tests
 - **Schema changes need an ADR** in `docs/adr/`. The schema in `packages/spec` is the contract.
 - **Conventional Commits** (`feat:`, `fix:`, `chore:`, `docs:`, …). Release tooling will depend on
   it.
+- **The fixture lock is a fixture.** `examples/fixture-express-api/ruleprint.lock` is what makes
+  the golden document show approved rules; regenerate it only when the fixture tests change
+  (`ruleprint approve --all --by git:fixture@ruleprint.dev` on that directory, then delete the
+  `ruleprint.json` it writes there) and refresh the golden with `pnpm update:golden`.
 
 ## Writing your first collector
 
