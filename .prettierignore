@@ -5,3 +5,5 @@ pnpm-lock.yaml
 CHANGELOG.md
 # intentionally unparsable fixture
 examples/fixture-express-api/test/broken.spec.ts
+# written by vitest (toMatchFileSnapshot); keeps the serializer's formatting
+examples/golden/fixture-express-api.ruleprint.json

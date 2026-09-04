@@ -1,6 +1,6 @@
 /**
  * GENERATED FILE. DO NOT EDIT.
- * Source: packages/spec/ruleprint.schema.json
+ * Source: packages/spec/src/ruleprint.schema.json
  * Regenerate with: pnpm --filter @ruleprint/spec generate
  */
 
@@ -56,6 +56,10 @@ export interface Project {
    * Git commit the document was generated from (7 to 40 hex chars).
    */
   commit?: string;
+  /**
+   * Web URL of the repository, used to link sources to files and lines (e.g. https://github.com/owner/repo).
+   */
+  repository?: string;
 }
 /**
  * One business rule.

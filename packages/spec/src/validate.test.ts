@@ -30,9 +30,10 @@ describe('validate()', () => {
   describe('accepts every golden document', () => {
     const files = jsonFiles(GOLDEN_DIR);
 
-    it('has the three golden fixtures', () => {
+    it('has the four golden fixtures', () => {
       expect(files).toEqual([
         'checkout-service.ruleprint.json',
+        'fixture-express-api.ruleprint.json',
         'legacy-billing.ruleprint.json',
         'minimal.ruleprint.json',
       ]);
@@ -104,6 +105,7 @@ describe('validate()', () => {
           '/specVersion',
           '/project/name',
           '/project/commit',
+          '/project/repository',
           '/generatedAt',
           '/extra',
           '/rules/0/id',

@@ -1,7 +1,7 @@
 import AjvModule, { type ErrorObject, type ValidateFunction } from 'ajv';
 import addFormatsModule from 'ajv-formats';
 
-import schema from '../ruleprint.schema.json' with { type: 'json' };
+import schema from './ruleprint.schema.json' with { type: 'json' };
 import type { RulePrintDocument } from './types.generated.js';
 
 /** Version of the specification this package validates against. */
@@ -19,10 +19,18 @@ export interface ValidationIssue {
 export type ValidationResult =
   { valid: true; document: RulePrintDocument } | { valid: false; issues: ValidationIssue[] };
 
-// ajv and ajv-formats ship CommonJS with `exports.default`; under NodeNext the default import
-// is the module object, so the class and the plugin live on `.default`.
-const Ajv = AjvModule.default;
-const addFormats = addFormatsModule.default;
+// ajv and ajv-formats ship CommonJS with `exports.default`. Under Node (and TypeScript's
+// NodeNext resolution) the default import is the module object and the class lives on
+// `.default`; under bundlers it is the class itself. Support both.
+type AjvClass = typeof import('ajv').default;
+type AddFormats = typeof import('ajv-formats').default;
+// The assertions are redundant under NodeNext but required under bundler resolution (the UI).
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+const Ajv = ('default' in AjvModule ? AjvModule.default : AjvModule) as AjvClass;
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+const addFormats = (
+  'default' in addFormatsModule ? addFormatsModule.default : addFormatsModule
+) as AddFormats;
 
 let compiled: ValidateFunction<RulePrintDocument> | undefined;
 

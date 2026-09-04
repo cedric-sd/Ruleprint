@@ -1,0 +1,354 @@
+{
+  "specVersion": "0.1",
+  "project": {
+    "name": "fixture-express-api"
+  },
+  "generatedAt": "2026-09-04T12:00:00.000Z",
+  "rules": [
+    {
+      "id": "RP-485076",
+      "title": "is cut short",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/broken.spec.ts",
+            "line": 8,
+            "symbol": "is cut short",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:386a959500471f31f84e840589016bb0dc45dfb99816e256381083e2c1da50da",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "is cut short"
+        ]
+      }
+    },
+    {
+      "id": "RP-224807",
+      "title": "order validation > accepts a valid order",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/order.spec.ts",
+            "line": 26,
+            "symbol": "accepts a valid order",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:7523c42ed140c43f706b997e05edff09043273c206d59ebb436e6bf74d548e74",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "order validation > accepts a valid order"
+        ]
+      }
+    },
+    {
+      "id": "RP-998487",
+      "title": "order validation > rejects an empty order",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/order.spec.ts",
+            "line": 8,
+            "symbol": "rejects an empty order",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0e02942f6281c9878a4dfb71e298385b4b875910c82f62139b59b70484fcbca7",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "order validation > rejects an empty order"
+        ]
+      }
+    },
+    {
+      "id": "RP-064421",
+      "title": "order validation > rejects an order below the minimum value",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/order.spec.ts",
+            "line": 12,
+            "symbol": "rejects an order below the minimum value",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:516f8b65d064a51f544960d6ebd75f494a11d754c51b66745cdbfa0ff4e6d04b",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "order validation > rejects an order below the minimum value"
+        ]
+      }
+    },
+    {
+      "id": "RP-557980",
+      "title": "order validation > rejects duplicated skus",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/order.spec.ts",
+            "line": 20,
+            "symbol": "rejects duplicated skus",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:f7c440a4d94d8e48882153cf65aad63ee73d204bf53e25314051f802699072f4",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "order validation > rejects duplicated skus"
+        ]
+      }
+    },
+    {
+      "id": "RP-287348",
+      "title": "order validation > rejects more than ${MAX_ITEMS_PER_ORDER} items in one order",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/order.spec.ts",
+            "line": 16,
+            "symbol": "rejects more than ${MAX_ITEMS_PER_ORDER} items in one order",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:bd65ef437a7806805f3abe8f130ab94c7ea83a86f27c82e0ee6122f7fd436d6e",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "order validation > rejects more than ${MAX_ITEMS_PER_ORDER} items in one order"
+        ]
+      }
+    },
+    {
+      "id": "RP-838817",
+      "title": "refund > cobrança %s > nunca é reembolsável",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/refund.spec.ts",
+            "line": 24,
+            "symbol": "nunca é reembolsável",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:790e8063f944ddc8c2db1abba63f84b204255e4154677421719c75e6f1e2518b",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "refund > cobrança %s > nunca é reembolsável"
+        ]
+      }
+    },
+    {
+      "id": "RP-428818",
+      "title": "refund > ignora cobranças com valor zero",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/refund.spec.ts",
+            "line": 29,
+            "symbol": "ignora cobranças com valor zero",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1a35c7ff91de72fa6a89a0bffc0cb0c3dd7c92f65bc7f49d2125a38eb3cde1d7",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "refund > ignora cobranças com valor zero"
+        ]
+      }
+    },
+    {
+      "id": "RP-856064",
+      "title": "refund > janela de 7 dias > bloqueia reembolso após a janela",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/refund.spec.ts",
+            "line": 18,
+            "symbol": "bloqueia reembolso após a janela",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0c538dd8a15a03b09af995a5c3babeaacb85d7ad9b5b461ca2815facbf436eb7",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "refund > janela de 7 dias > bloqueia reembolso após a janela"
+        ]
+      }
+    },
+    {
+      "id": "RP-908098",
+      "title": "refund > janela de 7 dias > permite reembolso dentro da janela",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/refund.spec.ts",
+            "line": 14,
+            "symbol": "permite reembolso dentro da janela",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:dd108b000f0a1d05d486e90d780a475ab8a9307c826711aa24e1e76a8ecf54bc",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "refund > janela de 7 dias > permite reembolso dentro da janela"
+        ]
+      }
+    },
+    {
+      "id": "RP-088272",
+      "title": "shipping > frete grátis > acima de 300 reais no Sudeste",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/shipping.spec.ts",
+            "line": 10,
+            "symbol": "acima de 300 reais no Sudeste",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:5b8594ff8087efbb65e830852a0f21d0259feda83dbe1b73dc5dcb5c0710f94d",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "shipping > frete grátis > acima de 300 reais no Sudeste"
+        ]
+      }
+    },
+    {
+      "id": "RP-441734",
+      "title": "shipping > frete grátis > exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/shipping.spec.ts",
+            "line": 14,
+            "symbol": "exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1a7f11601cf56d3a7429c351101b0c72924da045dcf03e4401274168478a636b",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "shipping > frete grátis > exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis"
+        ]
+      }
+    },
+    {
+      "id": "RP-389966",
+      "title": "shipping > frete grátis > não vale fora do Sudeste",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/shipping.spec.ts",
+            "line": 18,
+            "symbol": "não vale fora do Sudeste",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0abb31a57d6a459af834d338a0cfbe2b17fb023525217d48d0c4422dd1ed43b7",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "shipping > frete grátis > não vale fora do Sudeste"
+        ]
+      }
+    },
+    {
+      "id": "RP-018388",
+      "title": "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/shipping.spec.ts",
+            "line": 24,
+            "symbol": "abaixo de 300 reais no %s cobra a tabela da região",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d31964742d98f058125eb27eed67712b61ed573e47700a7dbde41fa60f042cd3",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região"
+        ]
+      }
+    },
+    {
+      "id": "RP-614044",
+      "title": "still yields the rule before the syntax error",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/broken.spec.ts",
+            "line": 4,
+            "symbol": "still yields the rule before the syntax error",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:5041fee9690292a316b3fd0c44d85d8d9837e86f241513f2f8180d7dfe543558",
+      "status": "pending",
+      "evidence": {
+        "tests": [
+          "still yields the rule before the syntax error"
+        ]
+      }
+    }
+  ]
+}

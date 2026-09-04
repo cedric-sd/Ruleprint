@@ -1,7 +1,4 @@
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "resolveJsonModule": true
-  },
-  "include": ["src", "ruleprint.schema.json"]
+  "include": ["src", "src/**/*.json"]
 }

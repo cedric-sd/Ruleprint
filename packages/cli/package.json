@@ -2,13 +2,31 @@
   "name": "ruleprint",
   "version": "0.0.0",
   "private": true,
-  "description": "Command-line interface: init, scan, serve, build and check.",
+  "description": "Command-line interface: init, scan, serve and build a rule book from a repository.",
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "ruleprint-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
   },
   "scripts": {
+    "build": "tsc -b tsconfig.build.json",
     "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "ruleprint": "./dist/bin.js"
+  },
+  "dependencies": {
+    "@ruleprint/collector-tests": "workspace:*",
+    "@ruleprint/core": "workspace:*",
+    "@ruleprint/spec": "workspace:*",
+    "@ruleprint/ui": "workspace:*",
+    "commander": "^14.0.3"
   }
 }

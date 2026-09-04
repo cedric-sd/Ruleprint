@@ -1,6 +1,10 @@
 {
   "specVersion": "0.1",
-  "project": { "name": "checkout-service", "commit": "a1b2c3d" },
+  "project": {
+    "name": "checkout-service",
+    "commit": "a1b2c3d",
+    "repository": "https://github.com/empresa/checkout-service"
+  },
   "generatedAt": "2026-09-04T12:00:00Z",
   "rules": [
     {
@@ -12,8 +16,16 @@
         "collector": "tests",
         "confidence": "derived",
         "sources": [
-          { "file": "src/shipping.ts", "line": 88, "symbol": "calcFreight" },
-          { "file": "test/shipping.spec.ts", "line": 12, "kind": "test" }
+          {
+            "file": "src/shipping.ts",
+            "line": 88,
+            "symbol": "calcFreight"
+          },
+          {
+            "file": "test/shipping.spec.ts",
+            "line": 12,
+            "kind": "test"
+          }
         ]
       },
       "evidence": {
@@ -34,7 +46,13 @@
       "origin": {
         "collector": "config",
         "confidence": "declared",
-        "sources": [{ "file": ".ruleprint/rules/frete-sudeste.md", "line": 1, "kind": "config" }]
+        "sources": [
+          {
+            "file": ".ruleprint/rules/frete-sudeste.md",
+            "line": 1,
+            "kind": "config"
+          }
+        ]
       },
       "fingerprint": "sha256:6eb810b5dc002a9a4e810d78e55939e389aa7481fedc405a4099a78d8136e195",
       "status": "approved",
@@ -57,7 +75,9 @@
           }
         ]
       },
-      "evidence": { "lastRunStatus": "unknown" },
+      "evidence": {
+        "lastRunStatus": "unknown"
+      },
       "fingerprint": "sha256:8f6dd37d3dbf4c9d8852c4bd2754766eb9a6b7b96a56fd40ee0803326dd5abf3",
       "status": "pending"
     }

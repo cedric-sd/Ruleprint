@@ -1,0 +1,246 @@
+:root {
+  --bg: #fafaf9;
+  --panel: #ffffff;
+  --text: #1c1917;
+  --muted: #78716c;
+  --line: #e7e5e4;
+  --accent: #0f766e;
+  --declared: #15803d;
+  --derived: #1d4ed8;
+  --inferred: #57534e;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+a {
+  color: var(--accent);
+}
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+h2 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.topbar {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+.project {
+  font-weight: 500;
+}
+.generated {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+main {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.notice {
+  color: var(--muted);
+}
+.notice.error {
+  color: #b91c1c;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2rem;
+}
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+.search input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--panel);
+}
+.chips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.chip {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 999px;
+  padding: 0.25rem 0.7rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.chip small {
+  color: var(--muted);
+}
+.chip.active {
+  border-color: var(--accent);
+  background: #ccfbf1;
+}
+.chip-declared.active {
+  border-color: var(--declared);
+  background: #dcfce7;
+}
+.chip-derived.active {
+  border-color: var(--derived);
+  background: #dbeafe;
+}
+.chip-inferred.active {
+  border-color: var(--inferred);
+  background: #e7e5e4;
+}
+
+.count {
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+}
+.rules {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.rule {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--text);
+}
+.rule:hover {
+  border-color: var(--accent);
+}
+.rule-id {
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+  padding-top: 0.15rem;
+}
+.rule-title {
+  font-weight: 500;
+}
+.rule-meta {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.badge {
+  border-radius: 4px;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+.badge-declared {
+  background: var(--declared);
+}
+.badge-derived {
+  background: var(--derived);
+}
+.badge-inferred {
+  background: var(--inferred);
+}
+.status {
+  font-size: 0.75rem;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.1rem 0.45rem;
+}
+.status-approved {
+  color: var(--declared);
+  border-color: var(--declared);
+}
+.status-drifted {
+  color: #b45309;
+  border-color: #b45309;
+}
+.status-orphan {
+  color: #b91c1c;
+  border-color: #b91c1c;
+}
+.tag {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.tag::before {
+  content: '#';
+}
+
+.detail {
+  max-width: 800px;
+}
+.detail h1 {
+  font-size: 1.6rem;
+  margin: 0.25rem 0 0.75rem;
+}
+.detail .description {
+  font-size: 1.05rem;
+}
+.sources {
+  padding-left: 1.2rem;
+}
+.symbol,
+.kind {
+  color: var(--muted);
+}
+.fingerprint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  word-break: break-all;
+}

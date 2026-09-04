@@ -13,6 +13,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node"],
+    "customConditions": ["ruleprint-source"],
+    "resolveJsonModule": true
   }
 }
