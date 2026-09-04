@@ -1,0 +1,11 @@
+{
+  "specVersion": "0.1",
+  "project": {},
+  "rules": [
+    {
+      "id": "RP-0001",
+      "origin": { "collector": "tests", "confidence": "derived" },
+      "status": "pending"
+    }
+  ]
+}

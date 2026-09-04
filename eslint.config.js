@@ -34,7 +34,13 @@ const restrictedPaths = NODE_BUILTINS_FORBIDDEN_IN_CORE.flatMap((name) => [
 
 export default tseslint.config(
   {
-    ignores: ['**/dist/**', '**/node_modules/**', '**/coverage/**', 'pnpm-lock.yaml'],
+    ignores: [
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/coverage/**',
+      '**/*.generated.ts',
+      'pnpm-lock.yaml',
+    ],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
@@ -47,9 +53,16 @@ export default tseslint.config(
     },
   },
   {
-    // Config files at the repo root are not covered by any package tsconfig.
-    files: ['*.js', '*.ts'],
+    // Root config files and package scripts are not covered by any package tsconfig.
+    files: ['*.js', '*.ts', '**/*.mjs'],
     ...tseslint.configs.disableTypeChecked,
+  },
+  {
+    // Package scripts run under plain Node.
+    files: ['**/*.mjs'],
+    languageOptions: {
+      globals: { console: 'readonly', process: 'readonly' },
+    },
   },
   {
     files: ['packages/core/**/*.ts'],

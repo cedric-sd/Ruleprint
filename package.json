@@ -15,6 +15,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "generate": "pnpm -r generate",
     "typecheck": "pnpm -r typecheck"
   },
   "devDependencies": {

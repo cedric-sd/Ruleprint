@@ -6,9 +6,22 @@
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./ruleprint.schema.json": "./ruleprint.schema.json"
   },
   "scripts": {
+    "generate": "node scripts/generate-types.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "files": [
+    "ruleprint.schema.json",
+    "src"
+  ],
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1"
+  },
+  "devDependencies": {
+    "json-schema-to-typescript": "^16.0.0"
   }
 }

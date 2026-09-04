@@ -1,0 +1,19 @@
+{
+  "specVersion": "0.1",
+  "project": { "name": "enums" },
+  "generatedAt": "2026-09-04T12:00:00Z",
+  "rules": [
+    {
+      "id": "RP-0001",
+      "title": "Regra com valores fora dos enums",
+      "origin": {
+        "collector": "tests",
+        "confidence": "guessed",
+        "sources": [{ "file": "test/a.spec.ts", "line": 1, "kind": "spec" }]
+      },
+      "evidence": { "lastRunStatus": "green" },
+      "fingerprint": "sha256:7c8718bdc78be44bf7f3e5554152c20e99216dcb93ac9aefb8857fd7f9d02102",
+      "status": "ok"
+    }
+  ]
+}
