@@ -1,0 +1,56 @@
+{
+  "specVersion": "0.1",
+  "project": { "name": "legacy-billing", "commit": "0f9e8d7c6b5a4f3e2d1c0b9a8f7e6d5c4b3a2f1e" },
+  "generatedAt": "2026-09-04T18:30:00.000Z",
+  "rules": [
+    {
+      "id": "RP-0003",
+      "title": "Reembolso só é permitido até 7 dias após a cobrança",
+      "tags": ["reembolso"],
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          { "file": "src/refund.ts", "line": 12, "symbol": "canRefund" },
+          { "file": "src/refund.ts", "line": 40, "symbol": "refundWindowDays" },
+          { "file": "test/refund.spec.ts", "line": 5, "kind": "test" }
+        ]
+      },
+      "evidence": {
+        "tests": ["refund > dentro da janela", "refund > fora da janela"],
+        "lastRunStatus": "failed",
+        "coveredLines": 9
+      },
+      "fingerprint": "sha256:a0d0c0332ac4a26ff4fc51f76d52496e491681eaa84175522253fcbbd5edce1e",
+      "status": "drifted",
+      "approvedAt": "2026-07-01T10:00:00Z",
+      "approvedBy": "git:ana@empresa.com"
+    },
+    {
+      "id": "RP-0004",
+      "title": "Downgrade de plano só entra em vigor no próximo ciclo",
+      "tags": [],
+      "origin": {
+        "collector": "config",
+        "confidence": "declared",
+        "sources": [{ "file": ".ruleprint/rules/downgrade.md", "line": 1, "kind": "config" }]
+      },
+      "evidence": { "tests": [], "lastRunStatus": "unknown" },
+      "fingerprint": "sha256:eef5c66ffb06f493d60b2531543aa4785e33f847fab7808d81a9d48022654440",
+      "status": "orphan",
+      "approvedAt": "2026-05-20T08:00:00Z",
+      "approvedBy": "git:ana@empresa.com"
+    },
+    {
+      "id": "RP-0005",
+      "title": "Imposto legado é aplicado quando taxRegime === 'legacy'",
+      "origin": {
+        "collector": "annotations",
+        "confidence": "inferred",
+        "sources": [{ "file": "src/tax.ts", "line": 77, "symbol": "applyTax", "kind": "annotation" }]
+      },
+      "fingerprint": "sha256:786538040bbc00bd6e7fbed687bc7b9fc0b231db8179b5f5f45dbe475470b5c3",
+      "status": "pending"
+    }
+  ]
+}

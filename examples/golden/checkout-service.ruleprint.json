@@ -1,0 +1,58 @@
+{
+  "specVersion": "0.1",
+  "project": { "name": "checkout-service", "commit": "a1b2c3d" },
+  "generatedAt": "2026-09-04T12:00:00Z",
+  "rules": [
+    {
+      "id": "RP-0042",
+      "title": "Pedido acima de R$300 tem frete grátis",
+      "description": "Aplicado apenas para CEPs da região Sudeste.",
+      "tags": ["frete", "checkout"],
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          { "file": "src/shipping.ts", "line": 88, "symbol": "calcFreight" },
+          { "file": "test/shipping.spec.ts", "line": 12, "kind": "test" }
+        ]
+      },
+      "evidence": {
+        "tests": ["shipping > frete grátis > acima de 300 reais"],
+        "lastRunStatus": "passed",
+        "coveredLines": 14
+      },
+      "fingerprint": "sha256:88e27ad7abcda55604cbbf089f6c92c55f4b6e08c49cd4a2ac5853da7e730cbb",
+      "status": "approved",
+      "approvedAt": "2026-08-30T09:11:00Z",
+      "approvedBy": "git:maria@empresa.com"
+    },
+    {
+      "id": "RP-0007",
+      "title": "Frete grátis vale apenas para o Sudeste",
+      "description": "Regra declarada pelo time de logística. CEPs de outras regiões pagam a tabela cheia.",
+      "tags": ["frete", "regiao"],
+      "origin": {
+        "collector": "config",
+        "confidence": "declared",
+        "sources": [{ "file": ".ruleprint/rules/frete-sudeste.md", "line": 1, "kind": "config" }]
+      },
+      "fingerprint": "sha256:6eb810b5dc002a9a4e810d78e55939e389aa7481fedc405a4099a78d8136e195",
+      "status": "approved",
+      "approvedAt": "2026-08-12T15:40:00Z",
+      "approvedBy": "git:joao@empresa.com"
+    },
+    {
+      "id": "RP-0108",
+      "title": "Pedido com valor abaixo de MIN_ORDER_VALUE é recusado",
+      "tags": ["checkout"],
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [{ "file": "src/domain/order.ts", "line": 31, "symbol": "assertMinimumValue", "kind": "code" }]
+      },
+      "evidence": { "lastRunStatus": "unknown" },
+      "fingerprint": "sha256:8f6dd37d3dbf4c9d8852c4bd2754766eb9a6b7b96a56fd40ee0803326dd5abf3",
+      "status": "pending"
+    }
+  ]
+}

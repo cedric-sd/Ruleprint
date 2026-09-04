@@ -1,0 +1,18 @@
+{
+  "specVersion": "0.1",
+  "project": { "name": "minimal" },
+  "generatedAt": "2026-09-04T12:00:00Z",
+  "rules": [
+    {
+      "id": "RP-0001",
+      "title": "signup > rejeita cadastro sem e-mail",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [{ "file": "test/signup.spec.ts", "line": 7, "kind": "test" }]
+      },
+      "fingerprint": "sha256:7c8718bdc78be44bf7f3e5554152c20e99216dcb93ac9aefb8857fd7f9d02102",
+      "status": "pending"
+    }
+  ]
+}

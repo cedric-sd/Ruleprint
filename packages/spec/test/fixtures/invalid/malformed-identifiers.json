@@ -1,0 +1,20 @@
+{
+  "specVersion": "1.0",
+  "project": { "name": "", "commit": "not-a-sha" },
+  "generatedAt": "yesterday",
+  "extra": true,
+  "rules": [
+    {
+      "id": "rule-42",
+      "title": "Identificadores mal formados",
+      "tags": ["a", "a"],
+      "origin": {
+        "collector": "",
+        "confidence": "derived",
+        "sources": [{ "file": "", "line": 0 }]
+      },
+      "fingerprint": "md5:abc",
+      "status": "pending"
+    }
+  ]
+}
