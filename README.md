@@ -8,15 +8,30 @@ the rules your tests and code already encode. Point it at a repository and it dr
 your team's only job is to approve.
 
 ```sh
-npx ruleprint init   # coming in M3 — see docs/ROADMAP.md
+npx ruleprint init      # scan the repo, write ruleprint.json, tell you what's next
+npx ruleprint serve     # browse the rule book at http://localhost:4141, hot reload
+npx ruleprint build     # static site in ruleprint-site/, ready for GitHub Pages
 ```
 
 ## Status
 
-Pre-alpha. **M0 (skeleton)** and **M1 (the specification)** are done; **M2 (the tests
-collector)** is in progress: `@ruleprint/spec` ships the JSON Schema, generated types and
-`validate()`, and `@ruleprint/collector-tests` turns vitest/jest `describe`/`it` trees into
-rule candidates. No CLI or UI yet. Follow the milestones in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+Pre-alpha. **M0–M2** are done and **M3 (CLI + minimal UI)** is in progress: `ruleprint`
+scans a repository with the tests collector (vitest/jest `describe`/`it` trees), assembles a
+valid `ruleprint.json` and serves or builds a searchable web UI with filters by tag and
+confidence and links to file and line on GitHub. Not published to npm yet: in this workspace use
+`pnpm build && node packages/cli/dist/bin.js <command>`. Follow the milestones in
+[`docs/ROADMAP.md`](docs/ROADMAP.md).
+
+## Commands
+
+| Command                                            | What it does                                                     |
+| -------------------------------------------------- | ---------------------------------------------------------------- |
+| `ruleprint init [dir]`                             | scans, writes `ruleprint.json`, prints the next steps            |
+| `ruleprint scan [dir] [--out file] [--json]`       | the same scan for CI; `--json` prints a machine-readable summary |
+| `ruleprint serve [dir] [--port 4141] [--no-watch]` | serves the UI; rescans and reloads the browser on every change   |
+| `ruleprint build [dir] [--out ruleprint-site]`     | writes UI + `ruleprint.json` as a static site                    |
+
+Exit codes: `0` ok, `2` error. Every command is headless and CI-friendly.
 
 ## How it works
 
@@ -61,6 +76,9 @@ pnpm test:watch
 pnpm lint          # eslint
 pnpm format        # prettier --write
 pnpm typecheck     # tsc --noEmit in every package
+pnpm build         # dist for every package (tsc) and the UI (vite)
+pnpm dev           # build, then serve examples/fixture-express-api on :4141
+pnpm check:golden  # scan the fixture and compare with examples/golden
 pnpm generate      # regenerate files derived from the schema (CI checks they are current)
 ```
 

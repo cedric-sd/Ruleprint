@@ -87,8 +87,8 @@ Monorepo pnpm, TS strict, vitest, ESLint/Prettier, CI de lint+test em Node 20 e 
 README com a promessa em uma frase.
 **DoD:** `pnpm test` verde no CI num PR.
 
-Fica para depois: changesets, `CODE_OF_CONDUCT.md`, build/dist dos pacotes, e os scripts
-`pnpm dev` e `pnpm check:golden` citados no `CLAUDE.md` (dependem de M2/M3).
+Ficou para o M3: changesets, build/dist dos pacotes e os scripts `pnpm dev` e
+`pnpm check:golden`. `CODE_OF_CONDUCT.md` segue pendente.
 
 ### M1 — A especificação (concluído)
 
@@ -97,7 +97,7 @@ Fica para depois: changesets, `CODE_OF_CONDUCT.md`, build/dist dos pacotes, e os
 `examples/golden/`. Decisões do formato em `docs/adr/0002-schema-v0-1.md`.
 **DoD:** validador rejeita os casos inválidos de fixture e aceita os golden.
 
-### M2 — Coletor de testes (em andamento; aqui o produto nasce)
+### M2 — Coletor de testes (concluído; aqui o produto nasce)
 
 Lê `*.spec.ts` / `*.test.ts`, monta a árvore `describe`/`it` via AST (tree-sitter em WASM,
 ver `docs/adr/0003-parser-do-coletor-de-testes.md`), converte cada folha em uma regra `derived`
@@ -106,16 +106,19 @@ herdando o contexto dos `describe` pais. Opcionalmente cruza com o reporter do v
 **DoD:** rodar contra `examples/fixture-express-api` e contra o próprio repo do ruleprint com saída
 legível. Se a saída for ruim aqui, pare e reformule antes de investir em UI.
 
-Estado: coletor implementado em `packages/collector-tests` (contrato `Collector` em
-`packages/core`); `pnpm --filter @ruleprint/collector-tests dogfood <dir>` imprime a saída crua.
-A decisão de continuar ou parar, com base nessa saída, é do dono do projeto (secção 7.4 do brief).
+Coletor em `packages/collector-tests` (contrato `Collector` em `packages/core`);
+`pnpm --filter @ruleprint/collector-tests dogfood <dir>` imprime a saída crua. A saída foi
+avaliada e aprovada pelo dono do projeto antes do M3.
 
-### M3 — CLI + UI mínima
+### M3 — CLI + UI mínima (em andamento)
 
-`ruleprint scan`, `ruleprint serve` (porta 4141, hot reload), `ruleprint build` (estático).
-UI: lista pesquisável, filtro por tag e confiança, detalhe com link para arquivo/linha.
-Changesets e publish no npm entram aqui.
-**DoD:** GIF de 20s no README mostrando `npx ruleprint init` num repo real.
+`ruleprint init`/`scan`, `ruleprint serve` (porta 4141, hot reload por SSE), `ruleprint build`
+(estático). UI: lista pesquisável, filtro por tag e confiança, detalhe com link para
+arquivo/linha. Ids e fingerprints provisórios, `project.repository` e o wiring de build/dist em
+`docs/adr/0004-ids-provisorios-e-pipeline-do-scan.md`. Changesets configurado; publicação no npm
+é manual (`pnpm release`) e depende de token do dono.
+**DoD:** GIF de 20s no README mostrando `npx ruleprint init` num repo real (pendente: exige
+publicar no npm).
 
 ### M4 — Lockfile, drift e `check`
 
