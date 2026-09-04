@@ -3,3 +3,5 @@ dist
 coverage
 pnpm-lock.yaml
 CHANGELOG.md
+# intentionally unparsable fixture
+examples/fixture-express-api/test/broken.spec.ts
