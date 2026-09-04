@@ -13,9 +13,10 @@ npx ruleprint init   # coming in M3 — see docs/ROADMAP.md
 
 ## Status
 
-Pre-alpha. **M0 (skeleton)** is done and **M1 (the specification)** is in progress:
-`@ruleprint/spec` ships the JSON Schema, generated types and a `validate()` function. No
-collectors, CLI or UI yet. Follow the milestones in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+Pre-alpha. **M0 (skeleton)** and **M1 (the specification)** are done; **M2 (the tests
+collector)** is in progress: `@ruleprint/spec` ships the JSON Schema, generated types and
+`validate()`, and `@ruleprint/collector-tests` turns vitest/jest `describe`/`it` trees into
+rule candidates. No CLI or UI yet. Follow the milestones in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## How it works
 

@@ -1,0 +1,314 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`testsCollector > against examples/fixture-express-api > matches the snapshot 1`] = `
+{
+  "broken.spec.ts": [
+    {
+      "evidence": {
+        "tests": [
+          "still yields the rule before the syntax error",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/broken.spec.ts",
+            "kind": "test",
+            "line": 4,
+            "symbol": "still yields the rule before the syntax error",
+          },
+        ],
+      },
+      "title": "still yields the rule before the syntax error",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "is cut short",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/broken.spec.ts",
+            "kind": "test",
+            "line": 8,
+            "symbol": "is cut short",
+          },
+        ],
+      },
+      "title": "is cut short",
+    },
+  ],
+  "order.spec.ts": [
+    {
+      "evidence": {
+        "tests": [
+          "order validation > rejects an empty order",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/order.spec.ts",
+            "kind": "test",
+            "line": 8,
+            "symbol": "rejects an empty order",
+          },
+        ],
+      },
+      "title": "order validation > rejects an empty order",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "order validation > rejects an order below the minimum value",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/order.spec.ts",
+            "kind": "test",
+            "line": 12,
+            "symbol": "rejects an order below the minimum value",
+          },
+        ],
+      },
+      "title": "order validation > rejects an order below the minimum value",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "order validation > rejects more than \${MAX_ITEMS_PER_ORDER} items in one order",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/order.spec.ts",
+            "kind": "test",
+            "line": 16,
+            "symbol": "rejects more than \${MAX_ITEMS_PER_ORDER} items in one order",
+          },
+        ],
+      },
+      "title": "order validation > rejects more than \${MAX_ITEMS_PER_ORDER} items in one order",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "order validation > rejects duplicated skus",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/order.spec.ts",
+            "kind": "test",
+            "line": 20,
+            "symbol": "rejects duplicated skus",
+          },
+        ],
+      },
+      "title": "order validation > rejects duplicated skus",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "order validation > accepts a valid order",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/order.spec.ts",
+            "kind": "test",
+            "line": 26,
+            "symbol": "accepts a valid order",
+          },
+        ],
+      },
+      "title": "order validation > accepts a valid order",
+    },
+  ],
+  "refund.spec.ts": [
+    {
+      "evidence": {
+        "tests": [
+          "refund > janela de 7 dias > permite reembolso dentro da janela",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/refund.spec.ts",
+            "kind": "test",
+            "line": 14,
+            "symbol": "permite reembolso dentro da janela",
+          },
+        ],
+      },
+      "title": "refund > janela de 7 dias > permite reembolso dentro da janela",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "refund > janela de 7 dias > bloqueia reembolso após a janela",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/refund.spec.ts",
+            "kind": "test",
+            "line": 18,
+            "symbol": "bloqueia reembolso após a janela",
+          },
+        ],
+      },
+      "title": "refund > janela de 7 dias > bloqueia reembolso após a janela",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "refund > cobrança %s > nunca é reembolsável",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/refund.spec.ts",
+            "kind": "test",
+            "line": 24,
+            "symbol": "nunca é reembolsável",
+          },
+        ],
+      },
+      "title": "refund > cobrança %s > nunca é reembolsável",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "refund > ignora cobranças com valor zero",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/refund.spec.ts",
+            "kind": "test",
+            "line": 29,
+            "symbol": "ignora cobranças com valor zero",
+          },
+        ],
+      },
+      "title": "refund > ignora cobranças com valor zero",
+    },
+  ],
+  "shipping.spec.ts": [
+    {
+      "evidence": {
+        "tests": [
+          "shipping > frete grátis > acima de 300 reais no Sudeste",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/shipping.spec.ts",
+            "kind": "test",
+            "line": 10,
+            "symbol": "acima de 300 reais no Sudeste",
+          },
+        ],
+      },
+      "title": "shipping > frete grátis > acima de 300 reais no Sudeste",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "shipping > frete grátis > exatamente \${FREE_SHIPPING_THRESHOLD} reais também é grátis",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/shipping.spec.ts",
+            "kind": "test",
+            "line": 14,
+            "symbol": "exatamente \${FREE_SHIPPING_THRESHOLD} reais também é grátis",
+          },
+        ],
+      },
+      "title": "shipping > frete grátis > exatamente \${FREE_SHIPPING_THRESHOLD} reais também é grátis",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "shipping > frete grátis > não vale fora do Sudeste",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/shipping.spec.ts",
+            "kind": "test",
+            "line": 18,
+            "symbol": "não vale fora do Sudeste",
+          },
+        ],
+      },
+      "title": "shipping > frete grátis > não vale fora do Sudeste",
+    },
+    {
+      "evidence": {
+        "tests": [
+          "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região",
+        ],
+      },
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "examples/fixture-express-api/test/shipping.spec.ts",
+            "kind": "test",
+            "line": 24,
+            "symbol": "abaixo de 300 reais no %s cobra a tabela da região",
+          },
+        ],
+      },
+      "title": "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região",
+    },
+  ],
+}
+`;
