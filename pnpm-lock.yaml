@@ -39,7 +39,23 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@20.19.43)(vite@8.2.2(@types/node@20.19.43)(esbuild@0.28.2)(tsx@4.23.13))
 
-  packages/cli: {}
+  packages/cli:
+    dependencies:
+      '@ruleprint/collector-tests':
+        specifier: workspace:*
+        version: link:../collector-tests
+      '@ruleprint/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ruleprint/spec':
+        specifier: workspace:*
+        version: link:../spec
+      '@ruleprint/ui':
+        specifier: workspace:*
+        version: link:../ui
+      commander:
+        specifier: ^14.0.3
+        version: 14.0.3
 
   packages/collector-annotations: {}
 
@@ -681,6 +697,10 @@ packages:
 
   chardet@2.2.0:
     resolution: {integrity: sha512-rddelWYNPRrXq6PtNEN2S3f6t9ILzvqaN5pVgi4kqt9jHQaXIial9PznB5iSPVlQSLNaaH22ItWz3EJtQ10+OA==}
+
+  commander@14.0.3:
+    resolution: {integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==}
+    engines: {node: '>=20'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -1992,6 +2012,8 @@ snapshots:
   chai@6.2.2: {}
 
   chardet@2.2.0: {}
+
+  commander@14.0.3: {}
 
   convert-source-map@2.0.0: {}
 

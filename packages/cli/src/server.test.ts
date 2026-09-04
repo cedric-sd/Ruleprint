@@ -21,12 +21,17 @@ async function readSseEvent(url: string, trigger: () => Promise<void>): Promise<
   const controller = new AbortController();
   const response = await fetch(url, { signal: controller.signal });
   expect(response.headers.get('content-type')).toContain('text/event-stream');
-  const reader = response.body?.getReader();
+  const reader = response.body?.getReader() as ReadableStreamDefaultReader<Uint8Array> | undefined;
   if (!reader) throw new Error('no body');
   await trigger();
-  const { value } = await reader.read();
+  let received = '';
+  for (let i = 0; i < 5 && !received.includes('event: reload'); i += 1) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    received += new TextDecoder().decode(value);
+  }
   controller.abort();
-  return new TextDecoder().decode(value);
+  return received;
 }
 
 describe('createRuleBookServer()', () => {

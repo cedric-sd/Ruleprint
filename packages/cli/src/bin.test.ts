@@ -50,7 +50,13 @@ describe('ruleprint (bin)', () => {
   });
 
   it('exits with code 2 on an unreadable directory', () => {
-    expect(() => ruleprint(['scan', '/definitely/not/here'])).toThrow(/status 2|exit code 2/);
+    let status: unknown;
+    try {
+      ruleprint(['scan', '/definitely/not/here']);
+    } catch (error) {
+      status = (error as { status?: unknown }).status;
+    }
+    expect(status).toBe(2);
   });
 
   it('prints help', () => {

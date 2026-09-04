@@ -10,5 +10,16 @@
     "sourceMap": true
   },
   "include": ["src", "src/**/*.json"],
-  "exclude": ["src/**/*.test.ts", "src/__snapshots__"]
+  "exclude": ["src/**/*.test.ts", "src/__snapshots__"],
+  "references": [
+    {
+      "path": "../spec/tsconfig.build.json"
+    },
+    {
+      "path": "../core/tsconfig.build.json"
+    },
+    {
+      "path": "../collector-tests/tsconfig.build.json"
+    }
+  ]
 }
