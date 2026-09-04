@@ -6,16 +6,24 @@
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./ruleprint.schema.json": "./ruleprint.schema.json"
+    ".": {
+      "ruleprint-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./ruleprint.schema.json": {
+      "ruleprint-source": "./src/ruleprint.schema.json",
+      "default": "./dist/ruleprint.schema.json"
+    }
   },
   "scripts": {
+    "build": "tsc -b tsconfig.build.json",
     "generate": "node scripts/generate-types.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "files": [
-    "ruleprint.schema.json",
-    "src"
+    "dist",
+    "src/ruleprint.schema.json"
   ],
   "dependencies": {
     "ajv": "^8.20.0",

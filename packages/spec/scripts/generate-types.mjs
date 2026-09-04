@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { compile } from 'json-schema-to-typescript';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
-const schemaPath = join(packageRoot, 'ruleprint.schema.json');
+const schemaPath = join(packageRoot, 'src', 'ruleprint.schema.json');
 const outputPath = join(packageRoot, 'src', 'types.generated.ts');
 const prettierConfigPath = join(packageRoot, '..', '..', '.prettierrc');
 
@@ -19,7 +19,7 @@ const output = await compile(schema, 'RulePrintDocument', {
   bannerComment: [
     '/**',
     ' * GENERATED FILE. DO NOT EDIT.',
-    ' * Source: packages/spec/ruleprint.schema.json',
+    ' * Source: packages/spec/src/ruleprint.schema.json',
     ' * Regenerate with: pnpm --filter @ruleprint/spec generate',
     ' */',
   ].join('\n'),

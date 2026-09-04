@@ -1,6 +1,6 @@
 /**
  * GENERATED FILE. DO NOT EDIT.
- * Source: packages/spec/ruleprint.schema.json
+ * Source: packages/spec/src/ruleprint.schema.json
  * Regenerate with: pnpm --filter @ruleprint/spec generate
  */
 

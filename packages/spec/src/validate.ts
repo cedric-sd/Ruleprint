@@ -1,7 +1,7 @@
 import AjvModule, { type ErrorObject, type ValidateFunction } from 'ajv';
 import addFormatsModule from 'ajv-formats';
 
-import schema from '../ruleprint.schema.json' with { type: 'json' };
+import schema from './ruleprint.schema.json' with { type: 'json' };
 import type { RulePrintDocument } from './types.generated.js';
 
 /** Version of the specification this package validates against. */
