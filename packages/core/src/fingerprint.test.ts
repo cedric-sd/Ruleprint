@@ -12,6 +12,32 @@ const base: RuleCandidate = {
   },
 };
 
+describe('fingerprintCandidate() with a normalised origin', () => {
+  const normalized: RuleCandidate = { ...base, normalized: '(call_expression identifier:it)' };
+
+  it('hashes the normalised form and ignores title, file and symbol', async () => {
+    const original = await fingerprintCandidate(normalized);
+    const moved: RuleCandidate = {
+      ...normalized,
+      title: 'other title',
+      origin: { ...normalized.origin, sources: [{ file: 'elsewhere.ts', line: 1, symbol: 'x' }] },
+    };
+    expect(await fingerprintCandidate(moved)).toBe(original);
+    expect(
+      await fingerprintCandidate({
+        ...normalized,
+        normalized: '(call_expression identifier:test)',
+      }),
+    ).not.toBe(original);
+    expect(
+      await fingerprintCandidate({
+        ...normalized,
+        origin: { ...normalized.origin, collector: 'ast' },
+      }),
+    ).not.toBe(original);
+  });
+});
+
 describe('fingerprintCandidate()', () => {
   it('produces sha256: plus 64 hex chars', async () => {
     await expect(fingerprintCandidate(base)).resolves.toMatch(/^sha256:[0-9a-f]{64}$/);
