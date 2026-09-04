@@ -36,16 +36,24 @@ function sortKey(candidate: RuleCandidate): string {
 }
 
 /**
- * Assigns a unique id to every candidate. Collisions within the document are resolved by taking
- * the next free number, walking the candidates in a deterministic order so the result does not
- * depend on the order of the input. The returned array is parallel to `candidates`.
+ * Assigns a unique id to every candidate. Collisions within the document (and with `reserved`
+ * ids, e.g. those the lock already uses) are resolved by taking the next free number, walking
+ * the candidates in a deterministic order so the result does not depend on the order of the
+ * input. The returned array is parallel to `candidates`.
  */
-export function assignIds(candidates: readonly RuleCandidate[]): string[] {
+export function assignIds(
+  candidates: readonly RuleCandidate[],
+  reserved: ReadonlySet<string> = new Set(),
+): string[] {
   const order = candidates
     .map((candidate, index) => ({ index, key: sortKey(candidate) }))
     .sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
 
   const taken = new Set<number>();
+  for (const id of reserved) {
+    const n = Number(id.slice(3));
+    if (Number.isInteger(n)) taken.add(n);
+  }
   const ids = new Array<string>(candidates.length);
   for (const { index } of order) {
     const candidate = candidates[index];

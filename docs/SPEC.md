@@ -126,17 +126,47 @@ rascunha, o time promove.
 ## Fingerprint e drift
 
 `fingerprint` é o hash SHA-256 da **AST normalizada** do trecho de origem, não do texto.
-Reformatar, renomear variável local ou trocar aspas não gera drift; mudar uma condição gera. Para
-regras `declared`, é o hash do conteúdo normalizado do markdown.
+Reformatar, renomear variável local ou trocar aspas não gera drift; mudar uma condição, uma
+asserção ou um literal gera. Coletores sem forma normalizada (por ora, todos exceto o de testes)
+usam um material provisório baseado no título e nas fontes (ADR-0004).
 
 ## `ruleprint.lock`
 
-Arquivo commitado, análogo ao `package-lock.json`: `ruleId → fingerprint + status + approvedAt`.
+Arquivo commitado na raiz escaneada, análogo ao `package-lock.json`: a memória do que foi
+aprovado. Guarda **só regras aprovadas**; `pending` e `drifted` são calculados a cada scan
+(`docs/adr/0005-lock-fingerprint-e-check.md`).
 
-- `ruleprint check` compara o estado atual com o lock. Divergência sem aprovação → exit code 1.
-- `ruleprint approve` atualiza o lock (interativo ou `--all` para CI).
+```json
+{
+  "lockVersion": 1,
+  "rules": {
+    "RP-088272": {
+      "title": "shipping > frete grátis > acima de 300 reais no Sudeste",
+      "collector": "tests",
+      "fingerprint": "sha256:…",
+      "approvedAt": "2026-09-04T12:00:00.000Z",
+      "approvedBy": "git:maria@empresa.com"
+    }
+  }
+}
+```
 
-O formato do lock e a atribuição estável de `id` entre execuções são definidos no M4.
+Como o scan é comparado ao lock:
+
+| Situação                                              | Status no documento                        | Mudança reportada pelo `check` |
+| ----------------------------------------------------- | ------------------------------------------ | ------------------------------ |
+| mesmo coletor + título, mesmo fingerprint             | `approved` (com `approvedAt`/`approvedBy`) | nenhuma                        |
+| mesmo coletor + título, fingerprint diferente         | `drifted`                                  | `changed`                      |
+| mesmo fingerprint, título diferente (sem ambiguidade) | `drifted`, id preservado                   | `renamed`                      |
+| regra nova                                            | `pending`                                  | `added`                        |
+| entrada do lock sem regra no scan                     | —                                          | `removed`                      |
+
+- `ruleprint check` compara o estado atual com o lock. Qualquer mudança → exit code 1; erro → 2.
+- `ruleprint approve` grava o lock (`--all`, lista de ids, ou interativo num terminal) e
+  regrava `ruleprint.json` com os status novos.
+
+O `fingerprint` é o hash da AST normalizada do teste (só nós nomeados, strings por conteúdo,
+variáveis locais renomeadas por posição, sem comentários); arquivo e linha ficam de fora.
 
 ## Validação
 

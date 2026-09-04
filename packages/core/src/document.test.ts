@@ -26,7 +26,7 @@ const generatedAt = '2026-09-04T12:00:00Z';
 
 describe('assembleDocument()', () => {
   it('produces a document that validates against the spec', async () => {
-    const document = await assembleDocument({
+    const { document } = await assembleDocument({
       project,
       generatedAt,
       candidates: [candidate('b', 'b.test.ts', 1), candidate('a', 'a.test.ts', 1)],
@@ -38,7 +38,7 @@ describe('assembleDocument()', () => {
   });
 
   it('sorts rules by collector, title, file and line and marks them pending', async () => {
-    const document = await assembleDocument({
+    const { document } = await assembleDocument({
       project,
       generatedAt,
       candidates: [
@@ -56,7 +56,7 @@ describe('assembleDocument()', () => {
   });
 
   it('assigns unique ids and fingerprints and keeps the candidate fields', async () => {
-    const document = await assembleDocument({
+    const { document } = await assembleDocument({
       project,
       generatedAt,
       candidates: [candidate('a', 'a.test.ts', 1), candidate('a', 'b.test.ts', 1)],
@@ -75,7 +75,7 @@ describe('assembleDocument()', () => {
   });
 
   it('drops exact duplicates', async () => {
-    const document = await assembleDocument({
+    const { document } = await assembleDocument({
       project,
       generatedAt,
       candidates: [candidate('a', 'a.test.ts', 1), candidate('a', 'a.test.ts', 1)],
@@ -84,7 +84,7 @@ describe('assembleDocument()', () => {
   });
 
   it('accepts an empty candidate list', async () => {
-    const document = await assembleDocument({
+    const { document } = await assembleDocument({
       project: { name: 'empty' },
       generatedAt,
       candidates: [],

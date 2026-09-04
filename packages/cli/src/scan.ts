@@ -5,12 +5,16 @@ import { testsCollector } from '@ruleprint/collector-tests';
 import {
   assembleDocument,
   collectFromFiles,
+  emptyLock,
+  type Change,
   type Collector,
+  type LockFile,
   type SourceFile,
 } from '@ruleprint/core';
 import type { Project, RulePrintDocument } from '@ruleprint/spec';
 
 import { currentCommit, pathPrefixInRepo, repositoryUrl } from './git.js';
+import { readLock } from './lock-io.js';
 
 export interface ScanOptions {
   /** Clock override, for reproducible output. */
@@ -19,10 +23,19 @@ export interface ScanOptions {
   readonly git?: boolean;
   /** Collectors to run (default: the tests collector). */
   readonly collectors?: readonly Collector[];
+  /**
+   * Lock to reconcile against. Omitted: `<dir>/ruleprint.lock` is read when present.
+   * `null`: ignore any lock (every rule comes out pending).
+   */
+  readonly lock?: LockFile | null;
 }
 
 export interface ScanResult {
   readonly document: RulePrintDocument;
+  /** What differs from the lock (ADR-0005); empty when everything is approved. */
+  readonly changes: readonly Change[];
+  /** The lock the scan was reconciled against (empty when there is none). */
+  readonly lock: LockFile;
   readonly warnings: readonly string[];
   /** Number of files handed to collectors. */
   readonly files: number;
@@ -94,12 +107,15 @@ export async function scanProject(dir: string, options: ScanOptions = {}): Promi
   const candidates = await collectFromFiles(files, collectors, {
     warn: (message) => warnings.push(message),
   });
-  const document = await assembleDocument({
+  const lock =
+    options.lock === null ? emptyLock() : (options.lock ?? readLock(root) ?? emptyLock());
+  const { document, changes } = await assembleDocument({
     project: describeProject(root, useGit),
     candidates,
     generatedAt: (options.now ?? new Date()).toISOString(),
+    lock,
   });
-  return { document, warnings, files: files.length };
+  return { document, changes, lock, warnings, files: files.length };
 }
 
 export function serializeDocument(document: RulePrintDocument): string {
