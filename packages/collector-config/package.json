@@ -2,7 +2,7 @@
   "name": "@ruleprint/collector-config",
   "version": "0.0.0",
   "private": true,
-  "description": "Collector that reads declared rules from .ruleprint/rules/*.md.",
+  "description": "Collector that reads declared rules from .ruleprint/rules/*.md (front-matter + markdown).",
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
@@ -18,5 +18,9 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {
+    "@ruleprint/core": "workspace:*",
+    "@ruleprint/spec": "workspace:*"
+  }
 }

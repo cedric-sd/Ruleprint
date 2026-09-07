@@ -57,11 +57,25 @@ importers:
         specifier: ^14.0.3
         version: 14.0.3
 
-  packages/collector-annotations: {}
+  packages/collector-annotations:
+    dependencies:
+      '@ruleprint/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ruleprint/spec':
+        specifier: workspace:*
+        version: link:../spec
 
   packages/collector-ast: {}
 
-  packages/collector-config: {}
+  packages/collector-config:
+    dependencies:
+      '@ruleprint/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ruleprint/spec':
+        specifier: workspace:*
+        version: link:../spec
 
   packages/collector-tests:
     dependencies:
