@@ -27,6 +27,19 @@ describe('scanProject()', () => {
     await expect(`${JSON.stringify(result.document, null, 2)}\n`).toMatchFileSnapshot(GOLDEN);
   });
 
+  it('reads the fixture lock and reports no changes', async () => {
+    const result = await scanProject(FIXTURE, { now: NOW, git: false });
+    expect(result.changes).toEqual([]);
+    expect(result.document.rules.every((rule) => rule.status === 'approved')).toBe(true);
+    expect(Object.keys(result.lock.rules)).toHaveLength(15);
+  });
+
+  it('can be told to ignore the lock', async () => {
+    const result = await scanProject(FIXTURE, { now: NOW, git: false, lock: null });
+    expect(result.changes).toHaveLength(15);
+    expect(result.document.rules.every((rule) => rule.status === 'pending')).toBe(true);
+  });
+
   it('is stable across runs', async () => {
     const first = await scanProject(FIXTURE, { now: NOW, git: false });
     const second = await scanProject(FIXTURE, { now: NOW, git: false });

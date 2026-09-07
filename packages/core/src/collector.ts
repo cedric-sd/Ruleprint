@@ -17,6 +17,12 @@ export interface SourceFile {
 export interface RuleCandidate {
   readonly title: string;
   readonly description?: string;
+  /**
+   * Normalised representation of the origin (e.g. the S-expression of a test body with
+   * formatting and local names abstracted away). It is the fingerprint material; collectors that
+   * cannot provide one get a fingerprint based on the title and sources instead (ADR-0005).
+   */
+  readonly normalized?: string;
   readonly tags?: readonly string[];
   readonly origin: {
     readonly collector: string;

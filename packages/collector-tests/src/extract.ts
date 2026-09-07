@@ -1,11 +1,16 @@
 import type { Node } from '@vscode/tree-sitter-wasm';
 
+import { literalText } from './literals.js';
+import { normalizeTest } from './normalize.js';
+
 /** One `it`/`test` leaf, with the titles of the suites that enclose it. */
 export interface TestCase {
   /** Titles from the outermost `describe` down to the test itself. */
   readonly titlePath: readonly string[];
   /** 1-based line of the `it`/`test` call. */
   readonly line: number;
+  /** Normalised form of the call, the fingerprint material (see normalize.ts). */
+  readonly normalized: string;
 }
 
 const SUITE_NAMES = new Set(['describe', 'suite', 'context']);
@@ -22,33 +27,13 @@ type CallKind = 'suite' | 'test';
 interface ClassifiedCall {
   readonly kind: CallKind;
   readonly title: string;
+  readonly titleNode: Node;
   readonly line: number;
   readonly args: Node;
 }
 
 function named(node: Node): Node[] {
   return node.namedChildren.filter((child): child is Node => child !== null);
-}
-
-function unescape(sequence: string): string {
-  try {
-    return JSON.parse(`"${sequence}"`) as string;
-  } catch {
-    return sequence.slice(1);
-  }
-}
-
-/** Text of a string or template literal argument; `undefined` for anything else. */
-function literalText(node: Node): string | undefined {
-  if (node.type === 'string') {
-    return named(node)
-      .map((part) => (part.type === 'escape_sequence' ? unescape(part.text) : part.text))
-      .join('');
-  }
-  if (node.type === 'template_string') {
-    return node.text.slice(1, -1);
-  }
-  return undefined;
 }
 
 /** `it` → { name: 'it' }, `it.skip` → { name: 'it', modifier: 'skip' }, `logger.it` → undefined. */
@@ -107,10 +92,10 @@ function classify(call: Node): ClassifiedCall | undefined {
 
   const [first] = named(args);
   const title = first ? literalText(first) : undefined;
-  if (title === undefined || title.trim() === '') {
+  if (!first || title === undefined || title.trim() === '') {
     return undefined;
   }
-  return { kind, title, line: call.startPosition.row + 1, args };
+  return { kind, title, titleNode: first, line: call.startPosition.row + 1, args };
 }
 
 function callbackBodies(args: Node): Node[] {
@@ -124,7 +109,11 @@ function visit(node: Node, path: readonly string[], out: TestCase[]): void {
   if (node.type === 'call_expression') {
     const call = classify(node);
     if (call?.kind === 'test') {
-      out.push({ titlePath: [...path, call.title], line: call.line });
+      out.push({
+        titlePath: [...path, call.title],
+        line: call.line,
+        normalized: normalizeTest(node, call.titleNode),
+      });
       return;
     }
     if (call?.kind === 'suite') {

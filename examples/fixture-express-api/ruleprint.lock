@@ -1,0 +1,110 @@
+{
+  "lockVersion": 1,
+  "rules": {
+    "RP-018388": {
+      "title": "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região",
+      "collector": "tests",
+      "fingerprint": "sha256:8cbd2bbb8bdc760296e9c9c9497cbc8ab10a3fb7d0640239a50b933257f00fa2",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-064421": {
+      "title": "order validation > rejects an order below the minimum value",
+      "collector": "tests",
+      "fingerprint": "sha256:e16acda8b65b0aa8e83d7517c5560d98fa786ca9f5b0b7fc96ea5b2c0622b1ab",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-088272": {
+      "title": "shipping > frete grátis > acima de 300 reais no Sudeste",
+      "collector": "tests",
+      "fingerprint": "sha256:b68a45f1d6f6728ffa1792f4aaccaef4efa2077769671b7cc4211b198b1ea0d1",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-224807": {
+      "title": "order validation > accepts a valid order",
+      "collector": "tests",
+      "fingerprint": "sha256:24715dad2690c7104d22118c89f5923e93bb48f6960334ac58fb7594aacf0a24",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-287348": {
+      "title": "order validation > rejects more than ${MAX_ITEMS_PER_ORDER} items in one order",
+      "collector": "tests",
+      "fingerprint": "sha256:2f7fa3caca218c60ffaf7a916a2a0ee05291f55537347be037c2404c3175c399",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-389966": {
+      "title": "shipping > frete grátis > não vale fora do Sudeste",
+      "collector": "tests",
+      "fingerprint": "sha256:fe8db3c7619616e521ac6a412e5e3192cd90a147fe1e8374d6023a71fd315a67",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-428818": {
+      "title": "refund > ignora cobranças com valor zero",
+      "collector": "tests",
+      "fingerprint": "sha256:123ff2afe47b36c882659394d31a560caca62af86e81ea4351dea729a2008958",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-441734": {
+      "title": "shipping > frete grátis > exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis",
+      "collector": "tests",
+      "fingerprint": "sha256:663a8c7f43c40d3b2fbdc03582465cbf036869b1ba9c6c4d23ec22958019e858",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-485076": {
+      "title": "is cut short",
+      "collector": "tests",
+      "fingerprint": "sha256:5b151f5537786f8fae0d9465ed22410027500d20f9f9b8556b52422f4e532894",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-557980": {
+      "title": "order validation > rejects duplicated skus",
+      "collector": "tests",
+      "fingerprint": "sha256:dc1e958c8ec14f8786a6aaa29aee5e371e2b446687fee8b059c15e68aa22ac72",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-614044": {
+      "title": "still yields the rule before the syntax error",
+      "collector": "tests",
+      "fingerprint": "sha256:545d8206de6bf865d94a45a16ccae89e5d667e78958f7a64ca4796d28744697a",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-838817": {
+      "title": "refund > cobrança %s > nunca é reembolsável",
+      "collector": "tests",
+      "fingerprint": "sha256:e492f56f68f8373057935beae045cf5bfd36517a6f62c165734ed5a4d7decf13",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-856064": {
+      "title": "refund > janela de 7 dias > bloqueia reembolso após a janela",
+      "collector": "tests",
+      "fingerprint": "sha256:4a69f0eb39165bc22ccfc83a988e460ed779b86fa795a688df6fe97bd17309d3",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-908098": {
+      "title": "refund > janela de 7 dias > permite reembolso dentro da janela",
+      "collector": "tests",
+      "fingerprint": "sha256:37bf0cc6c23091fe73ef37f3bf45599ab7c5a5b8b26caca10ccb22d8b4cf9dbd",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    "RP-998487": {
+      "title": "order validation > rejects an empty order",
+      "collector": "tests",
+      "fingerprint": "sha256:c6b04480b8810cb64c0ff5b86d2ca7abae7aee42b9cb5876ec1bc2d7b187a112",
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    }
+  }
+}

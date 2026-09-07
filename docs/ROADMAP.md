@@ -110,7 +110,7 @@ Coletor em `packages/collector-tests` (contrato `Collector` em `packages/core`);
 `pnpm --filter @ruleprint/collector-tests dogfood <dir>` imprime a saída crua. A saída foi
 avaliada e aprovada pelo dono do projeto antes do M3.
 
-### M3 — CLI + UI mínima (em andamento)
+### M3 — CLI + UI mínima (concluído)
 
 `ruleprint init`/`scan`, `ruleprint serve` (porta 4141, hot reload por SSE), `ruleprint build`
 (estático). UI: lista pesquisável, filtro por tag e confiança, detalhe com link para
@@ -118,13 +118,16 @@ arquivo/linha. Ids e fingerprints provisórios, `project.repository` e o wiring 
 `docs/adr/0004-ids-provisorios-e-pipeline-do-scan.md`. Changesets configurado; publicação no npm
 é manual (`pnpm release`) e depende de token do dono.
 **DoD:** GIF de 20s no README mostrando `npx ruleprint init` num repo real (pendente: exige
-publicar no npm).
+publicar no npm, ação do dono).
 
-### M4 — Lockfile, drift e `check`
+### M4 — Lockfile, drift e `check` (em andamento)
 
-Fingerprint de AST normalizada, `ruleprint.lock`, `ruleprint check` (0 ok, 1 drift não aprovado,
-2 erro), `ruleprint approve`.
-**DoD:** alterar uma condição no fixture quebra o `check`; reformatar não quebra.
+Fingerprint de AST normalizada, `ruleprint.lock` (só regras aprovadas), `ruleprint check` (0 ok,
+1 mudança não aprovada, 2 erro), `ruleprint approve` (`--all`, ids ou interativo). Renomear
+preserva o id e pede aprovação; regra aprovada que some é reportada. Decisões em
+`docs/adr/0005-lock-fingerprint-e-check.md`.
+**DoD:** alterar uma condição no fixture quebra o `check`; reformatar não quebra. Coberto por
+`packages/cli/src/check.test.ts`.
 
 ### M5 — Coletor de config e anotações
 

@@ -1,14 +1,18 @@
 #!/usr/bin/env node
+import { writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { relative, resolve } from 'node:path';
+import { createInterface } from 'node:readline/promises';
 
+import { exitCodeFor, type Change } from '@ruleprint/core';
 import { Command } from 'commander';
 
+import { approveProject, defaultApprover } from './approve.js';
 import { buildSite } from './build.js';
-import { scanProject, serializeDocument } from './scan.js';
+import { countApproved, describeChange, summaryLine } from './report.js';
+import { scanProject, serializeDocument, type ScanResult } from './scan.js';
 import { createRuleBookServer } from './server.js';
 import { resolveUiDist } from './ui.js';
-import { writeFileSync } from 'node:fs';
 
 const { version } = createRequire(import.meta.url)('../package.json') as { version: string };
 
@@ -20,13 +24,33 @@ const err = (line: string): void => {
 };
 const pretty = (path: string): string => relative(process.cwd(), path) || '.';
 
-async function runScan(
-  dir: string,
-  outFile: string,
-): Promise<{ rules: number; files: number; warnings: readonly string[] }> {
+function describeScan(result: ScanResult): string {
+  const total = result.document.rules.length;
+  const approved = countApproved(result.document);
+  const pending = total - approved;
+  const detail =
+    approved === 0 ? '' : ` (${approved} approved${pending > 0 ? `, ${pending} pending` : ''})`;
+  return `${total} rules${detail} from ${result.files} files`;
+}
+
+async function runScan(dir: string, outFile: string): Promise<ScanResult> {
   const result = await scanProject(dir);
   writeFileSync(outFile, serializeDocument(result.document));
-  return { rules: result.document.rules.length, files: result.files, warnings: result.warnings };
+  return result;
+}
+
+async function askWhichChanges(changes: readonly Change[]): Promise<string[]> {
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  const chosen: string[] = [];
+  try {
+    for (const change of changes) {
+      const answer = await rl.question(`${describeChange(change)}\n  approve? [y/N] `);
+      if (/^y(es)?$/i.test(answer.trim())) chosen.push(change.id);
+    }
+  } finally {
+    rl.close();
+  }
+  return chosen;
 }
 
 const program = new Command()
@@ -43,13 +67,22 @@ program
   .action(async (dir: string, opts: { out?: string; json: boolean }) => {
     const root = resolve(dir);
     const outFile = resolve(opts.out ?? resolve(root, 'ruleprint.json'));
-    const summary = await runScan(root, outFile);
+    const result = await runScan(root, outFile);
     if (opts.json) {
-      out(JSON.stringify({ out: outFile, ...summary }));
+      out(
+        JSON.stringify({
+          out: outFile,
+          rules: result.document.rules.length,
+          approved: countApproved(result.document),
+          files: result.files,
+          warnings: result.warnings,
+          changes: result.changes,
+        }),
+      );
       return;
     }
-    for (const warning of summary.warnings) err(`warning: ${warning}`);
-    out(`${summary.rules} rules from ${summary.files} files → ${pretty(outFile)}`);
+    for (const warning of result.warnings) err(`warning: ${warning}`);
+    out(`${describeScan(result)} → ${pretty(outFile)}`);
   });
 
 program
@@ -60,15 +93,87 @@ program
   .action(async (dir: string, opts: { out?: string }) => {
     const root = resolve(dir);
     const outFile = resolve(opts.out ?? resolve(root, 'ruleprint.json'));
-    const summary = await runScan(root, outFile);
-    for (const warning of summary.warnings) err(`warning: ${warning}`);
-    out(`✔ ${summary.rules} rules from ${summary.files} files → ${pretty(outFile)}`);
+    const result = await runScan(root, outFile);
+    for (const warning of result.warnings) err(`warning: ${warning}`);
+    out(`✔ ${describeScan(result)} → ${pretty(outFile)}`);
     out('');
     out('Next steps:');
-    out('  npx ruleprint serve    browse the rule book at http://localhost:4141');
-    out('  npx ruleprint build    write a static site to ruleprint-site/');
+    out('  npx ruleprint serve          browse the rule book at http://localhost:4141');
+    out('  npx ruleprint approve --all  approve what you see; writes ruleprint.lock');
+    out('  npx ruleprint check          in CI: fails when rules changed without approval');
+    out('  npx ruleprint build          write a static site to ruleprint-site/');
     out('');
-    out(`Commit ${pretty(outFile)} so the rule book travels with the code.`);
+    out(`Commit ${pretty(outFile)} and ruleprint.lock so the rule book travels with the code.`);
+  });
+
+program
+  .command('check')
+  .description('compare the rules with ruleprint.lock; exit 1 when something needs approval')
+  .argument('[dir]', 'repository root', '.')
+  .option('--json', 'print the report as JSON', false)
+  .action(async (dir: string, opts: { json: boolean }) => {
+    const result = await scanProject(resolve(dir));
+    const approved = countApproved(result.document);
+    if (opts.json) {
+      out(JSON.stringify({ approved, changes: result.changes }));
+    } else {
+      for (const warning of result.warnings) err(`warning: ${warning}`);
+      for (const change of result.changes) out(describeChange(change));
+      out(summaryLine(result.document, result.changes));
+      if (result.changes.length > 0) {
+        err(
+          approved === 0 && Object.keys(result.lock.rules).length === 0
+            ? 'No rule is approved yet. Review them and run `ruleprint approve --all`.'
+            : 'Run `ruleprint approve` to review these changes, or `ruleprint approve --all`.',
+        );
+      }
+    }
+    process.exitCode = exitCodeFor(result.changes);
+  });
+
+const RULE_ID = /^RP-\d{4,}$/;
+
+program
+  .command('approve')
+  .description('approve changes: writes ruleprint.lock and refreshes ruleprint.json')
+  .argument('[args...]', 'rule ids to approve, optionally preceded by the repository root')
+  .option('--all', 'approve every change', false)
+  .option('--by <who>', 'who approves (default: git:<user.email>)')
+  .action(async (args: string[], opts: { all: boolean; by?: string }) => {
+    const ids = args.filter((arg) => RULE_ID.test(arg));
+    const dirs = args.filter((arg) => !RULE_ID.test(arg));
+    if (dirs.length > 1) throw new Error(`expected one directory, got: ${dirs.join(', ')}`);
+    const root = resolve(dirs[0] ?? '.');
+    let selectedIds: string[] | undefined = ids;
+    if (!opts.all && ids.length === 0) {
+      if (!process.stdin.isTTY) {
+        throw new Error('nothing selected: pass --all or rule ids (interactive mode needs a TTY)');
+      }
+      const preview = await scanProject(root);
+      if (preview.changes.length === 0) {
+        out('Nothing to approve.');
+        return;
+      }
+      selectedIds = await askWhichChanges(preview.changes);
+      if (selectedIds.length === 0) {
+        out('Nothing approved.');
+        return;
+      }
+    }
+    const approvedBy = opts.by ?? defaultApprover(root);
+    const result = await approveProject(root, {
+      all: opts.all,
+      ...(opts.all ? {} : { ids: selectedIds }),
+      ...(approvedBy !== undefined && { approvedBy }),
+    });
+    for (const change of result.applied) out(describeChange(change));
+    out(`Approved ${result.applied.length} change(s) → ruleprint.lock; ruleprint.json refreshed`);
+    out(
+      summaryLine(
+        result.document,
+        result.scan.changes.filter((c) => !result.applied.includes(c)),
+      ),
+    );
   });
 
 program

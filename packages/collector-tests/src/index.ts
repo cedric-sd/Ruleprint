@@ -36,6 +36,7 @@ export const testsCollector: Collector = {
       const leaf = testCase.titlePath[testCase.titlePath.length - 1] ?? title;
       return {
         title,
+        normalized: testCase.normalized,
         origin: {
           collector: 'tests',
           confidence: 'derived',

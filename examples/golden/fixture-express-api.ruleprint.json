@@ -20,13 +20,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:386a959500471f31f84e840589016bb0dc45dfb99816e256381083e2c1da50da",
-      "status": "pending",
+      "fingerprint": "sha256:5b151f5537786f8fae0d9465ed22410027500d20f9f9b8556b52422f4e532894",
+      "status": "approved",
       "evidence": {
         "tests": [
           "is cut short"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-224807",
@@ -43,13 +45,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:7523c42ed140c43f706b997e05edff09043273c206d59ebb436e6bf74d548e74",
-      "status": "pending",
+      "fingerprint": "sha256:24715dad2690c7104d22118c89f5923e93bb48f6960334ac58fb7594aacf0a24",
+      "status": "approved",
       "evidence": {
         "tests": [
           "order validation > accepts a valid order"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-998487",
@@ -66,13 +70,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:0e02942f6281c9878a4dfb71e298385b4b875910c82f62139b59b70484fcbca7",
-      "status": "pending",
+      "fingerprint": "sha256:c6b04480b8810cb64c0ff5b86d2ca7abae7aee42b9cb5876ec1bc2d7b187a112",
+      "status": "approved",
       "evidence": {
         "tests": [
           "order validation > rejects an empty order"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-064421",
@@ -89,13 +95,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:516f8b65d064a51f544960d6ebd75f494a11d754c51b66745cdbfa0ff4e6d04b",
-      "status": "pending",
+      "fingerprint": "sha256:e16acda8b65b0aa8e83d7517c5560d98fa786ca9f5b0b7fc96ea5b2c0622b1ab",
+      "status": "approved",
       "evidence": {
         "tests": [
           "order validation > rejects an order below the minimum value"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-557980",
@@ -112,13 +120,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:f7c440a4d94d8e48882153cf65aad63ee73d204bf53e25314051f802699072f4",
-      "status": "pending",
+      "fingerprint": "sha256:dc1e958c8ec14f8786a6aaa29aee5e371e2b446687fee8b059c15e68aa22ac72",
+      "status": "approved",
       "evidence": {
         "tests": [
           "order validation > rejects duplicated skus"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-287348",
@@ -135,13 +145,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:bd65ef437a7806805f3abe8f130ab94c7ea83a86f27c82e0ee6122f7fd436d6e",
-      "status": "pending",
+      "fingerprint": "sha256:2f7fa3caca218c60ffaf7a916a2a0ee05291f55537347be037c2404c3175c399",
+      "status": "approved",
       "evidence": {
         "tests": [
           "order validation > rejects more than ${MAX_ITEMS_PER_ORDER} items in one order"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-838817",
@@ -158,13 +170,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:790e8063f944ddc8c2db1abba63f84b204255e4154677421719c75e6f1e2518b",
-      "status": "pending",
+      "fingerprint": "sha256:e492f56f68f8373057935beae045cf5bfd36517a6f62c165734ed5a4d7decf13",
+      "status": "approved",
       "evidence": {
         "tests": [
           "refund > cobrança %s > nunca é reembolsável"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-428818",
@@ -181,13 +195,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:1a35c7ff91de72fa6a89a0bffc0cb0c3dd7c92f65bc7f49d2125a38eb3cde1d7",
-      "status": "pending",
+      "fingerprint": "sha256:123ff2afe47b36c882659394d31a560caca62af86e81ea4351dea729a2008958",
+      "status": "approved",
       "evidence": {
         "tests": [
           "refund > ignora cobranças com valor zero"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-856064",
@@ -204,13 +220,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:0c538dd8a15a03b09af995a5c3babeaacb85d7ad9b5b461ca2815facbf436eb7",
-      "status": "pending",
+      "fingerprint": "sha256:4a69f0eb39165bc22ccfc83a988e460ed779b86fa795a688df6fe97bd17309d3",
+      "status": "approved",
       "evidence": {
         "tests": [
           "refund > janela de 7 dias > bloqueia reembolso após a janela"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-908098",
@@ -227,13 +245,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:dd108b000f0a1d05d486e90d780a475ab8a9307c826711aa24e1e76a8ecf54bc",
-      "status": "pending",
+      "fingerprint": "sha256:37bf0cc6c23091fe73ef37f3bf45599ab7c5a5b8b26caca10ccb22d8b4cf9dbd",
+      "status": "approved",
       "evidence": {
         "tests": [
           "refund > janela de 7 dias > permite reembolso dentro da janela"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-088272",
@@ -250,13 +270,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:5b8594ff8087efbb65e830852a0f21d0259feda83dbe1b73dc5dcb5c0710f94d",
-      "status": "pending",
+      "fingerprint": "sha256:b68a45f1d6f6728ffa1792f4aaccaef4efa2077769671b7cc4211b198b1ea0d1",
+      "status": "approved",
       "evidence": {
         "tests": [
           "shipping > frete grátis > acima de 300 reais no Sudeste"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-441734",
@@ -273,13 +295,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:1a7f11601cf56d3a7429c351101b0c72924da045dcf03e4401274168478a636b",
-      "status": "pending",
+      "fingerprint": "sha256:663a8c7f43c40d3b2fbdc03582465cbf036869b1ba9c6c4d23ec22958019e858",
+      "status": "approved",
       "evidence": {
         "tests": [
           "shipping > frete grátis > exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-389966",
@@ -296,13 +320,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:0abb31a57d6a459af834d338a0cfbe2b17fb023525217d48d0c4422dd1ed43b7",
-      "status": "pending",
+      "fingerprint": "sha256:fe8db3c7619616e521ac6a412e5e3192cd90a147fe1e8374d6023a71fd315a67",
+      "status": "approved",
       "evidence": {
         "tests": [
           "shipping > frete grátis > não vale fora do Sudeste"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-018388",
@@ -319,13 +345,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:d31964742d98f058125eb27eed67712b61ed573e47700a7dbde41fa60f042cd3",
-      "status": "pending",
+      "fingerprint": "sha256:8cbd2bbb8bdc760296e9c9c9497cbc8ab10a3fb7d0640239a50b933257f00fa2",
+      "status": "approved",
       "evidence": {
         "tests": [
           "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
       "id": "RP-614044",
@@ -342,13 +370,15 @@
           }
         ]
       },
-      "fingerprint": "sha256:5041fee9690292a316b3fd0c44d85d8d9837e86f241513f2f8180d7dfe543558",
-      "status": "pending",
+      "fingerprint": "sha256:545d8206de6bf865d94a45a16ccae89e5d667e78958f7a64ca4796d28744697a",
+      "status": "approved",
       "evidence": {
         "tests": [
           "still yields the rule before the syntax error"
         ]
-      }
+      },
+      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
     }
   ]
 }
