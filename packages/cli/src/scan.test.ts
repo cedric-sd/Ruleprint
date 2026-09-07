@@ -17,8 +17,8 @@ describe('scanProject()', () => {
     expect(validate(result.document)).toEqual({ valid: true, document: result.document });
     expect(result.document.project).toEqual({ name: 'fixture-express-api' });
     expect(result.document.generatedAt).toBe('2026-09-04T12:00:00.000Z');
-    expect(result.document.rules).toHaveLength(15);
-    expect(result.files).toBe(4);
+    expect(result.document.rules).toHaveLength(16);
+    expect(result.files).toBe(10);
     expect(result.warnings).toEqual([expect.stringContaining('broken.spec.ts') as string]);
   });
 
@@ -31,13 +31,13 @@ describe('scanProject()', () => {
     const result = await scanProject(FIXTURE, { now: NOW, git: false });
     expect(result.changes).toEqual([]);
     expect(result.document.rules.every((rule) => rule.status === 'approved')).toBe(true);
-    expect(Object.keys(result.lock.rules)).toHaveLength(15);
+    expect(Object.keys(result.lock.rules)).toHaveLength(16);
   });
 
   it('can be told to ignore the lock', async () => {
     const result = await scanProject(FIXTURE, { now: NOW, git: false, lock: null });
-    expect(result.changes).toHaveLength(15);
-    expect(result.document.rules.every((rule) => rule.status === 'pending')).toBe(true);
+    expect(result.changes).toHaveLength(16);
+    expect(result.document.rules.every((rule) => rule.status !== 'approved')).toBe(true);
   });
 
   it('is stable across runs', async () => {
@@ -57,8 +57,13 @@ describe('scanProject()', () => {
 
   it('keeps source paths relative to the git root when scanning a subdirectory', async () => {
     const result = await scanProject(FIXTURE, { now: NOW, git: true });
-    const files = new Set(result.document.rules.map((rule) => rule.origin.sources[0].file));
+    const files = new Set(
+      result.document.rules.flatMap((rule) => rule.origin.sources.map((s) => s.file)),
+    );
     expect([...files].sort()).toEqual([
+      'examples/fixture-express-api/.ruleprint/rules/cupom-expirado.md',
+      'examples/fixture-express-api/.ruleprint/rules/frete-sudeste.md',
+      'examples/fixture-express-api/src/shipping.ts',
       'examples/fixture-express-api/test/broken.spec.ts',
       'examples/fixture-express-api/test/order.spec.ts',
       'examples/fixture-express-api/test/refund.spec.ts',
@@ -71,6 +76,26 @@ describe('scanProject()', () => {
     const result = await scanProject(join(FIXTURE, 'test'), { now: NOW, git: false });
     expect(result.document.project.name).toBe('test');
     expect(result.document.rules).toHaveLength(15);
+  });
+
+  it('merges the declared rule into the shipping test and flags the orphan', async () => {
+    const result = await scanProject(FIXTURE, { now: NOW, git: false });
+    const frete = result.document.rules.find((r) => r.id === 'RP-088272');
+    expect(frete).toMatchObject({
+      title: 'Pedido acima de R$300 tem frete grátis no Sudeste',
+      tags: ['frete', 'checkout'],
+      origin: { collector: 'config', confidence: 'declared' },
+      evidence: { tests: ['shipping > frete grátis > acima de 300 reais no Sudeste'] },
+    });
+    expect(frete?.origin.sources.map((s) => [s.file, s.kind])).toEqual([
+      ['.ruleprint/rules/frete-sudeste.md', 'config'],
+      ['test/shipping.spec.ts', 'test'],
+      ['src/shipping.ts', 'annotation'],
+    ]);
+    const cupom = result.document.rules.find(
+      (r) => r.title === 'Cupom expirado é recusado no checkout',
+    );
+    expect(cupom).toMatchObject({ status: 'orphan', origin: { confidence: 'declared' } });
   });
 
   it('keeps the golden fixture readable by humans', () => {

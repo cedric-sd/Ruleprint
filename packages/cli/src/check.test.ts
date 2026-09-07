@@ -28,6 +28,7 @@ function ruleprint(cwd: string, args: string[]): Run {
 interface CheckJson {
   approved: number;
   changes: { kind: string; id: string; title: string; previousTitle?: string }[];
+  orphans: { id: string; title: string }[];
 }
 
 function checkJson(cwd: string): { status: number | null; report: CheckJson } {
@@ -54,19 +55,27 @@ describe('ruleprint check / approve (definition of done)', () => {
     let check = checkJson(dir);
     expect(check.status).toBe(1);
     expect(check.report.approved).toBe(0);
-    expect(check.report.changes.map((c) => c.kind)).toEqual(new Array<string>(15).fill('added'));
+    expect(check.report.changes.map((c) => c.kind)).toEqual(new Array<string>(16).fill('added'));
+    expect(check.report.orphans).toEqual([
+      expect.objectContaining({ title: 'Cupom expirado é recusado no checkout' }),
+    ]);
     expect(ruleprint(dir, ['check']).stderr).toContain('approve');
 
     // Approve everything.
     const approve = ruleprint(dir, ['approve', '--all', '--by', 'test:me']);
     expect(approve.status).toBe(0);
-    expect(approve.stdout).toContain('15');
+    expect(approve.stdout).toContain('16');
     const lock1 = parseLock(readFileSync(join(dir, 'ruleprint.lock'), 'utf8'));
-    expect(Object.keys(lock1.rules)).toHaveLength(15);
+    expect(Object.keys(lock1.rules)).toHaveLength(16);
     expect(Object.values(lock1.rules).every((e) => e.approvedBy === 'test:me')).toBe(true);
     check = checkJson(dir);
     expect(check.status).toBe(0);
-    expect(check.report).toEqual({ approved: 15, changes: [] });
+    expect(check.report).toEqual({
+      approved: 15,
+      changes: [],
+      orphans: [expect.objectContaining({ title: 'Cupom expirado é recusado no checkout' })],
+    });
+    expect(ruleprint(dir, ['check']).stdout).toContain('orphan');
 
     // Reformatting is not drift: double quotes, no semicolons, other indentation, a comment.
     const original = readFileSync(shipping, 'utf8');
@@ -86,7 +95,7 @@ describe('ruleprint check / approve (definition of done)', () => {
     expect(check.report.changes).toHaveLength(1);
     const changed = check.report.changes[0];
     expect(changed?.kind).toBe('changed');
-    expect(changed?.title).toBe('shipping > frete grátis > acima de 300 reais no Sudeste');
+    expect(changed?.title).toBe('Pedido acima de R$300 tem frete grátis no Sudeste');
     expect(ruleprint(dir, ['check']).stdout).toContain('changed');
 
     // Approving that single id clears it.
@@ -145,7 +154,7 @@ describe('ruleprint check / approve (definition of done)', () => {
     expect(ruleprint(dir, ['approve', '--all']).status).toBe(0);
     check = checkJson(dir);
     expect(check.status).toBe(0);
-    expect(check.report.approved).toBe(12);
+    expect(check.report.approved).toBe(13);
   }, 60_000);
 
   it('exits 2 on a corrupt lock', () => {

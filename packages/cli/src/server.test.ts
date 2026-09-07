@@ -64,7 +64,7 @@ describe('createRuleBookServer()', () => {
     const doc = await fetch(`${base}/ruleprint.json`);
     expect(doc.status).toBe(200);
     const body = (await doc.json()) as { rules: unknown[] };
-    expect(body.rules).toHaveLength(15);
+    expect(body.rules).toHaveLength(16);
 
     const deep = await fetch(`${base}/rules/RP-000001`);
     expect(deep.status).toBe(200);
