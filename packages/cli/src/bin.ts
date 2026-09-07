@@ -4,12 +4,13 @@ import { createRequire } from 'node:module';
 import { relative, resolve } from 'node:path';
 import { createInterface } from 'node:readline/promises';
 
-import { exitCodeFor, type Change } from '@ruleprint/core';
+import { exitCodeFor, orphansOf, type Change } from '@ruleprint/core';
 import { Command } from 'commander';
 
 import { approveProject, defaultApprover } from './approve.js';
 import { buildSite } from './build.js';
-import { countApproved, describeChange, summaryLine } from './report.js';
+import { promoteRule } from './promote.js';
+import { countApproved, describeChange, describeOrphan, summaryLine } from './report.js';
 import { scanProject, serializeDocument, type ScanResult } from './scan.js';
 import { createRuleBookServer } from './server.js';
 import { resolveUiDist } from './ui.js';
@@ -114,11 +115,13 @@ program
   .action(async (dir: string, opts: { json: boolean }) => {
     const result = await scanProject(resolve(dir));
     const approved = countApproved(result.document);
+    const orphans = orphansOf(result.document).map((rule) => ({ id: rule.id, title: rule.title }));
     if (opts.json) {
-      out(JSON.stringify({ approved, changes: result.changes }));
+      out(JSON.stringify({ approved, changes: result.changes, orphans }));
     } else {
       for (const warning of result.warnings) err(`warning: ${warning}`);
       for (const change of result.changes) out(describeChange(change));
+      for (const rule of orphansOf(result.document)) out(describeOrphan(rule));
       out(summaryLine(result.document, result.changes));
       if (result.changes.length > 0) {
         err(
@@ -174,6 +177,17 @@ program
         result.scan.changes.filter((c) => !result.applied.includes(c)),
       ),
     );
+  });
+
+program
+  .command('promote')
+  .description('turn a rule into a declared one: writes .ruleprint/rules/<slug>.md')
+  .argument('<id>', 'rule id, e.g. RP-000042')
+  .option('-C, --dir <dir>', 'repository root', '.')
+  .action(async (id: string, opts: { dir: string }) => {
+    const result = await promoteRule(resolve(opts.dir), id);
+    out(`${result.rule.id} → ${pretty(result.path)}`);
+    out('Edit the description, then run `ruleprint scan` (or `serve`) to see it as declared.');
   });
 
 program

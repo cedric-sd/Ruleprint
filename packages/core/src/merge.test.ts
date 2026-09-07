@@ -193,6 +193,26 @@ describe('merge with precedence', () => {
     expect(changes).toEqual([{ kind: 'changed', id, title: 'Declarada' }]);
   });
 
+  it('an approved fused rule stays approved on the next scan (hash id lands on the locked id)', async () => {
+    const decl = declared('Frete grátis', { id: testId });
+    const first = await run([testCandidate, decl]);
+    const lock: LockFile = {
+      lockVersion: 1,
+      rules: {
+        [testId]: {
+          title: 'Frete grátis',
+          collector: 'config',
+          fingerprint: first.document.rules[0]?.fingerprint ?? '',
+          approvedAt: generatedAt,
+        },
+      },
+    };
+    const second = await run([testCandidate, decl], lock);
+    expect(second.document.rules).toHaveLength(1);
+    expect(second.document.rules[0]).toMatchObject({ id: testId, status: 'approved' });
+    expect(second.changes).toEqual([]);
+  });
+
   it('two declared files with the same id: the first wins the text, both are sources', async () => {
     const { document } = await run([
       declared('Segunda', { id: 'RP-004242', file: '.ruleprint/rules/b.md' }),

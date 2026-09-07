@@ -115,8 +115,15 @@ export async function reconcile(options: ReconcileOptions): Promise<ReconcileRes
     resolved[i] = { group, id, renamedFrom: entry.title };
   }
 
+  // Hash ids must not land on a locked id that belongs to another rule; a locked id that a
+  // declaration names is this scan's own (the hash then merges into it in Phase B).
   const remaining = implicit.map((_, i) => i).filter((i) => resolved[i] === undefined);
-  const reserved = new Set<string>(Object.keys(options.lock.rules));
+  const explicitIds = new Set(
+    groups.flatMap((g) => (g.explicitId === undefined ? [] : [g.explicitId])),
+  );
+  const reserved = new Set<string>(
+    Object.keys(options.lock.rules).filter((id) => !explicitIds.has(id)),
+  );
   for (const r of resolved) if (r) reserved.add(r.id);
   const newIds = assignIds(
     remaining

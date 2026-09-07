@@ -154,7 +154,8 @@ describe('ruleprint check / approve (definition of done)', () => {
     expect(ruleprint(dir, ['approve', '--all']).status).toBe(0);
     check = checkJson(dir);
     expect(check.status).toBe(0);
-    expect(check.report.approved).toBe(13);
+    // 16 - 4 removed + 1 added = 13 rules, one of them the orphan, which is never `approved`.
+    expect(check.report.approved).toBe(12);
   }, 60_000);
 
   it('exits 2 on a corrupt lock', () => {

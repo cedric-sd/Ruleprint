@@ -1,5 +1,5 @@
-import { summarizeChanges, type Change } from '@ruleprint/core';
-import type { RulePrintDocument } from '@ruleprint/spec';
+import { orphansOf, summarizeChanges, type Change } from '@ruleprint/core';
+import type { Rule, RulePrintDocument } from '@ruleprint/spec';
 
 const MARK: Record<Change['kind'], string> = {
   added: '+',
@@ -16,6 +16,10 @@ export function describeChange(change: Change): string {
   return `${MARK[change.kind]} ${change.id}  ${change.kind.padEnd(7)}  ${title}`;
 }
 
+export function describeOrphan(rule: Rule): string {
+  return `! ${rule.id}  orphan   ${rule.title}`;
+}
+
 export function countApproved(document: RulePrintDocument): number {
   return document.rules.filter((rule) => rule.status === 'approved').length;
 }
@@ -27,5 +31,7 @@ export function summaryLine(document: RulePrintDocument, changes: readonly Chang
   for (const kind of ['added', 'changed', 'renamed', 'removed'] as const) {
     if (summary[kind] > 0) parts.push(`${summary[kind]} ${kind}`);
   }
+  const orphans = orphansOf(document).length;
+  if (orphans > 0) parts.push(`${orphans} orphan`);
   return parts.join(' · ');
 }

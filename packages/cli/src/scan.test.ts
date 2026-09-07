@@ -30,7 +30,8 @@ describe('scanProject()', () => {
   it('reads the fixture lock and reports no changes', async () => {
     const result = await scanProject(FIXTURE, { now: NOW, git: false });
     expect(result.changes).toEqual([]);
-    expect(result.document.rules.every((rule) => rule.status === 'approved')).toBe(true);
+    expect(result.document.rules.filter((rule) => rule.status === 'approved')).toHaveLength(15);
+    expect(result.document.rules.filter((rule) => rule.status === 'orphan')).toHaveLength(1);
     expect(Object.keys(result.lock.rules)).toHaveLength(16);
   });
 
@@ -100,6 +101,7 @@ describe('scanProject()', () => {
 
   it('keeps the golden fixture readable by humans', () => {
     const golden = readFileSync(GOLDEN, 'utf8');
-    expect(golden).toContain('"title": "shipping > frete grátis > acima de 300 reais no Sudeste"');
+    expect(golden).toContain('"title": "Pedido acima de R$300 tem frete grátis no Sudeste"');
+    expect(golden).toContain('"shipping > frete grátis > acima de 300 reais no Sudeste"');
   });
 });
