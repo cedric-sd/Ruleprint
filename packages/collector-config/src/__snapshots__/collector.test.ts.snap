@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`configCollector > against examples/fixture-express-api > matches the snapshot 1`] = `
+{
+  "cupom-expirado.md": [
+    {
+      "description": "Regra declarada pelo time de produto e ainda sem teste automatizado: o
+checkout deve recusar cupons cuja validade já passou, com mensagem específica.",
+      "normalized": "["Cupom expirado é recusado no checkout","Regra declarada pelo time de produto e ainda sem teste automatizado: o checkout deve recusar cupons cuja validade já passou, com mensagem específica.",["checkout","cupom"]]",
+      "origin": {
+        "collector": "config",
+        "confidence": "declared",
+        "sources": [
+          {
+            "file": ".ruleprint/rules/cupom-expirado.md",
+            "kind": "config",
+            "line": 1,
+          },
+        ],
+      },
+      "tags": [
+        "cupom",
+        "checkout",
+      ],
+      "title": "Cupom expirado é recusado no checkout",
+    },
+  ],
+  "frete-sudeste.md": [
+    {
+      "description": "Aplicado apenas para CEPs da região Sudeste. Fora dela vale a tabela cheia,
+mesmo acima de R$300.",
+      "id": "RP-088272",
+      "normalized": "["Pedido acima de R$300 tem frete grátis no Sudeste","Aplicado apenas para CEPs da região Sudeste. Fora dela vale a tabela cheia, mesmo acima de R$300.",["checkout","frete"]]",
+      "origin": {
+        "collector": "config",
+        "confidence": "declared",
+        "sources": [
+          {
+            "file": ".ruleprint/rules/frete-sudeste.md",
+            "kind": "config",
+            "line": 1,
+          },
+        ],
+      },
+      "tags": [
+        "frete",
+        "checkout",
+      ],
+      "title": "Pedido acima de R$300 tem frete grátis no Sudeste",
+    },
+  ],
+}
+`;

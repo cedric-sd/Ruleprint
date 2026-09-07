@@ -1,0 +1,21 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`annotationsCollector > links the fixture shipping module to RP-088272 1`] = `
+[
+  {
+    "attachTo": "RP-088272",
+    "origin": {
+      "collector": "annotations",
+      "confidence": "inferred",
+      "sources": [
+        {
+          "file": "src/shipping.ts",
+          "kind": "annotation",
+          "line": 12,
+        },
+      ],
+    },
+    "title": "@rule RP-088272",
+  },
+]
+`;
