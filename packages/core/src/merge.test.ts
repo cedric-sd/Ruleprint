@@ -169,14 +169,28 @@ describe('merge with precedence', () => {
     expect(notes).toEqual(['unknown @rule RP-999999 in src/x.ts:1']);
   });
 
-  it('a hash id never collides with an explicitly declared id', async () => {
-    const other = derived('other rule', 'body-other');
-    const taken = idForKey('tests', other.title);
-    const { document } = await run([other, declared('Declarada', { id: taken })]);
-    const ids = document.rules.map((r) => r.id);
-    expect(new Set(ids).size).toBe(2);
-    expect(document.rules.find((r) => r.title === 'Declarada')?.id).toBe(taken);
-    expect(document.rules.find((r) => r.title === 'other rule')?.id).not.toBe(taken);
+  it('a declaration naming a lock-preserved id joins the renamed test under that id', async () => {
+    const original = derived('old title', 'body-x');
+    const first = await run([original]);
+    const id = first.document.rules[0]?.id ?? '';
+    const lock: LockFile = {
+      lockVersion: 1,
+      rules: {
+        [id]: {
+          title: 'old title',
+          collector: 'tests',
+          fingerprint: first.document.rules[0]?.fingerprint ?? '',
+          approvedAt: generatedAt,
+        },
+      },
+    };
+    const { document, changes } = await run(
+      [derived('new title', 'body-x'), declared('Declarada', { id })],
+      lock,
+    );
+    expect(document.rules).toHaveLength(1);
+    expect(document.rules[0]).toMatchObject({ id, title: 'Declarada', status: 'drifted' });
+    expect(changes).toEqual([{ kind: 'changed', id, title: 'Declarada' }]);
   });
 
   it('two declared files with the same id: the first wins the text, both are sources', async () => {
