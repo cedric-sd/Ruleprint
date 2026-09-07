@@ -15,6 +15,16 @@ export interface SourceFile {
  * (`id`, `fingerprint`, `status`, approval metadata).
  */
 export interface RuleCandidate {
+  /**
+   * Id declared by the source (e.g. the front-matter of `.ruleprint/rules/*.md`). The rule keeps
+   * exactly this id and every candidate declaring it is merged into one rule (ADR-0006).
+   */
+  readonly id?: string;
+  /**
+   * When set, the candidate defines no rule: it only contributes its sources to the rule with
+   * this id (e.g. a `@rule RP-000042` comment). Unknown ids are reported, not failed.
+   */
+  readonly attachTo?: string;
   readonly title: string;
   readonly description?: string;
   /**

@@ -6,6 +6,70 @@
   "generatedAt": "2026-09-04T12:00:00.000Z",
   "rules": [
     {
+      "id": "RP-760522",
+      "title": "Cupom expirado é recusado no checkout",
+      "origin": {
+        "collector": "config",
+        "confidence": "declared",
+        "sources": [
+          {
+            "file": ".ruleprint/rules/cupom-expirado.md",
+            "line": 1,
+            "kind": "config"
+          }
+        ]
+      },
+      "fingerprint": "sha256:59e59df609b70f4d05cfeddd996b4b06f185f46f54e6cd47fa377435c7c0eb3f",
+      "status": "orphan",
+      "description": "Regra declarada pelo time de produto e ainda sem teste automatizado: o\ncheckout deve recusar cupons cuja validade já passou, com mensagem específica.",
+      "tags": [
+        "cupom",
+        "checkout"
+      ],
+      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
+      "id": "RP-088272",
+      "title": "Pedido acima de R$300 tem frete grátis no Sudeste",
+      "origin": {
+        "collector": "config",
+        "confidence": "declared",
+        "sources": [
+          {
+            "file": ".ruleprint/rules/frete-sudeste.md",
+            "line": 1,
+            "kind": "config"
+          },
+          {
+            "file": "test/shipping.spec.ts",
+            "line": 10,
+            "symbol": "acima de 300 reais no Sudeste",
+            "kind": "test"
+          },
+          {
+            "file": "src/shipping.ts",
+            "line": 12,
+            "kind": "annotation"
+          }
+        ]
+      },
+      "fingerprint": "sha256:9e67c3dee20cdb2859e05802f8bb0737ebb65b99a86d0ff3f373ba362e3f9d68",
+      "status": "approved",
+      "description": "Aplicado apenas para CEPs da região Sudeste. Fora dela vale a tabela cheia,\nmesmo acima de R$300.",
+      "tags": [
+        "frete",
+        "checkout"
+      ],
+      "evidence": {
+        "tests": [
+          "shipping > frete grátis > acima de 300 reais no Sudeste"
+        ]
+      },
+      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
       "id": "RP-485076",
       "title": "is cut short",
       "origin": {
@@ -27,7 +91,7 @@
           "is cut short"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -52,7 +116,7 @@
           "order validation > accepts a valid order"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -77,7 +141,7 @@
           "order validation > rejects an empty order"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -102,7 +166,7 @@
           "order validation > rejects an order below the minimum value"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -127,7 +191,7 @@
           "order validation > rejects duplicated skus"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -152,7 +216,7 @@
           "order validation > rejects more than ${MAX_ITEMS_PER_ORDER} items in one order"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -177,7 +241,7 @@
           "refund > cobrança %s > nunca é reembolsável"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -202,7 +266,7 @@
           "refund > ignora cobranças com valor zero"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -227,7 +291,7 @@
           "refund > janela de 7 dias > bloqueia reembolso após a janela"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -252,32 +316,7 @@
           "refund > janela de 7 dias > permite reembolso dentro da janela"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
-      "approvedBy": "git:fixture@ruleprint.dev"
-    },
-    {
-      "id": "RP-088272",
-      "title": "shipping > frete grátis > acima de 300 reais no Sudeste",
-      "origin": {
-        "collector": "tests",
-        "confidence": "derived",
-        "sources": [
-          {
-            "file": "test/shipping.spec.ts",
-            "line": 10,
-            "symbol": "acima de 300 reais no Sudeste",
-            "kind": "test"
-          }
-        ]
-      },
-      "fingerprint": "sha256:b68a45f1d6f6728ffa1792f4aaccaef4efa2077769671b7cc4211b198b1ea0d1",
-      "status": "approved",
-      "evidence": {
-        "tests": [
-          "shipping > frete grátis > acima de 300 reais no Sudeste"
-        ]
-      },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -302,7 +341,7 @@
           "shipping > frete grátis > exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -327,7 +366,7 @@
           "shipping > frete grátis > não vale fora do Sudeste"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -352,7 +391,7 @@
           "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -377,7 +416,7 @@
           "still yields the rule before the syntax error"
         ]
       },
-      "approvedAt": "2026-09-04T18:22:28.963Z",
+      "approvedAt": "2026-09-07T14:57:07.044Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     }
   ]

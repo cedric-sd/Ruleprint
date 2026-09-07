@@ -20,7 +20,7 @@ describe('buildSite()', () => {
 
     const result = await buildSite({ dir: FIXTURE, out, uiDist, scanOptions: { git: false } });
 
-    expect(result.rules).toBe(15);
+    expect(result.rules).toBe(16);
     expect(existsSync(join(out, 'index.html'))).toBe(true);
     expect(existsSync(join(out, 'assets', 'app.js'))).toBe(true);
     const document: unknown = JSON.parse(readFileSync(join(out, 'ruleprint.json'), 'utf8'));

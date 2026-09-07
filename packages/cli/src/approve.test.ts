@@ -22,7 +22,7 @@ describe('approveProject()', () => {
   it('--all writes the lock and a ruleprint.json where everything is approved', async () => {
     const dir = freshFixture();
     const before = await scanProject(dir, { now: NOW, git: false });
-    expect(before.changes.map((c) => c.kind)).toEqual(new Array<string>(15).fill('added'));
+    expect(before.changes.map((c) => c.kind)).toEqual(new Array<string>(16).fill('added'));
 
     const result = await approveProject(dir, {
       all: true,
@@ -30,13 +30,14 @@ describe('approveProject()', () => {
       approvedBy: 'test:me',
       scanOptions: { git: false },
     });
-    expect(result.applied).toHaveLength(15);
-    expect(Object.keys(readLock(dir)?.rules ?? {})).toHaveLength(15);
+    expect(result.applied).toHaveLength(16);
+    expect(Object.keys(readLock(dir)?.rules ?? {})).toHaveLength(16);
     expect(existsSync(join(dir, 'ruleprint.json'))).toBe(true);
     const written = JSON.parse(readFileSync(join(dir, 'ruleprint.json'), 'utf8')) as {
       rules: { status: string; approvedBy?: string; approvedAt?: string }[];
     };
-    expect(written.rules.every((r) => r.status === 'approved')).toBe(true);
+    expect(written.rules.filter((r) => r.status === 'approved')).toHaveLength(15);
+    expect(written.rules.filter((r) => r.status === 'orphan')).toHaveLength(1);
     expect(written.rules[0]).toMatchObject({
       approvedBy: 'test:me',
       approvedAt: NOW.toISOString(),
@@ -59,7 +60,7 @@ describe('approveProject()', () => {
     expect(result.applied.map((c) => c.id)).toEqual([first.id, second.id]);
     expect(Object.keys(readLock(dir)?.rules ?? {}).sort()).toEqual([first.id, second.id].sort());
     const after = await scanProject(dir, { now: NOW, git: false });
-    expect(after.changes).toHaveLength(13);
+    expect(after.changes).toHaveLength(14);
   });
 
   it('rejects unknown ids without touching the lock', async () => {

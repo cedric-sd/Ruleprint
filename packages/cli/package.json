@@ -23,6 +23,8 @@
     "ruleprint": "./dist/bin.js"
   },
   "dependencies": {
+    "@ruleprint/collector-annotations": "workspace:*",
+    "@ruleprint/collector-config": "workspace:*",
     "@ruleprint/collector-tests": "workspace:*",
     "@ruleprint/core": "workspace:*",
     "@ruleprint/spec": "workspace:*",

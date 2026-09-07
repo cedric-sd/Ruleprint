@@ -27,3 +27,14 @@ export async function fingerprintCandidate(candidate: RuleCandidate): Promise<st
   );
   return `sha256:${toHex(digest)}`;
 }
+
+/**
+ * Fingerprint of a rule made of several candidates (ADR-0006): the members' fingerprints,
+ * sorted, hashed together. A single member keeps its own fingerprint.
+ */
+export async function combineFingerprints(fingerprints: readonly string[]): Promise<string> {
+  if (fingerprints.length === 1 && fingerprints[0] !== undefined) return fingerprints[0];
+  const material = [...fingerprints].sort().join('\n');
+  const digest = await globalThis.crypto.subtle.digest('SHA-256', encoder.encode(material));
+  return `sha256:${toHex(digest)}`;
+}

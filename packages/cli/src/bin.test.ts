@@ -23,7 +23,7 @@ describe('ruleprint (bin)', () => {
   it('scan writes ruleprint.json and prints a summary', () => {
     const out = join(mkdtempSync(join(tmpdir(), 'ruleprint-')), 'ruleprint.json');
     const stdout = ruleprint(['scan', '--out', out]);
-    expect(stdout).toContain('15 rules');
+    expect(stdout).toContain('16 rules');
     expect(existsSync(out)).toBe(true);
     const document: unknown = JSON.parse(readFileSync(out, 'utf8'));
     expect(validate(document).valid).toBe(true);
@@ -37,14 +37,14 @@ describe('ruleprint (bin)', () => {
       files: number;
       warnings: string[];
     };
-    expect(summary).toMatchObject({ out, rules: 15, files: 4 });
+    expect(summary).toMatchObject({ out, rules: 16, files: 10 });
     expect(summary.warnings).toHaveLength(1);
   });
 
   it('init scans and prints the next steps', () => {
     const dir = mkdtempSync(join(tmpdir(), 'ruleprint-init-'));
     const stdout = ruleprint(['init', FIXTURE, '--out', join(dir, 'ruleprint.json')]);
-    expect(stdout).toContain('15 rules');
+    expect(stdout).toContain('16 rules');
     expect(stdout).toContain('ruleprint serve');
     expect(stdout).toContain('ruleprint build');
   });
@@ -61,7 +61,7 @@ describe('ruleprint (bin)', () => {
 
   it('prints help', () => {
     const stdout = ruleprint(['--help']);
-    for (const command of ['init', 'scan', 'serve', 'build', 'check', 'approve']) {
+    for (const command of ['init', 'scan', 'serve', 'build', 'check', 'approve', 'promote']) {
       expect(stdout).toContain(command);
     }
   });

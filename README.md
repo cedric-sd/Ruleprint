@@ -8,30 +8,40 @@ the rules your tests and code already encode. Point it at a repository and it dr
 your team's only job is to approve.
 
 ```sh
-npx ruleprint init      # scan the repo, write ruleprint.json, tell you what's next
-npx ruleprint serve     # browse the rule book at http://localhost:4141, hot reload
-npx ruleprint build     # static site in ruleprint-site/, ready for GitHub Pages
+npx ruleprint init           # scan the repo, write ruleprint.json, tell you what's next
+npx ruleprint serve          # browse the rule book at http://localhost:4141, hot reload
+npx ruleprint approve --all  # say "yes" to what you saw: writes ruleprint.lock
+npx ruleprint check          # in CI: exit 1 when a rule changed without approval
+npx ruleprint promote RP-…   # make a rule official: writes .ruleprint/rules/<slug>.md
+npx ruleprint build          # static site in ruleprint-site/, ready for GitHub Pages
 ```
 
 ## Status
 
-Pre-alpha. **M0–M2** are done and **M3 (CLI + minimal UI)** is in progress: `ruleprint`
-scans a repository with the tests collector (vitest/jest `describe`/`it` trees), assembles a
-valid `ruleprint.json` and serves or builds a searchable web UI with filters by tag and
-confidence and links to file and line on GitHub. Not published to npm yet: in this workspace use
-`pnpm build && node packages/cli/dist/bin.js <command>`. Follow the milestones in
+Pre-alpha. **M0–M4** are done and **M5 (declared rules and annotations)** is in progress:
+`ruleprint` scans a repository with three collectors (vitest/jest `describe`/`it` trees,
+`.ruleprint/rules/*.md` declarations, `@rule` comments), merges them with precedence
+`declared > derived > inferred`, assembles a valid `ruleprint.json`, serves or builds a searchable
+web UI, and remembers what was approved in `ruleprint.lock` so `check` fails when a rule changes
+without a "yes". Fingerprints are hashes of the normalised test AST: reformatting or renaming a
+local variable is not drift, changing a condition is. Not published to npm yet: in this workspace
+use `pnpm build && node packages/cli/dist/bin.js <command>`. Follow the milestones in
 [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Commands
 
-| Command                                            | What it does                                                     |
-| -------------------------------------------------- | ---------------------------------------------------------------- |
-| `ruleprint init [dir]`                             | scans, writes `ruleprint.json`, prints the next steps            |
-| `ruleprint scan [dir] [--out file] [--json]`       | the same scan for CI; `--json` prints a machine-readable summary |
-| `ruleprint serve [dir] [--port 4141] [--no-watch]` | serves the UI; rescans and reloads the browser on every change   |
-| `ruleprint build [dir] [--out ruleprint-site]`     | writes UI + `ruleprint.json` as a static site                    |
+| Command                                               | What it does                                                                                                 |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `ruleprint init [dir]`                                | scans, writes `ruleprint.json`, prints the next steps                                                        |
+| `ruleprint scan [dir] [--out file] [--json]`          | the same scan for CI; `--json` prints a machine-readable summary                                             |
+| `ruleprint serve [dir] [--port 4141] [--no-watch]`    | serves the UI; rescans and reloads the browser on every change                                               |
+| `ruleprint build [dir] [--out ruleprint-site]`        | writes UI + `ruleprint.json` as a static site                                                                |
+| `ruleprint check [dir] [--json]`                      | compares the scan with `ruleprint.lock`; exit `1` on added, changed, renamed or removed rules; lists orphans |
+| `ruleprint approve [dir] [ids...] [--all] [--by who]` | approves changes (interactive in a terminal), writes `ruleprint.lock`, refreshes `ruleprint.json`            |
+| `ruleprint promote <id> [-C dir]`                     | writes `.ruleprint/rules/<slug>.md` so the rule becomes `declared` on the next scan                          |
 
-Exit codes: `0` ok, `2` error. Every command is headless and CI-friendly.
+Exit codes: `0` ok, `1` (`check` only) changes waiting for approval, `2` error. Every command is
+headless and CI-friendly.
 
 ## How it works
 

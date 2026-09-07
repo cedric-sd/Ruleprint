@@ -41,6 +41,12 @@ importers:
 
   packages/cli:
     dependencies:
+      '@ruleprint/collector-annotations':
+        specifier: workspace:*
+        version: link:../collector-annotations
+      '@ruleprint/collector-config':
+        specifier: workspace:*
+        version: link:../collector-config
       '@ruleprint/collector-tests':
         specifier: workspace:*
         version: link:../collector-tests
@@ -57,11 +63,25 @@ importers:
         specifier: ^14.0.3
         version: 14.0.3
 
-  packages/collector-annotations: {}
+  packages/collector-annotations:
+    dependencies:
+      '@ruleprint/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ruleprint/spec':
+        specifier: workspace:*
+        version: link:../spec
 
   packages/collector-ast: {}
 
-  packages/collector-config: {}
+  packages/collector-config:
+    dependencies:
+      '@ruleprint/core':
+        specifier: workspace:*
+        version: link:../core
+      '@ruleprint/spec':
+        specifier: workspace:*
+        version: link:../spec
 
   packages/collector-tests:
     dependencies:

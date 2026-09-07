@@ -1,3 +1,5 @@
+import type { Rule, RulePrintDocument } from '@ruleprint/spec';
+
 import type { Change, ChangeKind } from './reconcile.js';
 
 export type ChangeSummary = Record<ChangeKind, number>;
@@ -11,4 +13,9 @@ export function summarizeChanges(changes: readonly Change[]): ChangeSummary {
 /** `ruleprint check`: 0 when the scan matches the lock, 1 when anything needs approval. */
 export function exitCodeFor(changes: readonly Change[]): 0 | 1 {
   return changes.length === 0 ? 0 : 1;
+}
+
+/** Declared rules with no evidence (ADR-0006). Reported by `check`, never fatal. */
+export function orphansOf(document: RulePrintDocument): Rule[] {
+  return document.rules.filter((rule) => rule.status === 'orphan');
 }

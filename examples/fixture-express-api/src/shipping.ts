@@ -9,6 +9,7 @@ export function isSoutheast(address: Address): boolean {
   return SOUTHEAST_ZIP_PREFIXES.includes(address.zip[0] ?? '');
 }
 
+// @rule RP-088272
 export function calcFreight(subtotal: number, address: Address): number {
   if (subtotal >= FREE_SHIPPING_THRESHOLD && isSoutheast(address)) {
     return 0;

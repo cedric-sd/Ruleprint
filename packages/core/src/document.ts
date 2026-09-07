@@ -16,6 +16,7 @@ export interface AssembleOptions {
 export interface AssembledDocument {
   readonly document: RulePrintDocument;
   readonly changes: readonly Change[];
+  readonly notes: readonly string[];
 }
 
 /**

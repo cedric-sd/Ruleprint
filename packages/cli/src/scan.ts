@@ -1,6 +1,8 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, join, relative, resolve } from 'node:path';
 
+import { annotationsCollector } from '@ruleprint/collector-annotations';
+import { configCollector } from '@ruleprint/collector-config';
 import { testsCollector } from '@ruleprint/collector-tests';
 import {
   assembleDocument,
@@ -41,9 +43,14 @@ export interface ScanResult {
   readonly files: number;
 }
 
-const SKIPPED_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.git', '.ruleprint']);
+const SKIPPED_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.git']);
 
-export const DEFAULT_COLLECTORS: readonly Collector[] = [testsCollector];
+/** Tests first (evidence), then declarations, then links; order does not affect the result. */
+export const DEFAULT_COLLECTORS: readonly Collector[] = [
+  testsCollector,
+  configCollector,
+  annotationsCollector,
+];
 
 function* walk(dir: string): Generator<string> {
   const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) =>
@@ -109,13 +116,13 @@ export async function scanProject(dir: string, options: ScanOptions = {}): Promi
   });
   const lock =
     options.lock === null ? emptyLock() : (options.lock ?? readLock(root) ?? emptyLock());
-  const { document, changes } = await assembleDocument({
+  const { document, changes, notes } = await assembleDocument({
     project: describeProject(root, useGit),
     candidates,
     generatedAt: (options.now ?? new Date()).toISOString(),
     lock,
   });
-  return { document, changes, lock, warnings, files: files.length };
+  return { document, changes, lock, warnings: [...warnings, ...notes], files: files.length };
 }
 
 export function serializeDocument(document: RulePrintDocument): string {

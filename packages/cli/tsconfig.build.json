@@ -20,6 +20,12 @@
     },
     {
       "path": "../collector-tests/tsconfig.build.json"
+    },
+    {
+      "path": "../collector-config/tsconfig.build.json"
+    },
+    {
+      "path": "../collector-annotations/tsconfig.build.json"
     }
   ]
 }

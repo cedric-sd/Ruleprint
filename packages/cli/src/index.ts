@@ -8,7 +8,14 @@ export {
 } from './approve.js';
 export { buildSite, type BuildOptions, type BuildResult } from './build.js';
 export { readLock, writeLock } from './lock-io.js';
-export { countApproved, describeChange, summaryLine } from './report.js';
+export {
+  promoteRule,
+  renderDeclaration,
+  slugify,
+  type PromoteOptions,
+  type PromoteResult,
+} from './promote.js';
+export { countApproved, describeChange, describeOrphan, summaryLine } from './report.js';
 export { normalizeRepositoryUrl } from './git.js';
 export {
   DEFAULT_COLLECTORS,
