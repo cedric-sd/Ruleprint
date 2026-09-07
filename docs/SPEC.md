@@ -102,6 +102,30 @@ Todos os objetos são fechados: propriedade desconhecida é erro.
 | `lastRunStatus` | `passed \| failed \| unknown` | não         |                            |
 | `coveredLines`  | inteiro ≥ 0                   | não         |                            |
 
+## Regras declaradas e anotações
+
+Uma regra `declared` vive em `.ruleprint/rules/*.md` (ADR-0006):
+
+```md
+---
+id: RP-088272
+title: Pedido acima de R$300 tem frete grátis no Sudeste
+tags: [frete, checkout]
+---
+
+Aplicado apenas para CEPs da região Sudeste.
+```
+
+- Front-matter mínimo: `id`, `title`, `tags` (`chave: valor`, lista inline `[a, b]` ou em bloco
+  `- item`). Sem `title`, vale o primeiro `# Título` do corpo e, na falta, o nome do arquivo. O
+  corpo é a `description`.
+- Com `id`, o arquivo se funde com a regra desse id: título, descrição e tags do markdown vencem,
+  as fontes e a evidência do teste se somam, `confidence` passa a `declared`. Sem `id`, é uma regra
+  nova; sem nenhuma evidência ela fica `orphan`.
+- `// @rule RP-088272` (ou `#`, `*`, `/* */`) num arquivo de código acrescenta aquele arquivo e
+  linha como fonte `annotation` da regra. Não cria regra; id desconhecido gera aviso.
+- `ruleprint promote <id>` escreve o markdown de uma regra existente para ela virar declarada.
+
 ## Níveis de confiança
 
 | Nível      | Origem                                     | Na UI                                   |
@@ -116,12 +140,12 @@ rascunha, o time promove.
 
 ## Status
 
-| Status     | Significado                                                   |
-| ---------- | ------------------------------------------------------------- |
-| `pending`  | nunca aprovada, ou aprovada e ainda sem entrada no lock       |
-| `approved` | fingerprint atual igual ao do lock                            |
-| `drifted`  | fingerprint atual diferente do aprovado no lock               |
-| `orphan`   | declarada sem nenhuma evidência (teste ou código) que a cubra |
+| Status     | Significado                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------- |
+| `pending`  | nunca aprovada, ou aprovada e ainda sem entrada no lock                                           |
+| `approved` | fingerprint atual igual ao do lock                                                                |
+| `drifted`  | fingerprint atual diferente do aprovado no lock                                                   |
+| `orphan`   | declarada sem nenhuma evidência (teste ou `@rule`) que a cubra; informada pelo `check`, não falha |
 
 ## Fingerprint e drift
 

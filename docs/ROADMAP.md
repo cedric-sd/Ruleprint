@@ -120,7 +120,7 @@ arquivo/linha. Ids e fingerprints provisórios, `project.repository` e o wiring 
 **DoD:** GIF de 20s no README mostrando `npx ruleprint init` num repo real (pendente: exige
 publicar no npm, ação do dono).
 
-### M4 — Lockfile, drift e `check` (em andamento)
+### M4 — Lockfile, drift e `check` (concluído)
 
 Fingerprint de AST normalizada, `ruleprint.lock` (só regras aprovadas), `ruleprint check` (0 ok,
 1 mudança não aprovada, 2 erro), `ruleprint approve` (`--all`, ids ou interativo). Renomear
@@ -129,11 +129,14 @@ preserva o id e pede aprovação; regra aprovada que some é reportada. Decisõe
 **DoD:** alterar uma condição no fixture quebra o `check`; reformatar não quebra. Coberto por
 `packages/cli/src/check.test.ts`.
 
-### M5 — Coletor de config e anotações
+### M5 — Coletor de config e anotações (em andamento)
 
-`.ruleprint/rules/*.md` com front-matter (`declared`), `@rule RP-0042` em comentário,
-`ruleprint promote <id>`.
-**DoD:** precedência `declared > derived > inferred` coberta por testes de merge.
+`.ruleprint/rules/*.md` com front-matter (regras `declared`, ligadas por `id`), `@rule RP-0042`
+em comentário ligando código a regra existente, status `orphan`, e `ruleprint promote <id>` que
+converte uma regra em arquivo markdown. Decisões em
+`docs/adr/0006-regras-declaradas-anotacoes-e-merge.md`.
+**DoD:** precedência `declared > derived > inferred` coberta por testes de merge
+(`packages/core/src/merge.test.ts`).
 
 ### M6 — Coletor AST (o arriscado)
 
