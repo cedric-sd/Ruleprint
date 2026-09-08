@@ -55,7 +55,7 @@ describe('ruleprint check / approve (definition of done)', () => {
     let check = checkJson(dir);
     expect(check.status).toBe(1);
     expect(check.report.approved).toBe(0);
-    expect(check.report.changes.map((c) => c.kind)).toEqual(new Array<string>(16).fill('added'));
+    expect(check.report.changes.map((c) => c.kind)).toEqual(new Array<string>(21).fill('added'));
     expect(check.report.orphans).toEqual([
       expect.objectContaining({ title: 'Cupom expirado é recusado no checkout' }),
     ]);
@@ -64,14 +64,14 @@ describe('ruleprint check / approve (definition of done)', () => {
     // Approve everything.
     const approve = ruleprint(dir, ['approve', '--all', '--by', 'test:me']);
     expect(approve.status).toBe(0);
-    expect(approve.stdout).toContain('16');
+    expect(approve.stdout).toContain('21');
     const lock1 = parseLock(readFileSync(join(dir, 'ruleprint.lock'), 'utf8'));
-    expect(Object.keys(lock1.rules)).toHaveLength(16);
+    expect(Object.keys(lock1.rules)).toHaveLength(21);
     expect(Object.values(lock1.rules).every((e) => e.approvedBy === 'test:me')).toBe(true);
     check = checkJson(dir);
     expect(check.status).toBe(0);
     expect(check.report).toEqual({
-      approved: 15,
+      approved: 20,
       changes: [],
       orphans: [expect.objectContaining({ title: 'Cupom expirado é recusado no checkout' })],
     });
@@ -154,8 +154,8 @@ describe('ruleprint check / approve (definition of done)', () => {
     expect(ruleprint(dir, ['approve', '--all']).status).toBe(0);
     check = checkJson(dir);
     expect(check.status).toBe(0);
-    // 16 - 4 removed + 1 added = 13 rules, one of them the orphan, which is never `approved`.
-    expect(check.report.approved).toBe(12);
+    // 21 - 4 removed + 1 added = 18 rules, one of them the orphan, which is never `approved`.
+    expect(check.report.approved).toBe(17);
   }, 60_000);
 
   it('exits 2 on a corrupt lock', () => {
