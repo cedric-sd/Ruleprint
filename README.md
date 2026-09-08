@@ -18,31 +18,75 @@ npx ruleprint build          # static site in ruleprint-site/, ready for GitHub 
 
 ## Status
 
-Pre-alpha. **M0–M5** are done and **M6 (AST collector)** is in progress: `ruleprint` scans a
+Pre-alpha. **M0–M5** are done, **M6 (AST collector)** waits for the owner's noise marking and
+**M7 (GitHub Action + PR bot)** is in progress: `ruleprint` scans a
 repository with three collectors (vitest/jest `describe`/`it` trees, `.ruleprint/rules/*.md`
 declarations, `@rule` comments) plus an opt-in, experimental fourth one that infers rules from
 the code's conditionals (see below), merges them with precedence
 `declared > derived > inferred`, assembles a valid `ruleprint.json`, serves or builds a searchable
 web UI, and remembers what was approved in `ruleprint.lock` so `check` fails when a rule changes
-without a "yes". Fingerprints are hashes of the normalised test AST: reformatting or renaming a
-local variable is not drift, changing a condition is. Not published to npm yet: in this workspace
+without a "yes". On GitHub, `ruleprint pr` keeps one comment per pull request with the rules
+to approve and commits the lock when someone ticks a box. Fingerprints are hashes of the
+normalised test AST: reformatting or renaming a local variable is not drift, changing a
+condition is. Not published to npm yet: in this workspace
 use `pnpm build && node packages/cli/dist/bin.js <command>`. Follow the milestones in
 [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Commands
 
-| Command                                               | What it does                                                                                                 |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `ruleprint init [dir]`                                | scans, writes `ruleprint.json`, prints the next steps                                                        |
-| `ruleprint scan [dir] [--out file] [--json]`          | the same scan for CI; `--json` prints a machine-readable summary                                             |
-| `ruleprint serve [dir] [--port 4141] [--no-watch]`    | serves the UI; rescans and reloads the browser on every change                                               |
-| `ruleprint build [dir] [--out ruleprint-site]`        | writes UI + `ruleprint.json` as a static site                                                                |
-| `ruleprint check [dir] [--json]`                      | compares the scan with `ruleprint.lock`; exit `1` on added, changed, renamed or removed rules; lists orphans |
-| `ruleprint approve [dir] [ids...] [--all] [--by who]` | approves changes (interactive in a terminal), writes `ruleprint.lock`, refreshes `ruleprint.json`            |
-| `ruleprint promote <id> [-C dir]`                     | writes `.ruleprint/rules/<slug>.md` so the rule becomes `declared` on the next scan                          |
+| Command                                                                            | What it does                                                                                                 |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `ruleprint init [dir]`                                                             | scans, writes `ruleprint.json`, prints the next steps                                                        |
+| `ruleprint scan [dir] [--out file] [--json]`                                       | the same scan for CI; `--json` prints a machine-readable summary                                             |
+| `ruleprint serve [dir] [--port 4141] [--no-watch]`                                 | serves the UI; rescans and reloads the browser on every change                                               |
+| `ruleprint build [dir] [--out ruleprint-site]`                                     | writes UI + `ruleprint.json` as a static site                                                                |
+| `ruleprint check [dir] [--json]`                                                   | compares the scan with `ruleprint.lock`; exit `1` on added, changed, renamed or removed rules; lists orphans |
+| `ruleprint approve [dir] [ids...] [--all] [--by who]`                              | approves changes (interactive in a terminal), writes `ruleprint.lock`, refreshes `ruleprint.json`            |
+| `ruleprint promote <id> [-C dir]`                                                  | writes `.ruleprint/rules/<slug>.md` so the rule becomes `declared` on the next scan                          |
+| `ruleprint pr [-C dir] [--dry-run] [--no-push] [--no-fail-on-changes] [--limit n]` | GitHub Action: comments on the pull request and approves rules from ticked boxes (see below)                 |
 
-Exit codes: `0` ok, `1` (`check` only) changes waiting for approval, `2` error. Every command is
-headless and CI-friendly.
+Exit codes: `0` ok, `1` (`check` and `pr` on a pull request) changes waiting for approval, `2`
+error. Every command is headless and CI-friendly.
+
+## GitHub Action
+
+The bot keeps **one comment per pull request** listing new, changed, renamed and removed rules
+with a checkbox each, plus declared rules that lost their evidence (orphans, never blocking).
+Ticking a box, or "Approve all", makes the workflow run `ruleprint approve` as
+`github:<your login>` and commit `ruleprint.lock` to the branch; the comment refreshes and the
+step goes green on the next push. The step fails like `ruleprint check` while rules wait for
+approval (`fail-on-changes: false` turns that off).
+
+```yaml
+name: RulePrint
+on:
+  pull_request:
+  issue_comment:
+    types: [edited]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cedric-sd/Ruleprint@v1
+        with:
+          directory: . # or a subdirectory; the glossary and lock live there
+```
+
+Inputs: `directory` (default `.`), `token` (default `github.token`), `version` (npm version or
+dist-tag of `ruleprint`, default `latest`), `fail-on-changes` (default `true`). Known limits:
+
+- Pull requests from forks get the report in the job log only: their token cannot comment or
+  push. Approve locally with `ruleprint approve` and push the lock.
+- A push made with `github.token` does not trigger other workflows, so the bot's commit shows no
+  CI checks until the next human push. Use a personal access token or a GitHub App token in
+  `token` (and in `actions/checkout`) when that matters.
+- The action runs `npx ruleprint@<version>`, so it works once the package is on npm. Until then,
+  build from source as this repository's own [`ruleprint.yml`](.github/workflows/ruleprint.yml)
+  does. Decisions and threat model in [ADR-0008](docs/adr/0008-github-action-e-bot-de-pr.md).
 
 ## How it works
 
@@ -89,17 +133,17 @@ interchangeable implementations on top of it. See [`docs/SPEC.md`](docs/SPEC.md)
 
 ## Packages
 
-| Package                            | Role                                              |
-| ---------------------------------- | ------------------------------------------------- |
-| `@ruleprint/spec`                  | JSON Schema and generated TypeScript types        |
-| `@ruleprint/core`                  | Pure engine: merge, precedence, fingerprint, diff |
-| `ruleprint` (`packages/cli`)       | CLI: `init`, `scan`, `serve`, `build`, `check`    |
-| `@ruleprint/ui`                    | Web app that renders `ruleprint.json`             |
-| `@ruleprint/collector-tests`       | vitest/jest test trees → rules                    |
-| `@ruleprint/collector-config`      | `.ruleprint/rules/*.md` → rules                   |
-| `@ruleprint/collector-annotations` | `@rule` comments → rules                          |
-| `@ruleprint/collector-ast`         | tree-sitter + domain heuristics → rules (opt-in)  |
-| `@ruleprint/tree-sitter-utils`     | shared WASM parser, literals and AST normaliser   |
+| Package                            | Role                                                                       |
+| ---------------------------------- | -------------------------------------------------------------------------- |
+| `@ruleprint/spec`                  | JSON Schema and generated TypeScript types                                 |
+| `@ruleprint/core`                  | Pure engine: merge, precedence, fingerprint, diff                          |
+| `ruleprint` (`packages/cli`)       | CLI: `init`, `scan`, `serve`, `build`, `check`, `approve`, `promote`, `pr` |
+| `@ruleprint/ui`                    | Web app that renders `ruleprint.json`                                      |
+| `@ruleprint/collector-tests`       | vitest/jest test trees → rules                                             |
+| `@ruleprint/collector-config`      | `.ruleprint/rules/*.md` → rules                                            |
+| `@ruleprint/collector-annotations` | `@rule` comments → rules                                                   |
+| `@ruleprint/collector-ast`         | tree-sitter + domain heuristics → rules (opt-in)                           |
+| `@ruleprint/tree-sitter-utils`     | shared WASM parser, literals and AST normaliser                            |
 
 ## Development
 

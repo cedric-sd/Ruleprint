@@ -70,7 +70,8 @@ ruleprint/
 │   ├── ROADMAP.md             # este arquivo
 │   ├── noise/                 # medição de ruído do coletor AST (DoD do M6)
 │   └── adr/                   # decisões arquiteturais
-├── .github/workflows/
+├── action.yml                 # GitHub Action composta: `uses: cedric-sd/Ruleprint@v1`
+├── .github/workflows/         # ci.yml (lint + test) e ruleprint.yml (dogfood do bot de PR)
 ├── CLAUDE.md
 ├── CONTRIBUTING.md
 └── LICENSE
@@ -153,10 +154,16 @@ frase-modelo (`calcFreight: when subtotal >= FREE_SHIPPING_THRESHOLD …, return
 `docs/noise/` (medusa, vendure, cal.com); sugestão do agente: 36,7%, 37,5% e 27,0%. A marcação
 do dono decide; até lá o coletor fica opt-in e marcado como experimental.
 
-### M7 — GitHub Action + bot de PR
+### M7 — GitHub Action + bot de PR (em andamento)
 
-Comenta regras novas, drift e órfãs; aprovação gera commit no lock.
-**DoD:** dogfood no próprio repo.
+`ruleprint pr` mantém um comentário por PR com regras novas, drift, removidas e órfãs, cada uma
+com checkbox; marcar a caixa (ou "Approve all") aprova como `github:<login>` e comita
+`ruleprint.lock` na branch. `action.yml` composta na raiz (`uses: cedric-sd/Ruleprint@v1`, roda
+`npx ruleprint@<version>`); dogfood em `.github/workflows/ruleprint.yml` com o build local contra
+`examples/fixture-express-api`. Decisões e modelo de ameaça em
+`docs/adr/0008-github-action-e-bot-de-pr.md`.
+**DoD:** dogfood no próprio repo: o bot comenta e aprova num PR deste repositório. Pendências do
+dono: publicar `ruleprint` no npm e criar a tag `v1` para a action ser usável fora daqui.
 
 ### M8 — Multi-linguagem e distribuição
 
