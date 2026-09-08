@@ -8,6 +8,7 @@ import { exitCodeFor, orphansOf, type Change } from '@ruleprint/core';
 import { Command } from 'commander';
 
 import { approveProject, defaultApprover } from './approve.js';
+import { runPr } from './pr.js';
 import { buildSite } from './build.js';
 import { CONFIG_FILE } from './config.js';
 import { promoteRule } from './promote.js';
@@ -197,6 +198,38 @@ program
     out(`${result.rule.id} → ${pretty(result.path)}`);
     out('Edit the description, then run `ruleprint scan` (or `serve`) to see it as declared.');
   });
+
+program
+  .command('pr')
+  .description('GitHub Action: comment on the pull request and approve rules from ticked boxes')
+  .option('-C, --dir <dir>', 'repository root or subdirectory to scan', '.')
+  .option('--dry-run', 'print the comment instead of talking to GitHub', false)
+  .option('--no-push', 'commit approvals locally without fetching or pushing')
+  .option('--no-fail-on-changes', 'exit 0 even when rules need approval')
+  .option('--limit <n>', 'maximum items listed in the comment', '50')
+  .action(
+    async (opts: {
+      dir: string;
+      dryRun: boolean;
+      push: boolean;
+      failOnChanges: boolean;
+      limit: string;
+    }) => {
+      const result = await runPr({
+        dir: resolve(opts.dir),
+        env: process.env,
+        dryRun: opts.dryRun,
+        push: opts.push,
+        failOnChanges: opts.failOnChanges,
+        limit: Number(opts.limit),
+        version,
+        log: err,
+        out,
+      });
+      if (opts.dryRun && result.body !== undefined) process.stdout.write(result.body);
+      process.exitCode = result.exitCode;
+    },
+  );
 
 program
   .command('serve')

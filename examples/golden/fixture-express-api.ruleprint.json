@@ -393,31 +393,6 @@
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
-      "id": "RP-856064",
-      "title": "refund > janela de 7 dias > bloqueia reembolso após a janela",
-      "origin": {
-        "collector": "tests",
-        "confidence": "derived",
-        "sources": [
-          {
-            "file": "test/refund.spec.ts",
-            "line": 18,
-            "symbol": "bloqueia reembolso após a janela",
-            "kind": "test"
-          }
-        ]
-      },
-      "fingerprint": "sha256:4a69f0eb39165bc22ccfc83a988e460ed779b86fa795a688df6fe97bd17309d3",
-      "status": "approved",
-      "evidence": {
-        "tests": [
-          "refund > janela de 7 dias > bloqueia reembolso após a janela"
-        ]
-      },
-      "approvedAt": "2026-09-08T13:10:54.094Z",
-      "approvedBy": "git:fixture@ruleprint.dev"
-    },
-    {
       "id": "RP-908098",
       "title": "refund > janela de 7 dias > permite reembolso dentro da janela",
       "origin": {
@@ -441,6 +416,29 @@
       },
       "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
+      "id": "RP-856064",
+      "title": "refund > janela de 7 dias > recusa reembolso após a janela",
+      "origin": {
+        "collector": "tests",
+        "confidence": "derived",
+        "sources": [
+          {
+            "file": "test/refund.spec.ts",
+            "line": 18,
+            "symbol": "recusa reembolso após a janela",
+            "kind": "test"
+          }
+        ]
+      },
+      "fingerprint": "sha256:4a69f0eb39165bc22ccfc83a988e460ed779b86fa795a688df6fe97bd17309d3",
+      "status": "drifted",
+      "evidence": {
+        "tests": [
+          "refund > janela de 7 dias > recusa reembolso após a janela"
+        ]
+      }
     },
     {
       "id": "RP-441734",

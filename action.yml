@@ -1,0 +1,46 @@
+name: RulePrint
+description: >-
+  Comments on pull requests with new, drifted and orphan business rules. Ticking a box in the
+  comment approves the rule and commits ruleprint.lock to the branch.
+author: cedric-sd
+branding:
+  icon: book-open
+  color: blue
+
+inputs:
+  directory:
+    description: Directory to scan, relative to the repository root.
+    required: false
+    default: '.'
+  token:
+    description: >-
+      Token with `contents: write` and `pull-requests: write`. When it is not `github.token`,
+      pass the same token to `actions/checkout` so the bot can push.
+    required: false
+    default: ${{ github.token }}
+  version:
+    description: npm version or dist-tag of the `ruleprint` package.
+    required: false
+    default: latest
+  fail-on-changes:
+    description: Fail the step when rules need approval, like `ruleprint check`.
+    required: false
+    default: 'true'
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        RP_VERSION: ${{ inputs.version }}
+        RP_DIR: ${{ inputs.directory }}
+        RP_FAIL: ${{ inputs.fail-on-changes }}
+      run: |
+        flags=()
+        if [ "$RP_FAIL" != "true" ]; then flags+=(--no-fail-on-changes); fi
+        npx --yes "ruleprint@${RP_VERSION}" pr --dir "$RP_DIR" "${flags[@]}"

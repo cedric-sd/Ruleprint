@@ -53,7 +53,12 @@ CI runs the generated-file check, lint, format check, typecheck, build and tests
 - **The fixture lock is a fixture.** `examples/fixture-express-api/ruleprint.lock` is what makes
   the golden document show approved rules; regenerate it only when the fixture tests or declared rules change
   (`ruleprint approve --all --by git:fixture@ruleprint.dev` on that directory, then delete the
-  `ruleprint.json` it writes there) and refresh the golden with `pnpm update:golden`.
+  `ruleprint.json` it writes there) and refresh the golden with `pnpm update:golden`. The PR bot
+  (`.github/workflows/ruleprint.yml`) comments on pull requests that drift the fixture and can
+  commit that lock from a ticked box; after such a commit, run `pnpm update:golden` and push.
+- **The PR bot is tested against a fake GitHub.** `packages/cli/src/pr.test.ts` spins up a local
+  HTTP server and a bare git repository; a change to `ruleprint pr` needs a case there, and the
+  comment format is a product artifact covered by `packages/core/src/pr-comment.test.ts`.
 
 ## Writing your first collector
 
