@@ -32,7 +32,7 @@ jobs:
       - name: Generated files are up to date
         run: |
           pnpm generate
-          git diff --exit-code -- packages/spec/src/types.generated.ts
+          git diff --exit-code -- 'packages/spec/src/*.generated.ts'
 
       - run: pnpm lint
 
