@@ -126,6 +126,29 @@ Aplicado apenas para CEPs da região Sudeste.
   linha como fonte `annotation` da regra. Não cria regra; id desconhecido gera aviso.
 - `ruleprint promote <id>` escreve o markdown de uma regra existente para ela virar declarada.
 
+## Configuração: `.ruleprint/config.json`
+
+Opcional. Hoje só liga o coletor AST (ADR-0007), que fica desligado sem ele:
+
+```json
+{
+  "ast": {
+    "include": ["src/domain/**"],
+    "exclude": ["src/domain/legacy/**"],
+    "glossary": ["freight", "coupon", "refund"]
+  }
+}
+```
+
+- `ast.include` (obrigatório dentro de `ast`, ao menos um glob relativo à raiz escaneada; `**`,
+  `*` e `?`) diz onde o coletor pode inferir regras de condicionais. Arquivos de teste nunca
+  entram.
+- `ast.exclude` remove caminhos do `include`.
+- `ast.glossary` são termos de domínio (case-insensitive, casados contra as palavras dos
+  identificadores) que contam como sinal e viram `tags` das regras inferidas.
+- Chaves desconhecidas são erro. O schema é `ruleprint.config.schema.json` em `@ruleprint/spec`,
+  validado por `validateConfig()`.
+
 ## Níveis de confiança
 
 | Nível      | Origem                                     | Na UI                                   |
@@ -205,4 +228,4 @@ if (!result.valid) {
 
 `validate()` nunca lança. Além do schema, rejeita ids repetidos (`keyword: "uniqueRuleId"`).
 Cada issue traz `path` (JSON pointer; para campo faltante ou desconhecido aponta para o próprio
-campo), `keyword` e `message`.
+campo), `keyword` e `message`. `validateConfig()` faz o mesmo para `.ruleprint/config.json`.

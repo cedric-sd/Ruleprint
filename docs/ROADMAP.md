@@ -60,13 +60,15 @@ ruleprint/
 │   ├── collector-tests/       # vitest/jest → regras
 │   ├── collector-config/      # .ruleprint/rules/*.md → regras
 │   ├── collector-annotations/ # comentários @rule → regras
-│   └── collector-ast/         # tree-sitter + heurísticas de domínio
+│   ├── collector-ast/         # tree-sitter + heurísticas de domínio (opt-in)
+│   └── tree-sitter-utils/     # parser WASM, literais e normalização compartilhados
 ├── examples/
 │   ├── fixture-express-api/   # repo de brinquedo para testes e2e
 │   └── golden/                # ruleprint.json esperados (snapshot tests)
 ├── docs/
 │   ├── SPEC.md                # explicação humana do formato
 │   ├── ROADMAP.md             # este arquivo
+│   ├── noise/                 # medição de ruído do coletor AST (DoD do M6)
 │   └── adr/                   # decisões arquiteturais
 ├── .github/workflows/
 ├── CLAUDE.md
@@ -129,7 +131,7 @@ preserva o id e pede aprovação; regra aprovada que some é reportada. Decisõe
 **DoD:** alterar uma condição no fixture quebra o `check`; reformatar não quebra. Coberto por
 `packages/cli/src/check.test.ts`.
 
-### M5 — Coletor de config e anotações (em andamento)
+### M5 — Coletor de config e anotações (concluído)
 
 `.ruleprint/rules/*.md` com front-matter (regras `declared`, ligadas por `id`), `@rule RP-0042`
 em comentário ligando código a regra existente, status `orphan`, e `ruleprint promote <id>` que
@@ -138,12 +140,18 @@ converte uma regra em arquivo markdown. Decisões em
 **DoD:** precedência `declared > derived > inferred` coberta por testes de merge
 (`packages/core/src/merge.test.ts`).
 
-### M6 — Coletor AST (o arriscado)
+### M6 — Coletor AST (o arriscado; em andamento)
 
-Opt-in por diretório. Filtros agressivos: descarta null checks, guard clauses, early returns,
-loops. Só promove condicionais com literais nomeados, constantes de domínio ou identificadores do
-glossário.
-**DoD:** ruído medido à mão em 3 repos OSS. Mais de 30% de lixo → não libere.
+Opt-in por diretório via `.ruleprint/config.json` (`ast.include`, `exclude`, `glossary`; schema
+em `packages/spec`). Filtros agressivos: descarta null checks, checagens de presença, guardas de
+vazio, `typeof`, ambiente, loops e `catch`. Só promove condicionais com literal não trivial,
+constante SCREAMING, membro enum-like ou termo do glossário em nome de predicado. Título em
+frase-modelo (`calcFreight: when subtotal >= FREE_SHIPPING_THRESHOLD …, returns 0`). Decisões em
+`docs/adr/0007-coletor-ast.md`; parser e normalização compartilhados em
+`packages/tree-sitter-utils`.
+**DoD:** ruído medido à mão em 3 repos OSS. Mais de 30% de lixo → não libere. Planilhas em
+`docs/noise/` (medusa, vendure, cal.com); sugestão do agente: 36,7%, 37,5% e 27,0%. A marcação
+do dono decide; até lá o coletor fica opt-in e marcado como experimental.
 
 ### M7 — GitHub Action + bot de PR
 
