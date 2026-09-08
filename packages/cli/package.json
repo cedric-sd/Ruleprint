@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@ruleprint/collector-annotations": "workspace:*",
+    "@ruleprint/collector-ast": "workspace:*",
     "@ruleprint/collector-config": "workspace:*",
     "@ruleprint/collector-tests": "workspace:*",
     "@ruleprint/core": "workspace:*",

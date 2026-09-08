@@ -18,9 +18,10 @@ npx ruleprint build          # static site in ruleprint-site/, ready for GitHub 
 
 ## Status
 
-Pre-alpha. **M0–M4** are done and **M5 (declared rules and annotations)** is in progress:
-`ruleprint` scans a repository with three collectors (vitest/jest `describe`/`it` trees,
-`.ruleprint/rules/*.md` declarations, `@rule` comments), merges them with precedence
+Pre-alpha. **M0–M5** are done and **M6 (AST collector)** is in progress: `ruleprint` scans a
+repository with three collectors (vitest/jest `describe`/`it` trees, `.ruleprint/rules/*.md`
+declarations, `@rule` comments) plus an opt-in, experimental fourth one that infers rules from
+the code's conditionals (see below), merges them with precedence
 `declared > derived > inferred`, assembles a valid `ruleprint.json`, serves or builds a searchable
 web UI, and remembers what was approved in `ruleprint.lock` so `check` fails when a rule changes
 without a "yes". Fingerprints are hashes of the normalised test AST: reformatting or renaming a
@@ -59,6 +60,30 @@ Every rule carries a confidence level:
 | `derived`  | inferred from an automated test              |
 | `inferred` | inferred from the code's AST, never verified |
 
+### Experimental: rules inferred from code
+
+The AST collector reads `if`/`else if`, ternaries and `switch` cases inside named functions and
+keeps only the ones that carry a domain signal: a comparison with a meaningful literal, a
+`SCREAMING_CASE` constant, an enum member, or a glossary term in a predicate-like name. Null
+checks, emptiness guards, `typeof`, environment checks and loop headers are dropped. It is off
+until you create `.ruleprint/config.json`:
+
+```json
+{
+  "ast": {
+    "include": ["src/domain/**"],
+    "exclude": ["src/domain/legacy/**"],
+    "glossary": ["freight", "coupon", "refund"]
+  }
+}
+```
+
+The rules come out as `inferred`, titled like
+`calcFreight: when subtotal >= FREE_SHIPPING_THRESHOLD and isSoutheast(address), returns 0`, and
+tagged with the glossary terms they match. Start with one domain directory and a glossary of 10
+to 20 terms; the glossary is the precision lever. The collector stays experimental until the
+noise measured on three open-source repositories (`docs/noise/`) is below 30% (ADR-0007).
+
 The specification (`ruleprint.schema.json`) is the product. CLI, UI and collectors are
 interchangeable implementations on top of it. See [`docs/SPEC.md`](docs/SPEC.md).
 
@@ -73,7 +98,8 @@ interchangeable implementations on top of it. See [`docs/SPEC.md`](docs/SPEC.md)
 | `@ruleprint/collector-tests`       | vitest/jest test trees → rules                    |
 | `@ruleprint/collector-config`      | `.ruleprint/rules/*.md` → rules                   |
 | `@ruleprint/collector-annotations` | `@rule` comments → rules                          |
-| `@ruleprint/collector-ast`         | tree-sitter + domain heuristics → rules           |
+| `@ruleprint/collector-ast`         | tree-sitter + domain heuristics → rules (opt-in)  |
+| `@ruleprint/tree-sitter-utils`     | shared WASM parser, literals and AST normaliser   |
 
 ## Development
 

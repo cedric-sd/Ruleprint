@@ -1,6 +1,8 @@
 import AjvModule, { type ErrorObject, type ValidateFunction } from 'ajv';
 import addFormatsModule from 'ajv-formats';
 
+import type { RulePrintConfig } from './config.generated.js';
+import configSchema from './ruleprint.config.schema.json' with { type: 'json' };
 import schema from './ruleprint.schema.json' with { type: 'json' };
 import type { RulePrintDocument } from './types.generated.js';
 
@@ -19,6 +21,9 @@ export interface ValidationIssue {
 export type ValidationResult =
   { valid: true; document: RulePrintDocument } | { valid: false; issues: ValidationIssue[] };
 
+export type ConfigValidationResult =
+  { valid: true; config: RulePrintConfig } | { valid: false; issues: ValidationIssue[] };
+
 // ajv and ajv-formats ship CommonJS with `exports.default`. Under Node (and TypeScript's
 // NodeNext resolution) the default import is the module object and the class lives on
 // `.default`; under bundlers it is the class itself. Support both.
@@ -32,18 +37,20 @@ const addFormats = (
   'default' in addFormatsModule ? addFormatsModule.default : addFormatsModule
 ) as AddFormats;
 
-let compiled: ValidateFunction<RulePrintDocument> | undefined;
-
-function getValidator(): ValidateFunction<RulePrintDocument> {
-  if (compiled) {
-    return compiled;
-  }
-  const ajv = new Ajv({ allErrors: true, strict: true });
-  addFormats(ajv);
-  const validator = ajv.compile<RulePrintDocument>(schema);
-  compiled = validator;
-  return validator;
+function compile<T>(jsonSchema: object): () => ValidateFunction<T> {
+  let compiled: ValidateFunction<T> | undefined;
+  return () => {
+    if (compiled) return compiled;
+    const ajv = new Ajv({ allErrors: true, strict: true });
+    addFormats(ajv);
+    const validator = ajv.compile<T>(jsonSchema);
+    compiled = validator;
+    return validator;
+  };
 }
+
+const documentValidator = compile<RulePrintDocument>(schema);
+const configValidator = compile<RulePrintConfig>(configSchema);
 
 function readString(params: Record<string, unknown>, key: string): string | undefined {
   const value = params[key];
@@ -90,7 +97,7 @@ function findDuplicateIds(document: RulePrintDocument): ValidationIssue[] {
  * Schema, rule ids must be unique within the document.
  */
 export function validate(input: unknown): ValidationResult {
-  const validator = getValidator();
+  const validator = documentValidator();
   if (!validator(input)) {
     return { valid: false, issues: (validator.errors ?? []).map(toIssue) };
   }
@@ -101,4 +108,13 @@ export function validate(input: unknown): ValidationResult {
   }
 
   return { valid: true, document: input };
+}
+
+/** Validates the contents of `.ruleprint/config.json`. Never throws. */
+export function validateConfig(input: unknown): ConfigValidationResult {
+  const validator = configValidator();
+  if (!validator(input)) {
+    return { valid: false, issues: (validator.errors ?? []).map(toIssue) };
+  }
+  return { valid: true, config: input };
 }

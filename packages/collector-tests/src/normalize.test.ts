@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { extractTestCases } from './extract.js';
-import { getParser } from './parser.js';
+import { getParser } from '@ruleprint/tree-sitter-utils';
 
 async function normalizedOf(source: string, index = 0): Promise<string> {
   const parser = await getParser('typescript');

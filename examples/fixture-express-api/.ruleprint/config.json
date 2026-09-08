@@ -1,0 +1,6 @@
+{
+  "ast": {
+    "include": ["src/**"],
+    "glossary": ["freight", "southeast", "order", "refund", "coupon", "dispute"]
+  }
+}

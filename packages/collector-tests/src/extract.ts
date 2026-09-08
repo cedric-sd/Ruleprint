@@ -1,6 +1,5 @@
-import type { Node } from '@vscode/tree-sitter-wasm';
+import { literalText, type Node } from '@ruleprint/tree-sitter-utils';
 
-import { literalText } from './literals.js';
 import { normalizeTest } from './normalize.js';
 
 /** One `it`/`test` leaf, with the titles of the suites that enclose it. */

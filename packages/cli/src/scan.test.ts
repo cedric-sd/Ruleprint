@@ -17,7 +17,7 @@ describe('scanProject()', () => {
     expect(validate(result.document)).toEqual({ valid: true, document: result.document });
     expect(result.document.project).toEqual({ name: 'fixture-express-api' });
     expect(result.document.generatedAt).toBe('2026-09-04T12:00:00.000Z');
-    expect(result.document.rules).toHaveLength(16);
+    expect(result.document.rules).toHaveLength(21);
     expect(result.files).toBe(10);
     expect(result.warnings).toEqual([expect.stringContaining('broken.spec.ts') as string]);
   });
@@ -30,14 +30,14 @@ describe('scanProject()', () => {
   it('reads the fixture lock and reports no changes', async () => {
     const result = await scanProject(FIXTURE, { now: NOW, git: false });
     expect(result.changes).toEqual([]);
-    expect(result.document.rules.filter((rule) => rule.status === 'approved')).toHaveLength(15);
+    expect(result.document.rules.filter((rule) => rule.status === 'approved')).toHaveLength(20);
     expect(result.document.rules.filter((rule) => rule.status === 'orphan')).toHaveLength(1);
-    expect(Object.keys(result.lock.rules)).toHaveLength(16);
+    expect(Object.keys(result.lock.rules)).toHaveLength(21);
   });
 
   it('can be told to ignore the lock', async () => {
     const result = await scanProject(FIXTURE, { now: NOW, git: false, lock: null });
-    expect(result.changes).toHaveLength(16);
+    expect(result.changes).toHaveLength(21);
     expect(result.document.rules.every((rule) => rule.status !== 'approved')).toBe(true);
   });
 
@@ -64,6 +64,8 @@ describe('scanProject()', () => {
     expect([...files].sort()).toEqual([
       'examples/fixture-express-api/.ruleprint/rules/cupom-expirado.md',
       'examples/fixture-express-api/.ruleprint/rules/frete-sudeste.md',
+      'examples/fixture-express-api/src/order.ts',
+      'examples/fixture-express-api/src/refund.ts',
       'examples/fixture-express-api/src/shipping.ts',
       'examples/fixture-express-api/test/broken.spec.ts',
       'examples/fixture-express-api/test/order.spec.ts',
@@ -77,6 +79,19 @@ describe('scanProject()', () => {
     const result = await scanProject(join(FIXTURE, 'test'), { now: NOW, git: false });
     expect(result.document.project.name).toBe('test');
     expect(result.document.rules).toHaveLength(15);
+  });
+
+  it('runs the AST collector when .ruleprint/config.json enables it', async () => {
+    const result = await scanProject(FIXTURE, { now: NOW, git: false });
+    const inferred = result.document.rules.filter((r) => r.origin.collector === 'ast');
+    expect(inferred.map((r) => r.title)).toEqual([
+      'assertValidOrder: when count > MAX_ITEMS_PER_ORDER, throws OrderError: too many items',
+      'assertValidOrder: when subtotal(items) < MIN_ORDER_VALUE, throws OrderError: below minimum',
+      'calcFreight: when isSoutheast(address), returns 19.9 (otherwise 34.9)',
+      'calcFreight: when subtotal >= FREE_SHIPPING_THRESHOLD and isSoutheast(address), returns 0',
+      'canRefund: when charge.disputed, returns false',
+    ]);
+    expect(inferred.every((r) => r.origin.confidence === 'inferred')).toBe(true);
   });
 
   it('merges the declared rule into the shipping test and flags the orphan', async () => {

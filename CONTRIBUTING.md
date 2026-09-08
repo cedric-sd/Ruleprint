@@ -46,6 +46,10 @@ CI runs the generated-file check, lint, format check, typecheck, build and tests
   it.
 - **Declared rules link by id.** A `.ruleprint/rules/*.md` with `id: RP-…` merges into that
   rule; without an id it is a new rule. `@rule RP-…` in a code comment only links, never creates.
+- **The AST collector is opt-in and measured.** It only runs with `ast.include` in
+  `.ruleprint/config.json`. Every new signal or filter in `packages/collector-ast/src/signals.ts`
+  needs an inline test case, and a change that alters what the three measured repositories
+  produce should refresh `docs/noise/` (method in `docs/noise/README.md`, criteria in ADR-0007).
 - **The fixture lock is a fixture.** `examples/fixture-express-api/ruleprint.lock` is what makes
   the golden document show approved rules; regenerate it only when the fixture tests or declared rules change
   (`ruleprint approve --all --by git:fixture@ruleprint.dev` on that directory, then delete the
@@ -91,7 +95,9 @@ export const ruleCommentsCollector: Collector = {
 Rules of the road:
 
 - `match` is a cheap check on the path alone; `collect` runs only for files that match.
-- `collect` may be `async` (the tests collector loads a WASM parser on first use).
+- `collect` may be `async` (the tests collector loads a WASM parser on first use). Parsing
+  helpers (`getParser`, `normalizeNode`, string literals) live in `@ruleprint/tree-sitter-utils`
+  so collectors share one parser and one normalisation.
 - Never throw for bad input: report through `ctx.warn(message)` and return what you could get.
 - Ship a snapshot test against a fixture in `examples/` before the implementation. See
   `packages/collector-tests/src/collector.test.ts` for the pattern.

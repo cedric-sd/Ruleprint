@@ -1,9 +1,6 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { basename, join, relative, resolve } from 'node:path';
 
-import { annotationsCollector } from '@ruleprint/collector-annotations';
-import { configCollector } from '@ruleprint/collector-config';
-import { testsCollector } from '@ruleprint/collector-tests';
 import {
   assembleDocument,
   collectFromFiles,
@@ -11,10 +8,12 @@ import {
   type Change,
   type Collector,
   type LockFile,
+  type RuleCandidate,
   type SourceFile,
 } from '@ruleprint/core';
 import type { Project, RulePrintDocument } from '@ruleprint/spec';
 
+import { collectorsFor, readConfig } from './config.js';
 import { currentCommit, pathPrefixInRepo, repositoryUrl } from './git.js';
 import { readLock } from './lock-io.js';
 
@@ -23,7 +22,7 @@ export interface ScanOptions {
   readonly now?: Date;
   /** Read commit and remote from git (default true). */
   readonly git?: boolean;
-  /** Collectors to run (default: the tests collector). */
+  /** Collectors to run (default: those enabled by `.ruleprint/config.json`). */
   readonly collectors?: readonly Collector[];
   /**
    * Lock to reconcile against. Omitted: `<dir>/ruleprint.lock` is read when present.
@@ -45,13 +44,6 @@ export interface ScanResult {
 
 const SKIPPED_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.git']);
 
-/** Tests first (evidence), then declarations, then links; order does not affect the result. */
-export const DEFAULT_COLLECTORS: readonly Collector[] = [
-  testsCollector,
-  configCollector,
-  annotationsCollector,
-];
-
 function* walk(dir: string): Generator<string> {
   const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) =>
     a.name < b.name ? -1 : a.name > b.name ? 1 : 0,
@@ -67,6 +59,15 @@ function* walk(dir: string): Generator<string> {
 
 function toPosix(path: string): string {
   return path.split('\\').join('/');
+}
+
+function prefixSources(candidate: RuleCandidate, prefix: string): RuleCandidate {
+  const [first, ...rest] = candidate.origin.sources.map((source) => ({
+    ...source,
+    file: prefix + source.file,
+  }));
+  if (!first) return candidate;
+  return { ...candidate, origin: { ...candidate.origin, sources: [first, ...rest] } };
 }
 
 function projectName(dir: string): string {
@@ -98,22 +99,33 @@ export async function scanProject(dir: string, options: ScanOptions = {}): Promi
   if (!existsSync(root) || !statSync(root).isDirectory()) {
     throw new Error(`${root} is not a directory`);
   }
-  const collectors = options.collectors ?? DEFAULT_COLLECTORS;
+  const collectors = options.collectors ?? collectorsFor(readConfig(root));
   const useGit = options.git ?? true;
   const prefix = useGit ? pathPrefixInRepo(root) : '';
 
+  // Collectors see paths relative to the scanned root (config globs are written that way);
+  // sources and warnings are made repository-relative afterwards, as the spec requires.
   const files: SourceFile[] = [];
   for (const abs of walk(root)) {
-    const path = prefix + toPosix(relative(root, abs));
+    const path = toPosix(relative(root, abs));
     if (collectors.some((collector) => collector.match(path))) {
       files.push({ path, content: readFileSync(abs, 'utf8') });
     }
   }
 
-  const warnings: string[] = [];
-  const candidates = await collectFromFiles(files, collectors, {
-    warn: (message) => warnings.push(message),
+  const rawWarnings: string[] = [];
+  const collected = await collectFromFiles(files, collectors, {
+    warn: (message) => rawWarnings.push(message),
   });
+  const candidates =
+    prefix === '' ? collected : collected.map((candidate) => prefixSources(candidate, prefix));
+  const warnings =
+    prefix === ''
+      ? rawWarnings
+      : rawWarnings.map((message) => {
+          const file = files.find((f) => message.startsWith(`${f.path}:`) || message === f.path);
+          return file ? prefix + message : message;
+        });
   const lock =
     options.lock === null ? emptyLock() : (options.lock ?? readLock(root) ?? emptyLock());
   const { document, changes, notes } = await assembleDocument({
