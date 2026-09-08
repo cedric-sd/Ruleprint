@@ -178,7 +178,7 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
     {
       "evidence": {
         "tests": [
-          "refund > janela de 7 dias > bloqueia reembolso após a janela",
+          "refund > janela de 7 dias > recusa reembolso após a janela",
         ],
       },
       "normalized": "(call_expression identifier:it (arguments <title> (arrow_function formal_parameters:() (statement_block (expression_statement (call_expression (member_expression (call_expression identifier:expect (arguments (call_expression identifier:canRefund (arguments (call_expression identifier:charge (arguments number:8 ) ) (new_expression identifier:Date arguments:() ) ) ) ) ) property_identifier:toBe ) (arguments false:false ) ) ) ) ) ) )",
@@ -190,11 +190,11 @@ exports[`testsCollector > against examples/fixture-express-api > matches the sna
             "file": "examples/fixture-express-api/test/refund.spec.ts",
             "kind": "test",
             "line": 18,
-            "symbol": "bloqueia reembolso após a janela",
+            "symbol": "recusa reembolso após a janela",
           },
         ],
       },
-      "title": "refund > janela de 7 dias > bloqueia reembolso após a janela",
+      "title": "refund > janela de 7 dias > recusa reembolso após a janela",
     },
     {
       "evidence": {

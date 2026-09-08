@@ -15,7 +15,7 @@ describe('refund', () => {
       expect(canRefund(charge(3), new Date())).toBe(true);
     });
 
-    it('bloqueia reembolso após a janela', () => {
+    it('recusa reembolso após a janela', () => {
       expect(canRefund(charge(8), new Date())).toBe(false);
     });
   });

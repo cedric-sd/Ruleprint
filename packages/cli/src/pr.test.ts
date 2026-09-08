@@ -300,7 +300,8 @@ describe('ruleprint pr', () => {
     async () => {
       fake = await fakeGitHub();
       const dir = scratch('clean');
-      const fixture = looseFixture(dir, true);
+      const fixture = looseFixture(dir);
+      expect((await ruleprint(fixture, ['approve', '--all', '--by', 'test:me'])).status).toBe(0);
       const env = actionEnv(fake, writeEvent(dir, 'pull_request', pullRequestEvent()));
       const run = await ruleprint(fixture, ['pr'], env);
       expect(run.status).toBe(0);

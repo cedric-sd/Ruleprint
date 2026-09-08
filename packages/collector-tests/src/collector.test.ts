@@ -126,7 +126,7 @@ describe('testsCollector', () => {
       const refund = await collect(fixtureFile('refund.spec.ts'));
       expect(refund.map((c) => c.title)).toEqual([
         'refund > janela de 7 dias > permite reembolso dentro da janela',
-        'refund > janela de 7 dias > bloqueia reembolso após a janela',
+        'refund > janela de 7 dias > recusa reembolso após a janela',
         'refund > cobrança %s > nunca é reembolsável',
         'refund > ignora cobranças com valor zero',
       ]);
