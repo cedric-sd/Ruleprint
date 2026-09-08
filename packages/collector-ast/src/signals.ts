@@ -118,22 +118,91 @@ function enumLike(node: Node): boolean {
   );
 }
 
-/** Signals carried by a bare reference: a constant, an enum member or a glossary term. */
+const PREDICATE_PREFIXES = new Set([
+  'is',
+  'has',
+  'can',
+  'should',
+  'must',
+  'requires',
+  'needs',
+  'allows',
+  'allow',
+  'was',
+  'are',
+  'does',
+  'did',
+  'will',
+  'use',
+  'uses',
+]);
+const PREDICATE_WORDS = new Set([
+  'active',
+  'valid',
+  'enabled',
+  'disabled',
+  'expired',
+  'exceeded',
+  'paid',
+  'free',
+  'ready',
+  'done',
+  'open',
+  'closed',
+]);
+
+/** `isPaid`, `charge.disputed`, `requiresConfirmation`: a name that reads as a yes/no question. */
+function isPredicateName(name: string): boolean {
+  const parts = words(name);
+  const first = parts[0];
+  const last = parts[parts.length - 1];
+  if (first !== undefined && PREDICATE_PREFIXES.has(first)) return true;
+  if (last === undefined) return false;
+  return PREDICATE_WORDS.has(last) || /(?:ed|able|ible)$/.test(last);
+}
+
+/** The name a reference is known by: the identifier, or the last property of a member chain. */
+function referenceName(node: Node): string | undefined {
+  if (node.type === 'identifier') return node.text;
+  if (node.type === 'member_expression') return node.childForFieldName('property')?.text;
+  return undefined;
+}
+
+/**
+ * Signals carried by a bare reference or a call: a constant, an enum member, or a glossary term
+ * in a predicate-like name (bare references) or in the callee (calls). A bare `.length`-style
+ * access is never a signal: it is a presence check.
+ */
 function referenceSignals(node: Node, glossary: readonly string[]): string[] {
   const inner = unwrap(node);
   const tags: string[] = [];
   let found = false;
+  if (isSizeAccess(inner)) return [];
   if (inner.type === 'identifier' && isScreaming(inner.text)) found = true;
   if (enumLike(inner)) found = true;
   if (inner.type === 'member_expression') {
     const property = inner.childForFieldName('property');
     if (property && isScreaming(property.text)) found = true;
   }
-  for (const id of identifiersIn(inner)) {
-    const terms = glossaryTerms(id, glossary);
-    if (terms.length > 0) {
-      found = true;
-      tags.push(...terms);
+  if (inner.type === 'call_expression') {
+    const callee = inner.childForFieldName('function');
+    for (const id of callee ? identifiersIn(callee) : []) {
+      const terms = glossaryTerms(id, glossary);
+      if (terms.length > 0) {
+        found = true;
+        tags.push(...terms);
+      }
+    }
+  } else {
+    const name = referenceName(inner);
+    if (name !== undefined && isPredicateName(name)) {
+      for (const id of identifiersIn(inner)) {
+        const terms = glossaryTerms(id, glossary);
+        if (terms.length > 0) {
+          found = true;
+          tags.push(...terms);
+        }
+      }
     }
   }
   return found ? [...new Set(tags)].concat(tags.length === 0 ? ['\0'] : []) : [];
@@ -206,7 +275,7 @@ function isNoise(node: Node, glossary: readonly string[]): boolean {
     case 'identifier':
     case 'member_expression':
     case 'this':
-      return referenceSignals(inner, glossary).length === 0;
+      return isSizeAccess(inner) || referenceSignals(inner, glossary).length === 0;
     default:
       return false;
   }
@@ -225,7 +294,12 @@ function collectSignals(node: Node, glossary: readonly string[], tags: Set<strin
         (side) => isLiteral(unwrap(side)) && !isTrivialLiteral(unwrap(side)),
       );
       const otherSide = literalSide === left ? right : left;
-      if (literalSide && !isSizeAccess(otherSide) && !mentionsEnvironment(otherSide)) found = true;
+      if (literalSide && !isSizeAccess(otherSide) && !mentionsEnvironment(otherSide)) {
+        found = true;
+        for (const id of identifiersIn(unwrap(otherSide))) {
+          for (const term of glossaryTerms(id, glossary)) tags.add(term);
+        }
+      }
     }
   }
   if (isBareReference(inner) || inner.type === 'call_expression') {

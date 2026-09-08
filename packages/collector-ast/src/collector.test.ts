@@ -182,6 +182,50 @@ describe('createAstCollector()', () => {
       expect(titles(await collect(source))).toEqual([]);
     });
 
+    it.each([
+      ['a bare length', 'function f(items) { if (items.length) { go(); } }'],
+      ['a negated optional length', 'function f(items) { if (!items?.length) { return []; } }'],
+      [
+        'a presence check on a glossary-named field',
+        'function f(order) { if (order.items) { go(); } }',
+      ],
+      [
+        'a glossary term only in call arguments',
+        'function f(e) { if (Object.prototype.hasOwnProperty.call(e, bookingLimits)) { go(); } }',
+      ],
+    ])('drops %s even with a glossary', async (_label, source) => {
+      expect(
+        titles(await collect(source, { glossary: ['item', 'order', 'booking', 'limit'] })),
+      ).toEqual([]);
+    });
+
+    it.each([
+      [
+        'a predicate-like field',
+        'function f(order) { if (order.isPaid) { ship(); } }',
+        'f: when order.isPaid, calls ship',
+      ],
+      [
+        'a participle field',
+        'function f(charge) { if (charge.disputed) { hold(); } }',
+        'f: when charge.disputed, calls hold',
+      ],
+      [
+        'a requires-prefixed flag',
+        'function f(b) { if (requiresBookingConfirmation) { wait(); } }',
+        'f: when requiresBookingConfirmation, calls wait',
+      ],
+      [
+        'a glossary call',
+        'function f(b) { if (getBookingLimits(b)) { check(); } }',
+        'f: when getBookingLimits(b), calls check',
+      ],
+    ])('keeps %s with a glossary', async (_label, source, title) => {
+      expect(titles(await collect(source, { glossary: ['paid', 'dispute', 'booking'] }))).toEqual([
+        title,
+      ]);
+    });
+
     it('keeps a mixed condition when a real signal is present', async () => {
       const source = 'function f(user) { if (!user || user.age < MIN_AGE) { reject(); } }';
       expect(titles(await collect(source))).toEqual([
