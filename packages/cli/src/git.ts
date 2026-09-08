@@ -60,3 +60,76 @@ export function repositoryUrl(dir: string): string | undefined {
   const raw = git(dir, ['remote', 'get-url', 'origin']);
   return raw ? normalizeRepositoryUrl(raw) : undefined;
 }
+
+export interface GitIdentity {
+  readonly name: string;
+  readonly email: string;
+}
+
+/** Runs git and throws with its stderr on failure. */
+export function gitOrThrow(dir: string, args: string[], identity?: GitIdentity): string {
+  const identityArgs = identity
+    ? ['-c', `user.name=${identity.name}`, '-c', `user.email=${identity.email}`]
+    : [];
+  const result = spawnSync('git', [...identityArgs, ...args], {
+    cwd: dir,
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+  });
+  if (result.error) {
+    throw new Error(`git ${args.join(' ')} failed: ${result.error.message}`, {
+      cause: result.error,
+    });
+  }
+  if (result.status !== 0) {
+    const detail = (result.stderr ?? '').trim() || (result.stdout ?? '').trim();
+    throw new Error(`git ${args.join(' ')} failed${detail ? `: ${detail}` : ''}`);
+  }
+  return result.stdout.trim();
+}
+
+/** Whether `file` (relative to `dir`) is tracked by git. */
+export function isTracked(dir: string, file: string): boolean {
+  return git(dir, ['ls-files', '--error-unmatch', '--', file]) !== undefined;
+}
+
+/** Name of the current branch, or `undefined` when detached or outside a repository. */
+export function currentBranch(dir: string): string | undefined {
+  const name = git(dir, ['rev-parse', '--abbrev-ref', 'HEAD']);
+  return name === 'HEAD' ? undefined : name;
+}
+
+/**
+ * Fetches `ref` from `origin` and checks it out as a local branch of the same name. Not shallow:
+ * `--depth` over a local transport trips a git bug, and the branch is fetched once per approval.
+ */
+export function fetchAndCheckout(dir: string, ref: string): void {
+  gitOrThrow(dir, ['fetch', '--no-tags', 'origin', ref]);
+  gitOrThrow(dir, ['checkout', '-q', '-B', ref, 'FETCH_HEAD']);
+}
+
+/**
+ * Stages `paths` and commits them as `identity`. Returns the new commit's SHA, or `undefined`
+ * when the paths carried no change.
+ */
+export function commitPaths(
+  dir: string,
+  paths: readonly string[],
+  message: string,
+  identity: GitIdentity,
+): string | undefined {
+  gitOrThrow(dir, ['add', '--', ...paths]);
+  const staged = spawnSync('git', ['diff', '--cached', '--quiet', '--', ...paths], {
+    cwd: dir,
+    stdio: 'ignore',
+  });
+  if (staged.status === 0) return undefined;
+  // A bot commit is never signed with the runner's key, whatever the local git config says.
+  gitOrThrow(dir, ['-c', 'commit.gpgsign=false', 'commit', '-q', '-m', message], identity);
+  return gitOrThrow(dir, ['rev-parse', 'HEAD']);
+}
+
+/** Pushes HEAD to `refs/heads/<ref>` on `origin`. */
+export function pushBranch(dir: string, ref: string): void {
+  gitOrThrow(dir, ['push', '-q', 'origin', `HEAD:refs/heads/${ref}`]);
+}
