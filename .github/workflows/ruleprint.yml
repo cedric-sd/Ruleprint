@@ -1,0 +1,43 @@
+# Dogfood of the PR bot (ADR-0008): runs the CLI built from this branch against the fixture.
+# Once `ruleprint` is on npm this becomes `uses: cedric-sd/Ruleprint@v1`.
+name: RulePrint
+
+on:
+  pull_request:
+  issue_comment:
+    types: [edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: ruleprint-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  pr:
+    name: rule book on the pull request
+    if: >-
+      github.event_name == 'pull_request' ||
+      (github.event.issue.pull_request &&
+       github.event.sender.type != 'Bot' &&
+       contains(github.event.comment.body, '<!-- ruleprint -->'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      - run: node packages/cli/dist/bin.js pr --dir examples/fixture-express-api
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
