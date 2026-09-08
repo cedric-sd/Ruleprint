@@ -20,6 +20,15 @@ export {
   type ReconcileOptions,
   type ReconcileResult,
 } from './reconcile.js';
+export {
+  parseApprovals,
+  PR_COMMENT_DEFAULT_LIMIT,
+  PR_COMMENT_MARKER,
+  renderPrComment,
+  type PrApprovals,
+  type PrCommentInput,
+  type PrCommentSource,
+} from './pr-comment.js';
 export { combineFingerprints, fingerprintCandidate } from './fingerprint.js';
 export { assignIds, fnv1a32, idForKey } from './ids.js';
 export { collectFromFiles } from './pipeline.js';
