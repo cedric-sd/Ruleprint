@@ -1,7 +1,7 @@
 import type { CollectContext, Collector, RuleCandidate, SourceFile } from '@ruleprint/core';
 
 import { extractTestCases } from './extract.js';
-import { getParser, grammarFor } from './parser.js';
+import { getParser, grammarFor } from '@ruleprint/tree-sitter-utils';
 
 export const PACKAGE_NAME = '@ruleprint/collector-tests' as const;
 

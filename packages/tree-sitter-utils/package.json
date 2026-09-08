@@ -1,8 +1,8 @@
 {
-  "name": "@ruleprint/collector-tests",
+  "name": "@ruleprint/tree-sitter-utils",
   "version": "0.0.0",
   "private": true,
-  "description": "Collector that derives rules from vitest/jest test trees.",
+  "description": "Shared tree-sitter loader, literal helpers and AST normalisation for the collectors.",
   "license": "Apache-2.0",
   "type": "module",
   "exports": {
@@ -12,17 +12,14 @@
       "default": "./dist/index.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -b tsconfig.build.json",
-    "dogfood": "tsx scripts/dogfood.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
-    "@ruleprint/core": "workspace:*",
-    "@ruleprint/spec": "workspace:*",
-    "@ruleprint/tree-sitter-utils": "workspace:*"
-  },
-  "files": [
-    "dist"
-  ]
+    "@vscode/tree-sitter-wasm": "0.3.1"
+  }
 }

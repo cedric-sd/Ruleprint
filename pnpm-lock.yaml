@@ -91,9 +91,9 @@ importers:
       '@ruleprint/spec':
         specifier: workspace:*
         version: link:../spec
-      '@vscode/tree-sitter-wasm':
-        specifier: 0.3.1
-        version: 0.3.1
+      '@ruleprint/tree-sitter-utils':
+        specifier: workspace:*
+        version: link:../tree-sitter-utils
 
   packages/core:
     dependencies:
@@ -113,6 +113,12 @@ importers:
       json-schema-to-typescript:
         specifier: ^16.0.0
         version: 16.0.0
+
+  packages/tree-sitter-utils:
+    dependencies:
+      '@vscode/tree-sitter-wasm':
+        specifier: 0.3.1
+        version: 0.3.1
 
   packages/ui:
     dependencies:
