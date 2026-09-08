@@ -6,6 +6,129 @@
   "generatedAt": "2026-09-04T12:00:00.000Z",
   "rules": [
     {
+      "id": "RP-584802",
+      "title": "assertValidOrder: when count > MAX_ITEMS_PER_ORDER, throws OrderError: too many items",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/order.ts",
+            "line": 21,
+            "symbol": "assertValidOrder",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:64279d42992bcaebe3af082fb089df39409280161b5b36337d782b5a96c911f1",
+      "status": "approved",
+      "description": "if (count > MAX_ITEMS_PER_ORDER) {\n    throw new OrderError('too many items');\n  }",
+      "tags": [
+        "order"
+      ],
+      "approvedAt": "2026-09-08T13:10:54.094Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
+      "id": "RP-890485",
+      "title": "assertValidOrder: when subtotal(items) < MIN_ORDER_VALUE, throws OrderError: below minimum",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/order.ts",
+            "line": 24,
+            "symbol": "assertValidOrder",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:6cdfd521545b02604cb2e63f6d869259f05996262b9d1e8c6a5fba9fe80f865e",
+      "status": "approved",
+      "description": "if (subtotal(items) < MIN_ORDER_VALUE) {\n    throw new OrderError('below minimum');\n  }",
+      "tags": [
+        "order"
+      ],
+      "approvedAt": "2026-09-08T13:10:54.094Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
+      "id": "RP-811629",
+      "title": "calcFreight: when isSoutheast(address), returns 19.9 (otherwise 34.9)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/shipping.ts",
+            "line": 17,
+            "symbol": "calcFreight",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:2456394b363e6a1d926a31f19e0d091c9032b71ff24ac8783e8599b02809a75a",
+      "status": "approved",
+      "description": "isSoutheast(address) ? 19.9 : 34.9",
+      "tags": [
+        "freight",
+        "southeast"
+      ],
+      "approvedAt": "2026-09-08T13:10:54.094Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
+      "id": "RP-555366",
+      "title": "calcFreight: when subtotal >= FREE_SHIPPING_THRESHOLD and isSoutheast(address), returns 0",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/shipping.ts",
+            "line": 14,
+            "symbol": "calcFreight",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:f59887d3a2c5c416f29f1617eaf29201f244fa3a3d1539cc0717fb6c1d2e94b4",
+      "status": "approved",
+      "description": "if (subtotal >= FREE_SHIPPING_THRESHOLD && isSoutheast(address)) {\n    return 0;\n  }",
+      "tags": [
+        "freight",
+        "southeast"
+      ],
+      "approvedAt": "2026-09-08T13:10:54.094Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
+      "id": "RP-573545",
+      "title": "canRefund: when charge.disputed, returns false",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/refund.ts",
+            "line": 10,
+            "symbol": "canRefund",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:8a3e298d1014ede71bfb0f0a553d6122e1a0185f84b52a3c1c81278f3a64d977",
+      "status": "approved",
+      "description": "if (charge.disputed) {\n    return false;\n  }",
+      "tags": [
+        "dispute",
+        "refund"
+      ],
+      "approvedAt": "2026-09-08T13:10:54.094Z",
+      "approvedBy": "git:fixture@ruleprint.dev"
+    },
+    {
       "id": "RP-760522",
       "title": "Cupom expirado é recusado no checkout",
       "origin": {
@@ -26,7 +149,7 @@
         "cupom",
         "checkout"
       ],
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -66,7 +189,7 @@
           "shipping > frete grátis > acima de 300 reais no Sudeste"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -91,7 +214,7 @@
           "is cut short"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -116,7 +239,7 @@
           "order validation > accepts a valid order"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -141,7 +264,7 @@
           "order validation > rejects an empty order"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -166,7 +289,7 @@
           "order validation > rejects an order below the minimum value"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -191,7 +314,7 @@
           "order validation > rejects duplicated skus"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -216,7 +339,7 @@
           "order validation > rejects more than ${MAX_ITEMS_PER_ORDER} items in one order"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -241,7 +364,7 @@
           "refund > cobrança %s > nunca é reembolsável"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -266,7 +389,7 @@
           "refund > ignora cobranças com valor zero"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -291,7 +414,7 @@
           "refund > janela de 7 dias > bloqueia reembolso após a janela"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -316,7 +439,7 @@
           "refund > janela de 7 dias > permite reembolso dentro da janela"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -341,7 +464,7 @@
           "shipping > frete grátis > exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -366,7 +489,7 @@
           "shipping > frete grátis > não vale fora do Sudeste"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -391,7 +514,7 @@
           "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     {
@@ -416,7 +539,7 @@
           "still yields the rule before the syntax error"
         ]
       },
-      "approvedAt": "2026-09-07T14:57:07.044Z",
+      "approvedAt": "2026-09-08T13:10:54.094Z",
       "approvedBy": "git:fixture@ruleprint.dev"
     }
   ]

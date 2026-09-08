@@ -26,6 +26,9 @@
     },
     {
       "path": "../collector-annotations/tsconfig.build.json"
+    },
+    {
+      "path": "../collector-ast/tsconfig.build.json"
     }
   ]
 }

@@ -11,9 +11,7 @@ const REPO_ROOT = join(import.meta.dirname, '../../..');
 const FIXTURE = join(REPO_ROOT, 'examples/fixture-express-api');
 const FIXTURE_CONFIG = JSON.parse(
   readFileSync(join(FIXTURE, '.ruleprint/config.json'), 'utf8'),
-) as {
-  ast: { include: string[]; glossary: string[] };
-};
+) as { ast: AstConfig };
 
 const ctx = { warn: vi.fn<(message: string) => void>() };
 

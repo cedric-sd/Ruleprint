@@ -44,6 +44,9 @@ importers:
       '@ruleprint/collector-annotations':
         specifier: workspace:*
         version: link:../collector-annotations
+      '@ruleprint/collector-ast':
+        specifier: workspace:*
+        version: link:../collector-ast
       '@ruleprint/collector-config':
         specifier: workspace:*
         version: link:../collector-config

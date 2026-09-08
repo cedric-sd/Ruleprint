@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { writeFileSync } from 'node:fs';
+import { existsSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { relative, resolve } from 'node:path';
 import { createInterface } from 'node:readline/promises';
@@ -9,6 +9,7 @@ import { Command } from 'commander';
 
 import { approveProject, defaultApprover } from './approve.js';
 import { buildSite } from './build.js';
+import { CONFIG_FILE } from './config.js';
 import { promoteRule } from './promote.js';
 import { countApproved, describeChange, describeOrphan, summaryLine } from './report.js';
 import { scanProject, serializeDocument, type ScanResult } from './scan.js';
@@ -105,6 +106,13 @@ program
     out('  npx ruleprint build          write a static site to ruleprint-site/');
     out('');
     out(`Commit ${pretty(outFile)} and ruleprint.lock so the rule book travels with the code.`);
+    if (!existsSync(resolve(root, CONFIG_FILE))) {
+      out('');
+      out(
+        `Optional: create ${CONFIG_FILE} with { "ast": { "include": ["src/domain/**"], "glossary": [...] } }`,
+      );
+      out('to also infer rules from conditionals in your domain code (experimental).');
+    }
   });
 
 program
