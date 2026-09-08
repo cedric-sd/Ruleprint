@@ -1,0 +1,1585 @@
+{
+  "specVersion": "0.1",
+  "project": {
+    "name": "root",
+    "commit": "0d514437c983ef855c3b0aaaf7c39c17b0412991",
+    "repository": "https://github.com/medusajs/medusa"
+  },
+  "generatedAt": "2026-09-08T13:19:56.262Z",
+  "rules": [
+    {
+      "id": "RP-425577",
+      "title": "applyPromotionToItems: when MathBN.lte( promotion.is_tax_inclusive ? item.original_total : item.subtotal, 0…, then continue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 118,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:705928a24c47fb1b2224847dafc223c80dcdcb54963e1beae31a73231cda6405",
+      "status": "pending",
+      "description": "if (\n      MathBN.lte(\n        promotion.is_tax_inclusive ? item.original_total : item.subtotal,\n        0\n      )",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-073222",
+      "title": "applyPromotionToItems: when allocation is ApplicationMethodAllocation.ACROSS, sets lineItemsAmount",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 90,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:2a54f84facb7f472c8654c32aa46c97d7128ff7ea9df3f30a08dd4a6ae95142d",
+      "status": "pending",
+      "description": "if (allocation === ApplicationMethodAllocation.ACROSS) {\n    lineItemsAmount = applicableItems.reduce((acc, item) => {\n      const itemBase = promotion.is_tax_inclusive\n        ? item.original_total\n        : item.subtotal",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-501327",
+      "title": "applyPromotionToItems: when allocation is ApplicationMethodAllocation.ONCE and remainingQuota <= 0, then break",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 112,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:41003922c75a25656b8a97bf25f25127dbb8dfc4f7f4f71f3c392cdef0843b83",
+      "status": "pending",
+      "description": "if (\n      allocation === ApplicationMethodAllocation.ONCE &&\n      remainingQuota <= 0\n    ) {\n      break",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-783091",
+      "title": "applyPromotionToItems: when allocation is ApplicationMethodAllocation.ONCE, returns ApplicationMethodAllocation.EACH (otherwise allocation)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 136,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:edea846f4bb8372097b5e3862591d6ce22b2f75f4fb540827a40439a1c7de781",
+      "status": "pending",
+      "description": "allocation === ApplicationMethodAllocation.ONCE\n        ? ApplicationMethodAllocation.EACH\n        : allocation",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-382075",
+      "title": "applyPromotionToItems: when allocation is ApplicationMethodAllocation.ONCE, returns Math.min(remainingQuota ?? 0, Number(item.quantity)) (otherwise maxQuantity)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 130,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:b50c3e86cc57d0f92b41120c3e90ee6647681605d1fd60b2c101cf6dbf02a2e7",
+      "status": "pending",
+      "description": "allocation === ApplicationMethodAllocation.ONCE\n        ? Math.min(remainingQuota ?? 0, Number(item.quantity))\n        : maxQuantity",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-212483",
+      "title": "applyPromotionToItems: when allocation is ApplicationMethodAllocation.ONCE, sets applicableItems",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 79,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:6c0c9112d966d6a45a329b7ad4b75cce695f43a5066b38dc73e9e7ba5ff07f0c",
+      "status": "pending",
+      "description": "if (allocation === ApplicationMethodAllocation.ONCE) {\n    applicableItems = applicableItems.sort(sortLineItemByPriceAscending)\n  }",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-228726",
+      "title": "applyPromotionToItems: when allocation is ApplicationMethodAllocation.ONCE, sets quantityApplied",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 176,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:77714989b04a012b1b4e9d068542f4fc0bc707e4432087af51e9159fe56d7d82",
+      "status": "pending",
+      "description": "if (allocation === ApplicationMethodAllocation.ONCE) {\n      // We already know exactly how many units we applied via effectiveMaxQuantity\n      const quantityApplied = Math.min(\n        effectiveMaxQuantity,\n        Number(item.quantity)",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-957737",
+      "title": "applyPromotionToItems: when isTargetLineItems or isTargetOrder, calls computedActions.push",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 185,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:eea7197d5aeca2526d52a794af3ca33a25bbcdd5571859327c81ad390a8130d8",
+      "status": "pending",
+      "description": "if (isTargetLineItems || isTargetOrder) {\n      computedActions.push({\n        action: ComputedActions.ADD_ITEM_ADJUSTMENT,\n        item_id: item.id,\n        amount,",
+      "tags": ["apply", "item", "order", "promotion", "target"]
+    },
+    {
+      "id": "RP-145146",
+      "title": "applyPromotionToItems: when promotion.is_tax_inclusive, returns MathBN.mult( appliedExclTax, MathBN.div(item.original_total, item.subtotal) ) (otherwise appliedExclTax)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 96,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:a789b8b8e7f4ebe7124034e9ced4ddd928aa7395c2b9da29625e04fdeb744706",
+      "status": "pending",
+      "description": "promotion.is_tax_inclusive\n        ? MathBN.mult(\n            appliedExclTax,\n            MathBN.div(item.original_total, item.subtotal)\n          )",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-907718",
+      "title": "applyPromotionToItems: when promotion.is_tax_inclusive, returns MathBN.mult(amount, MathBN.div(item.subtotal, item.original_total)) (otherwise amount)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 167,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1416065b71fc0b8754213fd151e177df6876b9824a2c69c7f3af39e459782f3f",
+      "status": "pending",
+      "description": "promotion.is_tax_inclusive\n      ? MathBN.mult(amount, MathBN.div(item.subtotal, item.original_total))\n      : amount",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-413185",
+      "title": "applyPromotionToItems: when promotion.is_tax_inclusive, returns item.original_total (otherwise item.subtotal)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 92,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:165be6dc3bd06749a020320e6e3d294c8c683b8f061ef329eb2372596d591006",
+      "status": "pending",
+      "description": "promotion.is_tax_inclusive\n        ? item.original_total\n        : item.subtotal",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-413186",
+      "title": "applyPromotionToItems: when promotion.is_tax_inclusive, returns item.original_total (otherwise item.subtotal)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 120,
+            "symbol": "applyPromotionToItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:165be6dc3bd06749a020320e6e3d294c8c683b8f061ef329eb2372596d591006",
+      "status": "pending",
+      "description": "promotion.is_tax_inclusive ? item.original_total : item.subtotal",
+      "tags": ["apply", "item", "promotion"]
+    },
+    {
+      "id": "RP-808940",
+      "title": "applyPromotionToShippingMethods: when allocation is ApplicationMethodAllocation.ACROSS, sets totalApplicableValue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 134,
+            "symbol": "applyPromotionToShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:572f23f7e7c843de39ad1b7f27e71b7e186b8d6258d52f25afb37fa76469898a",
+      "status": "pending",
+      "description": "if (allocation === ApplicationMethodAllocation.ACROSS) {\n    const totalApplicableValue = shippingMethods!.reduce((acc, method) => {\n      const appliedPromoValue = methodIdPromoValueMap.get(method.id) ?? 0\n\n      return MathBN.add(",
+      "tags": ["apply", "promotion", "shipping"]
+    },
+    {
+      "id": "RP-347150",
+      "title": "applyPromotionToShippingMethods: when allocation is ApplicationMethodAllocation.EACH or allocation is ApplicationMeth…, then for (const method of shippingMethods!) { if ( allocation === ApplicationMethodA…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 73,
+            "symbol": "applyPromotionToShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:4df5e71932c9b242a2106baf2b6abaec79a09ea1956d885b0d2ffdfc4f511e9f",
+      "status": "pending",
+      "description": "if (\n    allocation === ApplicationMethodAllocation.EACH ||\n    allocation === ApplicationMethodAllocation.ONCE\n  ) {\n    for (const method of shippingMethods!) {",
+      "tags": ["apply", "promotion", "shipping"]
+    },
+    {
+      "id": "RP-852915",
+      "title": "applyPromotionToShippingMethods: when allocation is ApplicationMethodAllocation.ONCE and remainingQuota <= 0, then break",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 78,
+            "symbol": "applyPromotionToShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:41003922c75a25656b8a97bf25f25127dbb8dfc4f7f4f71f3c392cdef0843b83",
+      "status": "pending",
+      "description": "if (\n        allocation === ApplicationMethodAllocation.ONCE &&\n        remainingQuota <= 0\n      ) {\n        break",
+      "tags": ["apply", "promotion", "shipping"]
+    },
+    {
+      "id": "RP-963420",
+      "title": "applyPromotionToShippingMethods: when allocation is ApplicationMethodAllocation.ONCE, sets remainingQuota",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 121,
+            "symbol": "applyPromotionToShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1ecebac80bf118947ddc72938060413529f5e56e8fc34b7b6ebaac421304c3c6",
+      "status": "pending",
+      "description": "if (allocation === ApplicationMethodAllocation.ONCE) {\n        remainingQuota -= 1\n      }",
+      "tags": ["apply", "promotion", "shipping"]
+    },
+    {
+      "id": "RP-536616",
+      "title": "applyPromotionToShippingMethods: when applicationMethod?.type is ApplicationMethodType.PERCENTAGE, sets applicablePromotionValue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 162,
+            "symbol": "applyPromotionToShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:b96edee5f8f780d3bba386b8c1a6ba90835c0fa3e91f69e2b8aab47bb20f4341",
+      "status": "pending",
+      "description": "if (applicationMethod?.type === ApplicationMethodType.PERCENTAGE) {\n        applicablePromotionValue = MathBN.mult(\n          MathBN.div(promotionValue, 100),\n          applicableTotal\n        )",
+      "tags": ["apply", "promotion", "shipping"]
+    },
+    {
+      "id": "RP-805661",
+      "title": "applyPromotionToShippingMethods: when applicationMethod?.type is ApplicationMethodType.PERCENTAGE, sets promotionValue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 92,
+            "symbol": "applyPromotionToShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:8e2f0261a0d5a12a289635ca9d99ef9247d93ea09a10067387419e835477a5f0",
+      "status": "pending",
+      "description": "if (applicationMethod?.type === ApplicationMethodType.PERCENTAGE) {\n        promotionValue = MathBN.mult(\n          MathBN.div(promotionValue, 100),\n          applicableTotal\n        )",
+      "tags": ["apply", "promotion", "shipping"]
+    },
+    {
+      "id": "RP-858206",
+      "title": "applyPromotionToTargetItems: when promotion.application_method?.type is ApplicationMethodType.FIXED, sets amount",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/buy-get.ts",
+            "line": 338,
+            "symbol": "applyPromotionToTargetItems",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:881ee2086b0e50de165cde06d9fe274c2ccc1d2ddc033686fbf477b1065e7a91",
+      "status": "pending",
+      "description": "if (promotion.application_method?.type === ApplicationMethodType.FIXED) {\n      // Fixed: apply value per unit, capped at item price\n      amount = MathBN.min(\n        MathBN.mult(applicationConfig.promotionValue, multiplier),\n        applicableAmount",
+      "tags": ["apply", "fixed", "item", "promotion", "target"]
+    },
+    {
+      "id": "RP-372072",
+      "title": "areRulesValidForContext: when isItemScope, sets ruleAttribute",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 85,
+            "symbol": "areRulesValidForContext",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:fa4489dc962b8199a35b936cfc43db7dc768201e20ea1de65b3f9608fbea4676",
+      "status": "pending",
+      "description": "if (isItemScope) {\n      ruleAttribute = ruleAttribute.replace(\n        `${ApplicationMethodTargetType.ITEMS}.`,\n        \"\"\n      )",
+      "tags": ["item", "rule"]
+    },
+    {
+      "id": "RP-412899",
+      "title": "areRulesValidForContext: when isShippingScope, sets ruleAttribute",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 90,
+            "symbol": "areRulesValidForContext",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:466ef1dd9348027d2d675cba47d76c1ba5390f07cee67b6691179e50b8fd6681",
+      "status": "pending",
+      "description": "if (isShippingScope) {\n      ruleAttribute = ruleAttribute.replace(\n        `${ApplicationMethodTargetType.SHIPPING_METHODS}.`,\n        \"\"\n      )",
+      "tags": ["rule", "shipping"]
+    },
+    {
+      "id": "RP-847127",
+      "title": "buildPromotionRuleQueryFilterFromContext: when numberOfAttributes > 10, sets manager",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/build-promotion-rule-query-filter-from-context.ts",
+            "line": 73,
+            "symbol": "buildPromotionRuleQueryFilterFromContext",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1bbdd882785934c534d7d0579f7edaeedecdc59f035ec48bbda036d5be3ed7d0",
+      "status": "pending",
+      "description": "if (numberOfAttributes > 10) {\n    const manager = (sharedContext.transactionManager ??\n      sharedContext.manager) as SqlEntityManager\n    const knex = manager.getKnex()\n",
+      "tags": ["promotion", "rule"]
+    },
+    {
+      "id": "RP-727406",
+      "title": "computeActionForBudgetExceeded: when campaignBudget.type is CampaignBudgetType.SPEND, returns MathBN.add(campaignBudgetUsed, amount) (otherwise MathBN.add(campaignBudgetUsed, 1))",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/usage.ts",
+            "line": 50,
+            "symbol": "computeActionForBudgetExceeded",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:39737bfc5a14f5cc41cfc1441836fd6bdabb92b5a906ea4d1133ac8b62a9cc89",
+      "status": "pending",
+      "description": "campaignBudget.type === CampaignBudgetType.SPEND\n      ? MathBN.add(campaignBudgetUsed, amount)\n      : MathBN.add(campaignBudgetUsed, 1)",
+      "tags": ["budget"]
+    },
+    {
+      "id": "RP-817229",
+      "title": "computeActionForBudgetExceeded: when campaignBudget.type is CampaignBudgetType.USE_BY_ATTRIBUTE and not attributeUsa…, returns",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/usage.ts",
+            "line": 38,
+            "symbol": "computeActionForBudgetExceeded",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:4a0785bdb4fb03caedfce56b02d4c0c741f32b2807b6bfa9dfdd64204b594f87",
+      "status": "pending",
+      "description": "if (\n    campaignBudget.type === CampaignBudgetType.USE_BY_ATTRIBUTE &&\n    !attributeUsage\n  ) {\n    return",
+      "tags": ["budget", "campaign"]
+    },
+    {
+      "id": "RP-828128",
+      "title": "computeActions: when (promotion.used ?? 0) >= promotion.limit, calls computedActions.push",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 921,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d4997f79dd48d482068cbcc2b3d3fa3c6fe3a8ae5cafd3f40312f21a10685613",
+      "status": "pending",
+      "description": "if ((promotion.used ?? 0) >= promotion.limit) {\n          computedActions.push({\n            action: ComputedActions.PROMOTION_LIMIT_EXCEEDED,\n            code: promotion.code!,\n          })",
+      "tags": ["promotion"]
+    },
+    {
+      "id": "RP-801100",
+      "title": "computeActions: when isTargetOrder or isTargetItems, sets computedActionsForItems",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 967,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:9af7f9a1adba76627b29a1c9dfb022acdafad5bfcf09964f141eb418a5b59541",
+      "status": "pending",
+      "description": "if (isTargetOrder || isTargetItems) {\n          const computedActionsForItems =\n            ComputeActionUtils.getComputedActionsForItems(\n              promotion,\n              applicationContext[ApplicationMethodTargetType.ITEMS],",
+      "tags": ["item", "order", "target"]
+    },
+    {
+      "id": "RP-819272",
+      "title": "computeActions: when isTargetOrder, returns ApplicationMethodAllocation.ACROSS (otherwise undefined)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 963,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:4da82112fbd6f000587b4aed3ef63b9ab7b6f95d219f9aa550442203f211084b",
+      "status": "pending",
+      "description": "isTargetOrder\n          ? ApplicationMethodAllocation.ACROSS\n          : undefined",
+      "tags": ["order", "target"]
+    },
+    {
+      "id": "RP-192804",
+      "title": "computeActions: when isTargetShipping, sets computedActionsForShippingMethods",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 979,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:6b1c59a0d0edacb0aad0a8b1a5ebfedc5b01416e988ff22d576cb60d80408981",
+      "status": "pending",
+      "description": "if (isTargetShipping) {\n          const computedActionsForShippingMethods =\n            ComputeActionUtils.getComputedActionsForShippingMethods(\n              promotion,\n              applicationContext[ApplicationMethodTargetType.SHIPPING_METHODS],",
+      "tags": ["shipping", "target"]
+    },
+    {
+      "id": "RP-517614",
+      "title": "computeActions: when not isPromotionApplicable or not isCurrencyCodeValid, then continue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 940,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:039182bdd5e58f6697982035ed6dc14b5c27a946bb06348852067ca21c4b041b",
+      "status": "pending",
+      "description": "if (!isPromotionApplicable || !isCurrencyCodeValid) {\n        continue\n      }",
+      "tags": ["code", "currency", "promotion"]
+    },
+    {
+      "id": "RP-709701",
+      "title": "computeActions: when not skipUsageLimitChecks and promotion.campaign?.budget?.type is CampaignBudget…, sets attribute",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 877,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:b5e870a9eab4bc7324b22f45f68b37c5fa639789e344d30ce6104d3f3805cfe9",
+      "status": "pending",
+      "description": "if (\n        !skipUsageLimitChecks &&\n        promotion.campaign?.budget?.type === CampaignBudgetType.USE_BY_ATTRIBUTE\n      ) {\n        const attribute = promotion.campaign?.budget?.attribute!",
+      "tags": ["budget", "campaign"]
+    },
+    {
+      "id": "RP-155567",
+      "title": "computeActions: when promotion.is_automatic, calls automaticPromotionCodes.push",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 821,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:c7a96ca9c62ce0526bb7e3cb61d452f9c237fb1a36146738c7b2c4554914f183",
+      "status": "pending",
+      "description": "if (promotion.is_automatic) {\n        automaticPromotionCodes.push(promotion.code!)\n      }",
+      "tags": ["promotion"]
+    },
+    {
+      "id": "RP-438687",
+      "title": "computeActions: when promotion.type is PromotionType.BUYGET, sets computedActionsForItems",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 944,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:be67de9604ac5bc77783a6db2a575ad223c40c488c96ca66df5e29410a0234c3",
+      "status": "pending",
+      "description": "if (promotion.type === PromotionType.BUYGET) {\n        const computedActionsForItems =\n          ComputeActionUtils.getComputedActionsForBuyGet(\n            promotion,\n            applicationContext[ApplicationMethodTargetType.ITEMS]!,"
+    },
+    {
+      "id": "RP-652726",
+      "title": "computeActions: when promotion.type is PromotionType.STANDARD, sets isTargetOrder",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 955,
+            "symbol": "computeActions",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:3e4dcb6504842ca1b0425fdbca2daf77f60e37e98100e986080d538b6669a63c",
+      "status": "pending",
+      "description": "if (promotion.type === PromotionType.STANDARD) {\n        const isTargetOrder =\n          applicationMethod.target_type === ApplicationMethodTargetType.ORDER\n        const isTargetItems =\n          applicationMethod.target_type === ApplicationMethodTargetType.ITEMS"
+    },
+    {
+      "id": "RP-346056",
+      "title": "createPromotionRulesAndValues_: when relationName is method_buy_rules and promotion.type is PromotionType.STANDARD, throws MedusaError: Can't add buy rules to a ${PromotionType.STANDARD} promotion",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1640,
+            "symbol": "createPromotionRulesAndValues_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:933d5d2044ef22f1ceed6ca993007b291aaf444482466138b7497b9e814cd7de",
+      "status": "pending",
+      "description": "if (\n      relationName === \"method_buy_rules\" &&\n      promotion.type === PromotionType.STANDARD\n    ) {\n      throw new MedusaError(",
+      "tags": ["promotion", "rule"]
+    },
+    {
+      "id": "RP-066912",
+      "title": "createPromotions_: when applicationMethodData.target_type is ApplicationMethodTargetType.ORDER and targ…, throws MedusaError: Target rules for application method with target type (${ApplicationMethodTarget…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1182,
+            "symbol": "createPromotions_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:972e4ba3a734afe5d0b41b226445b7a2510b9773cb9f179f5e532237e2578628",
+      "status": "pending",
+      "description": "if (\n          applicationMethodData.target_type ===\n            ApplicationMethodTargetType.ORDER &&\n          targetRulesData.length\n        ) {",
+      "tags": ["promotion"]
+    },
+    {
+      "id": "RP-225302",
+      "title": "createPromotions_: when campaignData?.budget?.type is CampaignBudgetType.SPEND and campaignCurrency is …, throws MedusaError: Currency between promotion and campaigns should match",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1132,
+            "symbol": "createPromotions_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:669f268d02924ef3464db5659846a4bb247ee16f5cc5ea1e683afff5ba528445",
+      "status": "pending",
+      "description": "if (\n        campaignData?.budget?.type === CampaignBudgetType.SPEND &&\n        campaignCurrency !== applicationMethodData?.currency_code\n      ) {\n        throw new MedusaError(",
+      "tags": ["promotion"]
+    },
+    {
+      "id": "RP-059132",
+      "title": "createPromotions_: when promotion.type is PromotionType.BUYGET and not buyRulesData.length, throws MedusaError: Buy rules are required for ${PromotionType.BUYGET} promotion type",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1193,
+            "symbol": "createPromotions_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:39e304ec8d4c238e5b650fa114e2fa5e1bf3e64b74c482680a171d0f8d35a0ad",
+      "status": "pending",
+      "description": "if (promotion.type === PromotionType.BUYGET && !buyRulesData.length) {\n          throw new MedusaError(\n            MedusaError.Types.INVALID_DATA,\n            `Buy rules are required for ${PromotionType.BUYGET} promotion type`\n          )",
+      "tags": ["promotion"]
+    },
+    {
+      "id": "RP-714838",
+      "title": "createPromotions_: when promotion.type is PromotionType.BUYGET and not targetRulesData.length, throws MedusaError: Target rules are required for ${PromotionType.BUYGET} promotion type",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1200,
+            "symbol": "createPromotions_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:a4db68224ae5c930325a06799e13dde8d62eba2f0e5d9e0699314613e52a2923",
+      "status": "pending",
+      "description": "if (\n          promotion.type === PromotionType.BUYGET &&\n          !targetRulesData.length\n        ) {\n          throw new MedusaError(",
+      "tags": ["promotion"]
+    },
+    {
+      "id": "RP-918504",
+      "title": "evaluateRuleValueCondition: when operator is eq, sets ruleValueSet",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 130,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:9ec317918326253ee2b992d1e25576bdc779dd140ec74daecf487fdc111f7810",
+      "status": "pending",
+      "description": "case \"eq\": {\n      const ruleValueSet = new Set(ruleValues)\n      return valuesToCheck.every((val) => ruleValueSet.has(`${val}`))\n    }",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-466121",
+      "title": "evaluateRuleValueCondition: when operator is gt, returns valuesToCheck.every((val) => ruleValues.some((ruleVal) => MathBN.gt(val, ruleVa…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 142,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1a0d855eeb728f51776cf951b01470a7fad9279c270abca685fe48583c395e14",
+      "status": "pending",
+      "description": "case \"gt\":\n      return valuesToCheck.every((val) =>\n        ruleValues.some((ruleVal) => MathBN.gt(val, ruleVal))\n      )",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-928036",
+      "title": "evaluateRuleValueCondition: when operator is gte, returns valuesToCheck.every((val) => ruleValues.some((ruleVal) => MathBN.gte(val, ruleV…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 146,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:5f31070b9513d5974622e5dfd80d433b9730cf539c3209d0f98bbae7fc307c0e",
+      "status": "pending",
+      "description": "case \"gte\":\n      return valuesToCheck.every((val) =>\n        ruleValues.some((ruleVal) => MathBN.gte(val, ruleVal))\n      )",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-809899",
+      "title": "evaluateRuleValueCondition: when operator is in, sets ruleValueSet",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 134,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:357b785be9baf0f63cf629dd00ced29aebb80a18e0eb6bc650b6f74249826e3b",
+      "status": "pending",
+      "description": "case \"in\": {\n      const ruleValueSet = new Set(ruleValues)\n      return valuesToCheck.some((val) => ruleValueSet.has(`${val}`))\n    }",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-748887",
+      "title": "evaluateRuleValueCondition: when operator is lt, returns valuesToCheck.every((val) => ruleValues.some((ruleVal) => MathBN.lt(val, ruleVa…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 150,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:97e989919b61b73661a54154164df636147286e3c7787d3f49755bef91bfb112",
+      "status": "pending",
+      "description": "case \"lt\":\n      return valuesToCheck.every((val) =>\n        ruleValues.some((ruleVal) => MathBN.lt(val, ruleVal))\n      )",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-154240",
+      "title": "evaluateRuleValueCondition: when operator is lte, returns valuesToCheck.every((val) => ruleValues.some((ruleVal) => MathBN.lte(val, ruleV…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 154,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:67274ddc5b057434ce013b24175243676c8ea0fc9456ddfdebe769279ac95b0b",
+      "status": "pending",
+      "description": "case \"lte\":\n      return valuesToCheck.every((val) =>\n        ruleValues.some((ruleVal) => MathBN.lte(val, ruleVal))\n      )",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-693088",
+      "title": "evaluateRuleValueCondition: when operator is ne, returns true",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 122,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1f690514811ec572ee6be459f3a73842dee0414be0cbecf0a7eca88f2b2de564",
+      "status": "pending",
+      "description": "case \"ne\":\n        return true",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-275857",
+      "title": "evaluateRuleValueCondition: when operator is ne, sets ruleValueSet",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/promotion-rule.ts",
+            "line": 138,
+            "symbol": "evaluateRuleValueCondition",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:f06c64ed4e87a037461973467599c1e548ce0be9d8e92c04e0e8467cb4f1f395",
+      "status": "pending",
+      "description": "case \"ne\": {\n      const ruleValueSet = new Set(ruleValues)\n      return valuesToCheck.every((val) => !ruleValueSet.has(`${val}`))\n    }",
+      "tags": ["rule"]
+    },
+    {
+      "id": "RP-539095",
+      "title": "getComputedActionsForBuyGet: when iterationCount > MAX_PROMOTION_ITERATIONS, calls console.warn",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/buy-get.ts",
+            "line": 567,
+            "symbol": "getComputedActionsForBuyGet",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:64c7f1245571cedb726a1e052b38de062f6bac4eaf43e2b11ac60eea25283d13",
+      "status": "pending",
+      "description": "if (iterationCount > MAX_PROMOTION_ITERATIONS) {\n      console.warn(\n        `Buy-get promotion ${promotion.code} exceeded maximum iterations (${MAX_PROMOTION_ITERATIONS}). Breaking loop to prevent infinite execution.`\n      )\n",
+      "tags": ["buy"]
+    },
+    {
+      "id": "RP-225169",
+      "title": "getComputedActionsForBuyGet: when not isValidPromotionContext(promotion, itemsContext), returns []",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/buy-get.ts",
+            "line": 509,
+            "symbol": "getComputedActionsForBuyGet",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:a0462e9053d4f0ed4e36ad3fb903ad19422803891e77e029eeb67ce02063ba5b",
+      "status": "pending",
+      "description": "if (!isValidPromotionContext(promotion, itemsContext)) {\n    return []\n  }",
+      "tags": ["buy", "promotion"]
+    },
+    {
+      "id": "RP-810790",
+      "title": "getComputedActionsForShippingMethods: when allocation is ApplicationMethodAllocation.ONCE, sets applicableShippingItems",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 49,
+            "symbol": "getComputedActionsForShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:e8e17f74c645dbc98683c288e7b6d2868c0c0f8a56a788fbd08a22bfafc39a86",
+      "status": "pending",
+      "description": "if (allocation === ApplicationMethodAllocation.ONCE) {\n    applicableShippingItems = applicableShippingItems.sort(\n      sortShippingLineByPriceAscending\n    )\n  }",
+      "tags": ["shipping"]
+    },
+    {
+      "id": "RP-492033",
+      "title": "getComputedActionsForShippingMethods: when not isPromotionApplicableToItem, then continue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/shipping-methods.ts",
+            "line": 41,
+            "symbol": "getComputedActionsForShippingMethods",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0802f671334a613cd3bb0617e09fa66ddec5b5ab99e9b2397fc94a42e1105965",
+      "status": "pending",
+      "description": "if (!isPromotionApplicableToItem) {\n      continue\n    }",
+      "tags": ["item", "promotion", "shipping"]
+    },
+    {
+      "id": "RP-592595",
+      "title": "getValidItemsForPromotion: when isTargetShippingMethod and not hasTargetRules, returns items.filter( (item) => item && subtotal in item && MathBN.gt(item.subtotal, 0)…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 215,
+            "symbol": "getValidItemsForPromotion",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1e386533db72b621e00799b2921adb4a5947ce92d2745292dbe9b425621e0fc6",
+      "status": "pending",
+      "description": "if (isTargetShippingMethod && !hasTargetRules) {\n    return items.filter(\n      (item) => item && \"subtotal\" in item && MathBN.gt(item.subtotal, 0)\n    )\n  }",
+      "tags": ["item", "promotion", "rule", "shipping", "target"]
+    },
+    {
+      "id": "RP-482798",
+      "title": "getValidItemsForPromotion: when is_discountable in item and not item.is_discountable, returns false",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 226,
+            "symbol": "getValidItemsForPromotion",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:c53af09e3fae468ce11243823f65b777bf43cebd4cd146898f40ae2216bef28c",
+      "status": "pending",
+      "description": "if (\"is_discountable\" in item && !item.is_discountable) {\n      return false\n    }",
+      "tags": ["discount", "item", "promotion"]
+    },
+    {
+      "id": "RP-042831",
+      "title": "getValidItemsForPromotion: when not hasTargetRules, returns true",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 238,
+            "symbol": "getValidItemsForPromotion",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:baece4de6b27d710a682a8a71998bc1cdb20f02329f9c1cebcf9b0b08b89b31c",
+      "status": "pending",
+      "description": "if (!hasTargetRules) {\n      return true\n    }",
+      "tags": ["item", "promotion", "rule", "target"]
+    },
+    {
+      "id": "RP-368454",
+      "title": "getValidItemsForPromotion: when not isTargetShippingMethod and not (quantity in item), returns false",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/line-items.ts",
+            "line": 234,
+            "symbol": "getValidItemsForPromotion",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0a9ca0b5a7eac645dcd29d85dc5c13439982f691677b11b8ace1331ed3eb5ac7",
+      "status": "pending",
+      "description": "if (!isTargetShippingMethod && !(\"quantity\" in item)) {\n      return false\n    }",
+      "tags": ["item", "promotion", "shipping", "target"]
+    },
+    {
+      "id": "RP-635237",
+      "title": "registerUsage: when campaignBudget.type is CampaignBudgetType.SPEND, sets campaignBudgetData",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 427,
+            "symbol": "registerUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d2d368c48527253998b39ede26c33dbee4d8af5520d879d69ab0d5f459e66e9e",
+      "status": "pending",
+      "description": "if (campaignBudget.type === CampaignBudgetType.SPEND) {\n        const campaignBudgetData = campaignBudgetMap.get(campaignBudget.id)\n\n        if (!campaignBudgetData) {\n          continue",
+      "tags": ["usage"]
+    },
+    {
+      "id": "RP-219013",
+      "title": "registerUsage: when campaignBudget.type is CampaignBudgetType.USAGE, sets promotionAlreadyUsed",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 455,
+            "symbol": "registerUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:f3554c0204dea55e7c6256a61be2011573c1fbda5d54c2772831e87c1615b0c3",
+      "status": "pending",
+      "description": "if (campaignBudget.type === CampaignBudgetType.USAGE) {\n        const promotionAlreadyUsed =\n          promotionCodeUsageMap.get(promotion.code!) || false\n\n        if (promotionAlreadyUsed) {",
+      "tags": ["usage"]
+    },
+    {
+      "id": "RP-674432",
+      "title": "registerUsage: when campaignBudget.type is CampaignBudgetType.USE_BY_ATTRIBUTE, sets promotionAlreadyUsed",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 483,
+            "symbol": "registerUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:236cdef63e583889332b467f6165d620395bb63b877b0ce60366b1bf2c7cc7d5",
+      "status": "pending",
+      "description": "if (campaignBudget.type === CampaignBudgetType.USE_BY_ATTRIBUTE) {\n        const promotionAlreadyUsed =\n          promotionCodeUsageMap.get(promotion.code!) || false\n\n        if (promotionAlreadyUsed) {",
+      "tags": ["budget", "campaign", "usage"]
+    },
+    {
+      "id": "RP-559951",
+      "title": "registerUsage: when promotionAlreadyUsed, then continue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 459,
+            "symbol": "registerUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d6ce6a84ec4667b7e85b76f17479ad0477c06002c0ab2c84724585f8fdfac68c",
+      "status": "pending",
+      "description": "if (promotionAlreadyUsed) {\n          continue\n        }",
+      "tags": ["promotion", "usage"]
+    },
+    {
+      "id": "RP-559952",
+      "title": "registerUsage: when promotionAlreadyUsed, then continue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 487,
+            "symbol": "registerUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d6ce6a84ec4667b7e85b76f17479ad0477c06002c0ab2c84724585f8fdfac68c",
+      "status": "pending",
+      "description": "if (promotionAlreadyUsed) {\n          continue\n        }",
+      "tags": ["promotion", "usage"]
+    },
+    {
+      "id": "RP-770727",
+      "title": "revertCampaignBudgetUsageByAttribute_: when MathBN.lte(campaignBudgetUsagePerAttributeValue.used ?? 0, 1), calls this.campaignBudgetUsageService_.delete",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 277,
+            "symbol": "revertCampaignBudgetUsageByAttribute_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:2419667f8d410044fc30fde7acb55903cba924991a109143203606d90a88e4df",
+      "status": "pending",
+      "description": "if (MathBN.lte(campaignBudgetUsagePerAttributeValue.used ?? 0, 1)) {\n      await this.campaignBudgetUsageService_.delete(\n        campaignBudgetUsagePerAttributeValue.id,\n        sharedContext\n      )",
+      "tags": ["budget", "campaign", "usage"]
+    },
+    {
+      "id": "RP-179946",
+      "title": "revertUsage: when campaignBudget.type is CampaignBudgetType.SPEND, sets campaignBudgetData",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 600,
+            "symbol": "revertUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:5f2769dfed95b238414322ca3295d7d309287bbb517054fc8228581211599057",
+      "status": "pending",
+      "description": "if (campaignBudget.type === CampaignBudgetType.SPEND) {\n        const campaignBudgetData = campaignBudgetMap.get(campaignBudget.id)\n\n        if (!campaignBudgetData) {\n          continue",
+      "tags": ["usage"]
+    },
+    {
+      "id": "RP-503310",
+      "title": "revertUsage: when campaignBudget.type is CampaignBudgetType.USAGE, sets promotionAlreadyUsed",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 617,
+            "symbol": "revertUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:274266383aa5ef2338814d91b8d5cab1ab7b905bf8286ca07e00ccc449c22fa1",
+      "status": "pending",
+      "description": "if (campaignBudget.type === CampaignBudgetType.USAGE) {\n        const promotionAlreadyUsed =\n          promotionCodeUsageMap.get(promotion.code!) || false\n\n        if (promotionAlreadyUsed) {",
+      "tags": ["usage"]
+    },
+    {
+      "id": "RP-989349",
+      "title": "revertUsage: when campaignBudget.type is CampaignBudgetType.USE_BY_ATTRIBUTE, sets promotionAlreadyUsed",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 637,
+            "symbol": "revertUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:8374fdaa3bf178f7647d1d52f9c55049530021d3001904a3dc2957aad4a6e670",
+      "status": "pending",
+      "description": "if (campaignBudget.type === CampaignBudgetType.USE_BY_ATTRIBUTE) {\n        const promotionAlreadyUsed =\n          promotionCodeUsageMap.get(promotion.code!) || false\n\n        if (promotionAlreadyUsed) {",
+      "tags": ["budget", "campaign", "usage"]
+    },
+    {
+      "id": "RP-894774",
+      "title": "revertUsage: when promotionAlreadyUsed, then continue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 621,
+            "symbol": "revertUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d6ce6a84ec4667b7e85b76f17479ad0477c06002c0ab2c84724585f8fdfac68c",
+      "status": "pending",
+      "description": "if (promotionAlreadyUsed) {\n          continue\n        }",
+      "tags": ["promotion", "usage"]
+    },
+    {
+      "id": "RP-894775",
+      "title": "revertUsage: when promotionAlreadyUsed, then continue",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 641,
+            "symbol": "revertUsage",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d6ce6a84ec4667b7e85b76f17479ad0477c06002c0ab2c84724585f8fdfac68c",
+      "status": "pending",
+      "description": "if (promotionAlreadyUsed) {\n          continue\n        }",
+      "tags": ["promotion", "usage"]
+    },
+    {
+      "id": "RP-387026",
+      "title": "sortByBuyGetType: when a.type is PromotionType.BUYGET and b.type is not PromotionType.BUYGET, returns -1",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/buy-get.ts",
+            "line": 646,
+            "symbol": "sortByBuyGetType",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:40efbad192073af3e9251efdafe2862058ed41bc28eabd6cadbdab1b13c12413",
+      "status": "pending",
+      "description": "if (a.type === PromotionType.BUYGET && b.type !== PromotionType.BUYGET) {\n    return -1 // BuyGet promotions come first\n  } else if (\n    a.type !== PromotionType.BUYGET &&\n    b.type === PromotionType.BUYGET",
+      "tags": ["buy"]
+    },
+    {
+      "id": "RP-258066",
+      "title": "sortByBuyGetType: when a.type is PromotionType.BUYGET, then if ( a.application_method.buy_rules_min_quantity < b.application_method.buy_rul…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/buy-get.ts",
+            "line": 666,
+            "symbol": "sortByBuyGetType",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:dbda699e87aa8a3c2e9e8b6418016632dc8310114561f375cfabe8df3ace9cc4",
+      "status": "pending",
+      "description": "if (a.type === PromotionType.BUYGET) {\n      if (\n        a.application_method.buy_rules_min_quantity <\n        b.application_method.buy_rules_min_quantity\n      ) {",
+      "tags": ["buy"]
+    },
+    {
+      "id": "RP-940489",
+      "title": "sortByBuyGetType: when a.type is not PromotionType.BUYGET and b.type is PromotionType.BUYGET, returns 1",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/compute-actions/buy-get.ts",
+            "line": 648,
+            "symbol": "sortByBuyGetType",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:60e55697ba00bdcdcacbd8a0554fd6694f855ddeddc7f063a55b32c8dd084b02",
+      "status": "pending",
+      "description": "if (\n    a.type !== PromotionType.BUYGET &&\n    b.type === PromotionType.BUYGET\n  ) {\n    return 1 // BuyGet promotions come first",
+      "tags": ["buy"]
+    },
+    {
+      "id": "RP-625089",
+      "title": "updatePromotions_: when applicationMethodData.allocation and not allowedAllocationForQuantity.includes(…, sets applicationMethodData.max_quantity",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1406,
+            "symbol": "updatePromotions_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:8eb62e99cc5791a44357f61efbe5a0c830e282e6cb1649bc2663ef60239374d0",
+      "status": "pending",
+      "description": "if (\n        applicationMethodData.allocation &&\n        !allowedAllocationForQuantity.includes(applicationMethodData.allocation)\n      ) {\n        applicationMethodData.max_quantity = null",
+      "tags": ["allocation", "promotion", "quantity"]
+    },
+    {
+      "id": "RP-498486",
+      "title": "updatePromotions_: when campaignId and existingCampaign?.budget?.type is CampaignBudgetType.SPEND and e…, throws MedusaError: Currency code doesn't match for campaign (${campaignId}) and promotion (${exist…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1385,
+            "symbol": "updatePromotions_",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:5ccd10dc97d8e072224070a337d66f25c9851efe7b8031af0e25c7299d6f2ab4",
+      "status": "pending",
+      "description": "if (\n        campaignId &&\n        existingCampaign?.budget?.type === CampaignBudgetType.SPEND &&\n        existingCampaign.budget.currency_code !== promotionCurrencyCode\n      ) {",
+      "tags": ["promotion"]
+    },
+    {
+      "id": "RP-452873",
+      "title": "validateApplicationMethodAttributes: when allocation and allowedAllocationForQuantity.includes(allocation) and not isDefi…, throws MedusaError: application_method.max_quantity is required when application_method.allocation …",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 151,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:8e432005d9bae4e33d4089be4c2ed99b5e43b8d7aa9949a514903c5c01841896",
+      "status": "pending",
+      "description": "if (\n    allocation &&\n    allowedAllocationForQuantity.includes(allocation) &&\n    !isDefined(maxQuantity)\n  ) {",
+      "tags": ["allocation", "quantity"]
+    },
+    {
+      "id": "RP-679819",
+      "title": "validateApplicationMethodAttributes: when allocation and not allAllocationTypes.includes(allocation), throws MedusaError: application_method.allocation should be one of ${allAllocationTypes.join( \", \" …",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 142,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:c2b31153db577999039a18d02a9182357034b1d2e929d519d48179a7cf80c01b",
+      "status": "pending",
+      "description": "if (allocation && !allAllocationTypes.includes(allocation)) {\n    throw new MedusaError(\n      MedusaError.Types.INVALID_DATA,\n      `application_method.allocation should be one of ${allAllocationTypes.join(\n        \", \"",
+      "tags": ["allocation"]
+    },
+    {
+      "id": "RP-769829",
+      "title": "validateApplicationMethodAttributes: when allocation is ApplicationMethodAllocation.ACROSS and isPresent(maxQuantity), throws MedusaError: application_method.max_quantity is not allowed to be set for allocation (${Appl…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 96,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:a90c2385b3f1e95e707730206f50282d52c2891aadc2d76957435d191abda4f1",
+      "status": "pending",
+      "description": "if (\n    allocation === ApplicationMethodAllocation.ACROSS &&\n    isPresent(maxQuantity)\n  ) {\n    throw new MedusaError("
+    },
+    {
+      "id": "RP-916575",
+      "title": "validateApplicationMethodAttributes: when allocation is ApplicationMethodAllocation.ONCE and targetType is ApplicationMet…, throws MedusaError: application_method.allocation 'once' is not compatible with target_type 'order'",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 164,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:8e13490d7efecb737c2a97175d0bdaa5f885a3dd6bdb3aa5c7a1eab334fd2488",
+      "status": "pending",
+      "description": "if (\n    allocation === ApplicationMethodAllocation.ONCE &&\n    targetType === ApplicationMethodTargetType.ORDER\n  ) {\n    throw new MedusaError("
+    },
+    {
+      "id": "RP-535252",
+      "title": "validateApplicationMethodAttributes: when allowedAllocationTargetTypes.includes(targetType) and not allowedAllocationType…, throws MedusaError: application_method.allocation should be either '${allowedAllocationTypes.join( …",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 124,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:5776d8fc462ab3ea9796ad40f199ffbb910fa6e4b13d668e1407a540dda650b0",
+      "status": "pending",
+      "description": "if (\n    allowedAllocationTargetTypes.includes(targetType) &&\n    !allowedAllocationTypes.includes(allocation || \"\")\n  ) {\n    throw new MedusaError(",
+      "tags": ["allocation", "target"]
+    },
+    {
+      "id": "RP-081967",
+      "title": "validateApplicationMethodAttributes: when not allTargetTypes.includes(targetType), throws MedusaError: application_method.target_type should be one of ${allTargetTypes.join( \", \" )}",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 106,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:efee4e13215e816c146c9765f5d32b3f7f5d970129e7d10d68e28bb56231f4fd",
+      "status": "pending",
+      "description": "if (!allTargetTypes.includes(targetType)) {\n    throw new MedusaError(\n      MedusaError.Types.INVALID_DATA,\n      `application_method.target_type should be one of ${allTargetTypes.join(\n        \", \"",
+      "tags": ["target"]
+    },
+    {
+      "id": "RP-409337",
+      "title": "validateApplicationMethodAttributes: when promotion?.type is PromotionType.BUYGET, then if (!isPresent(applyToQuantity)) { throw new MedusaError( MedusaError.Types.INV…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 59,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:18d246b8c4d057befbdb7a6904a125f1765f8fc57ead42a535fdde1e9c59d87b",
+      "status": "pending",
+      "description": "if (promotion?.type === PromotionType.BUYGET) {\n    if (!isPresent(applyToQuantity)) {\n      throw new MedusaError(\n        MedusaError.Types.INVALID_DATA,\n        `apply_to_quantity is a required field for Promotion type of ${PromotionType.BUYGET}`"
+    },
+    {
+      "id": "RP-113486",
+      "title": "validateApplicationMethodAttributes: when type is ApplicationMethodType.PERCENTAGE and (MathBN.lte(value, 0) or MathBN.gt…, throws MedusaError: Application Method value should be a percentage number between 0 and 100",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/utils/validations/application-method.ts",
+            "line": 49,
+            "symbol": "validateApplicationMethodAttributes",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0d01140065a5055535742dfeab1616edf41b48014a4693b7f82851fff565e7b7",
+      "status": "pending",
+      "description": "if (\n    type === ApplicationMethodType.PERCENTAGE &&\n    (MathBN.lte(value, 0) || MathBN.gt(value, 100))\n  ) {\n    throw new MedusaError("
+    },
+    {
+      "id": "RP-358579",
+      "title": "validateCampaignBudgetData: when data.type is CampaignBudgetType.SPEND and not isPresent(data.currency_code), throws MedusaError: Campaign Budget type is a required field",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/modules/promotion/src/services/promotion-module.ts",
+            "line": 1877,
+            "symbol": "validateCampaignBudgetData",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:2dd7b2a5594d56f15e988473ad005cdc9c25185808d3583a6d464a0041180bbd",
+      "status": "pending",
+      "description": "if (\n      data.type === CampaignBudgetType.SPEND &&\n      !isPresent(data.currency_code)\n    ) {\n      throw new MedusaError(",
+      "tags": ["budget", "campaign"]
+    }
+  ]
+}

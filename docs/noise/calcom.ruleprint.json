@@ -1,0 +1,745 @@
+{
+  "specVersion": "0.1",
+  "project": {
+    "name": "calcom-monorepo",
+    "commit": "1251ba5be567d26a7f922452fe7797642376476e",
+    "repository": "https://github.com/calcom/cal.com"
+  },
+  "generatedAt": "2026-09-08T13:19:58.226Z",
+  "rules": [
+    {
+      "id": "RP-294883",
+      "title": "_ensureAvailableUsers: when eventType.useBookerTimezone, returns input.timeZone (otherwise restrictionSchedule.timeZone!)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleNewBooking/ensureAvailableUsers.ts",
+            "line": 170,
+            "symbol": "_ensureAvailableUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:829ae78de101578548cd70ae17874022c1cba572abd036ab62cb1172ac5e1d88",
+      "status": "pending",
+      "description": "eventType.useBookerTimezone\n        ? input.timeZone\n        : restrictionSchedule.timeZone!",
+      "tags": ["event", "timezone"]
+    },
+    {
+      "id": "RP-009054",
+      "title": "_ensureAvailableUsers: when isDefaultSchedule and not eventType.useBookerTimezone, returns restrictionSchedule.user.travelSchedules.map((schedule) => ({ startDate: dayjs(… (otherwise [])",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleNewBooking/ensureAvailableUsers.ts",
+            "line": 190,
+            "symbol": "_ensureAvailableUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:fe60a870e424fcde831746a2e506b852ca47f35a2880241749ee2fec9f6f85f8",
+      "status": "pending",
+      "description": "isDefaultSchedule && !eventType.useBookerTimezone\n          ? restrictionSchedule.user.travelSchedules.map((schedule) => ({\n              startDate: dayjs(schedule.startDate),\n              endDate: schedule.endDate ? dayjs(schedule.endDate) : undefined,\n              timeZone: schedule.timeZone,",
+      "tags": ["event", "timezone"]
+    },
+    {
+      "id": "RP-538315",
+      "title": "_ensureAvailableUsers: when not eventType.useBookerTimezone and not restrictionSchedule.timeZone, calls loggerWithEventDetails.error",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleNewBooking/ensureAvailableUsers.ts",
+            "line": 174,
+            "symbol": "_ensureAvailableUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:873347cfd8ba997264809d1357e06dc1a73c9207ad490eaddb722c88536e7e3a",
+      "status": "pending",
+      "description": "if (!eventType.useBookerTimezone && !restrictionSchedule.timeZone) {\n        loggerWithEventDetails.error(\n          `No timezone is set for the restriction schedule and useBookerTimezone is false`\n        );\n        throw new Error(ErrorCode.BookingNotAllowedByRestrictionSchedule);",
+      "tags": ["event", "timezone"]
+    },
+    {
+      "id": "RP-297232",
+      "title": "_ensureAvailableUsers: when not hasDateRangeForBooking(dateRanges, startDateTimeUtc, endDateTimeUtc), calls loggerWithEventDetails.error",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleNewBooking/ensureAvailableUsers.ts",
+            "line": 237,
+            "symbol": "_ensureAvailableUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:5aa4ce2a71beb0c3a5c46ebaa8969d38b9229707b8de006a6dba6fcfd4861da5",
+      "status": "pending",
+      "description": "if (!hasDateRangeForBooking(dateRanges, startDateTimeUtc, endDateTimeUtc)) {\n      loggerWithEventDetails.error(`No date range for booking.`, piiFreeInputDataForLogging);\n      return;\n    }",
+      "tags": ["booking"]
+    },
+    {
+      "id": "RP-816008",
+      "title": "_ensureAvailableUsers: when not hasDateRangeForBooking(restrictionRanges, startDateTimeUtc, endDateTimeUtc), calls loggerWithEventDetails.error",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleNewBooking/ensureAvailableUsers.ts",
+            "line": 206,
+            "symbol": "_ensureAvailableUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:b53e805d9d906d1788292a6685cf25631314a6f09da0e5da603962eab62603af",
+      "status": "pending",
+      "description": "if (!hasDateRangeForBooking(restrictionRanges, startDateTimeUtc, endDateTimeUtc)) {\n        loggerWithEventDetails.error(\n          `Booking outside restriction schedule availability.`,\n          piiFreeInputDataForLogging\n        );",
+      "tags": ["booking"]
+    },
+    {
+      "id": "RP-091541",
+      "title": "cancelAttendeeSeat: when reference.type.includes(_video) and reference.type is not google_meet_video, calls integrationsToUpdate.push",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleSeats/cancel/cancelAttendeeSeat.ts",
+            "line": 116,
+            "symbol": "cancelAttendeeSeat",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:dda234e40f2c0525056cda055b24dcf8edc2e6945a5f90980f1753ea373995fc",
+      "status": "pending",
+      "description": "if (reference.type.includes(\"_video\") && reference.type !== \"google_meet_video\") {\n            integrationsToUpdate.push(updateMeeting(credential, updatedEvt, reference));\n          }",
+      "tags": ["attendee", "cancel", "seat"]
+    },
+    {
+      "id": "RP-166153",
+      "title": "combineTwoSeatedBookings: when newTimeSlotBooking.attendees.some((newBookingAttendee) => newBookingAttendee.em…, calls attendeesToDelete.push",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleSeats/reschedule/owner/combineTwoSeatedBookings.ts",
+            "line": 40,
+            "symbol": "combineTwoSeatedBookings",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0f32c7104251ad29df10e5cf355a1e3409d88749656fb8525b061499a13d16d2",
+      "status": "pending",
+      "description": "if (\n      newTimeSlotBooking.attendees.some((newBookingAttendee) => newBookingAttendee.email === attendee.email)\n    ) {\n      attendeesToDelete.push(attendee.id);\n      // If the attendee does not exist on the new booking then move that attendee record to the new booking",
+      "tags": ["attendee", "booking", "seat", "slot"]
+    },
+    {
+      "id": "RP-877712",
+      "title": "combineTwoSeatedBookings: when not eventType.seatsPerTimeSlot or attendeesToMove.length + newTimeSlotBooking.a…, throws HttpError",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleSeats/reschedule/owner/combineTwoSeatedBookings.ts",
+            "line": 51,
+            "symbol": "combineTwoSeatedBookings",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:49d2a6c990cd8d68acedcfea4ab476886b541a895d78f3bc69eb7ef03fa0730c",
+      "status": "pending",
+      "description": "if (\n    !eventType.seatsPerTimeSlot ||\n    attendeesToMove.length + newTimeSlotBooking.attendees.filter((attendee) => attendee.bookingSeat).length >\n      eventType.seatsPerTimeSlot\n  ) {",
+      "tags": ["attendee", "booking", "seat", "slot"]
+    },
+    {
+      "id": "RP-256324",
+      "title": "determineReschedulePreventionRedirect: when isBookingInPast and not booking.eventType.allowReschedulingPastBookings, sets isNewPastBookingRescheduleBehaviour",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/reschedule/determineReschedulePreventionRedirect.ts",
+            "line": 105,
+            "symbol": "determineReschedulePreventionRedirect",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:15969fe9db5eb3f9d1b5c4f2010619704ef12dfff1bb28d22965fc03234a9e21",
+      "status": "pending",
+      "description": "if (isBookingInPast && !booking.eventType.allowReschedulingPastBookings) {\n    // Check if this team should apply the redirect behavior for past bookings\n    const isNewPastBookingRescheduleBehaviour = isPastBookingRescheduleBehaviourToPreventBooking(\n      booking.eventType.teamId\n    );",
+      "tags": ["booking", "event", "reschedule"]
+    },
+    {
+      "id": "RP-892441",
+      "title": "determineReschedulePreventionRedirect: when isNewPastBookingRescheduleBehaviour, returns `/booking/${booking.uid}`",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/reschedule/determineReschedulePreventionRedirect.ts",
+            "line": 111,
+            "symbol": "determineReschedulePreventionRedirect",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:15cf2b39773e0e080e7ef464221eac772360824048991123e8ab36ae6eaabe8f",
+      "status": "pending",
+      "description": "if (isNewPastBookingRescheduleBehaviour) {\n      return `/booking/${booking.uid}`;\n    }",
+      "tags": ["booking", "event", "reschedule"]
+    },
+    {
+      "id": "RP-322621",
+      "title": "determineReschedulePreventionRedirect: when isNonRescheduleableBooking and not isForcedRescheduleForCancelledBooking, sets canBookThroughCancelledBookingRescheduleLink",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/reschedule/determineReschedulePreventionRedirect.ts",
+            "line": 83,
+            "symbol": "determineReschedulePreventionRedirect",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0b7c25def27ac5540d256a53f1e60f1c476459c84cfdc7a4582d2f8e97922958",
+      "status": "pending",
+      "description": "if (isNonRescheduleableBooking && !isForcedRescheduleForCancelledBooking) {\n    const canBookThroughCancelledBookingRescheduleLink =\n      booking.eventType.allowBookingFromCancelledBookingReschedule;\n    const allowedToBeBookedThroughCancelledBookingRescheduleLink =\n      booking.status === BookingStatus.CANCELLED && canBookThroughCancelledBookingRescheduleLink;",
+      "tags": ["booking", "cancel", "event", "reschedule"]
+    },
+    {
+      "id": "RP-805583",
+      "title": "determineReschedulePreventionRedirect: when not isUserOrganizer and isWithinMinimumRescheduleNotice(booking.startTime, mini…, returns `/booking/${booking.uid}`",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/reschedule/determineReschedulePreventionRedirect.ts",
+            "line": 96,
+            "symbol": "determineReschedulePreventionRedirect",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:750ab335f1d45ff6e8a51a48f1bb774792f4a6f720f382f9ad2568965744352f",
+      "status": "pending",
+      "description": "if (\n    !isUserOrganizer &&\n    isWithinMinimumRescheduleNotice(booking.startTime, minimumRescheduleNotice ?? null)\n  ) {\n    // Rescheduling is not allowed within the minimum notice period (only for non-organizers)",
+      "tags": ["event", "reschedule"]
+    },
+    {
+      "id": "RP-815332",
+      "title": "fetchAllDataNeededForCalculations: when eventType.isRRWeightsEnabled and getLuckyUserParams.eventType.team?.rrResetInte…, returns getLuckyUserParams.eventType.team?.rrResetInterval (otherwise RRResetInterval.MONTH)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 553,
+            "symbol": "fetchAllDataNeededForCalculations",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:9b38dc6cde426b9f11ad34eea9d26d691b9975821a779012d878bc9d556261b2",
+      "status": "pending",
+      "description": "eventType.isRRWeightsEnabled && getLuckyUserParams.eventType.team?.rrResetInterval\n        ? getLuckyUserParams.eventType.team?.rrResetInterval\n        : RRResetInterval.MONTH",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-733434",
+      "title": "fetchAllDataNeededForCalculations: when eventType.isRRWeightsEnabled and getLuckyUserParams.eventType.team?.rrTimestamp…, returns getLuckyUserParams.eventType.team.rrTimestampBasis (otherwise RRTimestampBasis.CREATED_AT)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 558,
+            "symbol": "fetchAllDataNeededForCalculations",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:ca0282253ee2dc51399efb03e8acad13ef0e1764f0881e1a5f3f38b4fd1b60d7",
+      "status": "pending",
+      "description": "eventType.isRRWeightsEnabled && getLuckyUserParams.eventType.team?.rrTimestampBasis\n        ? getLuckyUserParams.eventType.team.rrTimestampBasis\n        : RRTimestampBasis.CREATED_AT",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-264204",
+      "title": "getDateTimeInUtc: when timeZone is Etc/GMT, returns dayjs.utc(timeInput) (otherwise dayjs(timeInput).tz(timeZone).utc())",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleNewBooking/ensureAvailableUsers.ts",
+            "line": 28,
+            "symbol": "getDateTimeInUtc",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:2172cf04688f53a6c2df555ae8cc643c347a8ba3355ef95fd22552916ef896b1",
+      "status": "pending",
+      "description": "timeZone === \"Etc/GMT\" ? dayjs.utc(timeInput) : dayjs(timeInput).tz(timeZone).utc()"
+    },
+    {
+      "id": "RP-290222",
+      "title": "getIntervalEndDate: when interval is RRResetInterval.DAY, returns endOfDay(meetingStartTime)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 83,
+            "symbol": "getIntervalEndDate",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:a051c1589177422da9c20820b68f07b082689dac374feca97d4b4cf25344204b",
+      "status": "pending",
+      "description": "if (interval === RRResetInterval.DAY) {\n      return endOfDay(meetingStartTime);\n    }"
+    },
+    {
+      "id": "RP-511388",
+      "title": "getIntervalEndDate: when rrTimestampBasis is RRTimestampBasis.START_TIME, then if (!meetingStartTime) { throw new Error(\"Meeting start time is required\"); }",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 79,
+            "symbol": "getIntervalEndDate",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:83a6d256de51b77eba0f8cd1ee0998f7a4748a9db4cb7b83ef12b6fe07dd9c11",
+      "status": "pending",
+      "description": "if (rrTimestampBasis === RRTimestampBasis.START_TIME) {\n    if (!meetingStartTime) {\n      throw new Error(\"Meeting start time is required\");\n    }\n    if (interval === RRResetInterval.DAY) {"
+    },
+    {
+      "id": "RP-512950",
+      "title": "getIntervalStartDate: when interval is RRResetInterval.DAY, returns startOfDay()",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 111,
+            "symbol": "getIntervalStartDate",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1ab707756627b3279199e20b9e3d5e96553273d77c47b8d58a79163729dc9687",
+      "status": "pending",
+      "description": "if (interval === RRResetInterval.DAY) {\n    return startOfDay();\n  }"
+    },
+    {
+      "id": "RP-312224",
+      "title": "getIntervalStartDate: when interval is RRResetInterval.DAY, returns startOfDay(meetingStartTime)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 105,
+            "symbol": "getIntervalStartDate",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:58b174fbbd1fa34da62d7b1e05f69c5943f98fbe31fd4ec8cb106f5d7c2cd0d1",
+      "status": "pending",
+      "description": "if (interval === RRResetInterval.DAY) {\n      return startOfDay(meetingStartTime);\n    }"
+    },
+    {
+      "id": "RP-122337",
+      "title": "getIntervalStartDate: when rrTimestampBasis is RRTimestampBasis.START_TIME, then if (!meetingStartTime) { throw new Error(\"Meeting start time is required\"); }",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 101,
+            "symbol": "getIntervalStartDate",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:c0b8afdaba1cb7b9c2b9ed4e8ddae119895e3c76b3555b6e26e3d0914e609368",
+      "status": "pending",
+      "description": "if (rrTimestampBasis === RRTimestampBasis.START_TIME) {\n    if (!meetingStartTime) {\n      throw new Error(\"Meeting start time is required\");\n    }\n    if (interval === RRResetInterval.DAY) {"
+    },
+    {
+      "id": "RP-736722",
+      "title": "getLuckyUser_requiresDataToBePreFetched: when eventType.isRRWeightsEnabled, sets { remainingUsersAfterWeightFilter, usersAndTheirBookingShortfalls: _usersAndThe…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 742,
+            "symbol": "getLuckyUser_requiresDataToBePreFetched",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:8275e8f9bb996f8c95d1086c1254f16fec1a76c2a0b33ce1da1245de086cb4c6",
+      "status": "pending",
+      "description": "if (eventType.isRRWeightsEnabled) {\n      const {\n        remainingUsersAfterWeightFilter,\n        usersAndTheirBookingShortfalls: _usersAndTheirBookingShortfalls,\n      } = this.filterUsersBasedOnWeights({",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-450475",
+      "title": "getOrderedListOfLuckyUsers: when eventType.isRRWeightsEnabled, returns bookingShortfalls (otherwise null)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 883,
+            "symbol": "getOrderedListOfLuckyUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0683b9e007f6ce41d71d456c38a4171d17def2d4d885ff3ab8f42f6187bd3110",
+      "status": "pending",
+      "description": "eventType.isRRWeightsEnabled ? bookingShortfalls : null",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-355301",
+      "title": "getOrderedListOfLuckyUsers: when eventType.isRRWeightsEnabled, returns calibrations (otherwise null)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 884,
+            "symbol": "getOrderedListOfLuckyUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:9fcdcb7e31d1d876d6778b67ae0c37b1e328bb1463a167caeb87aa3b08294819",
+      "status": "pending",
+      "description": "eventType.isRRWeightsEnabled ? calibrations : null",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-494737",
+      "title": "getOrderedListOfLuckyUsers: when eventType.isRRWeightsEnabled, returns weights (otherwise null)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 885,
+            "symbol": "getOrderedListOfLuckyUsers",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:7385ebdce36875f9c3eebc0a19f433b451c05ec2ec83661ab12c555cda0ddd20",
+      "status": "pending",
+      "description": "eventType.isRRWeightsEnabled ? weights : null",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-706725",
+      "title": "handleSeats: when seatedBooking.attendees.find((attendee) => { return attendee.email is invitee[0…, throws HttpError",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleSeats/handleSeats.ts",
+            "line": 81,
+            "symbol": "handleSeats",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:59a8d61fd5d6e492d9834e1af8abba6c534cd4f0b6ba4dbc3ff2af6b04f7701b",
+      "status": "pending",
+      "description": "if (\n    seatedBooking.attendees.find((attendee) => {\n      return attendee.email === invitee[0].email;\n    }) &&\n    dayjs.utc(seatedBooking.startTime).format() === evt.startTime",
+      "tags": ["attendee", "booking", "seat"]
+    },
+    {
+      "id": "RP-538115",
+      "title": "handler: when bookingToDelete.payment.some((payment) => payment.paymentOption is HOLD), then try { await processNoShowFeeOnCancellation({ booking: bookingToDelete, payments…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleCancelBooking.ts",
+            "line": 417,
+            "symbol": "handler",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d2976ef39804f7c47433c8d220d9bab2b5bffdc26499986d210305f5da4d484d",
+      "status": "pending",
+      "description": "if (bookingToDelete.payment.some((payment) => payment.paymentOption === \"HOLD\")) {\n      try {\n        await processNoShowFeeOnCancellation({\n          booking: bookingToDelete,\n          payments: bookingToDelete.payment,",
+      "tags": ["booking", "payment"]
+    },
+    {
+      "id": "RP-377383",
+      "title": "handler: when bookingToDelete.payment.some((payment) => payment.paymentOption is ON_BOOKING), then try { await processPaymentRefund({ booking: bookingToDelete, }); } catch (error…",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleCancelBooking.ts",
+            "line": 409,
+            "symbol": "handler",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:79cf69d495776e0ea828b6cdeef932307419741f5babd00d4a0796068d72ce59",
+      "status": "pending",
+      "description": "if (bookingToDelete.payment.some((payment) => payment.paymentOption === \"ON_BOOKING\")) {\n      try {\n        await processPaymentRefund({\n          booking: bookingToDelete,\n        });",
+      "tags": ["booking", "payment"]
+    },
+    {
+      "id": "RP-989767",
+      "title": "handler: when bookingToDelete.status is BookingStatus.CANCELLED, throws HttpError",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleCancelBooking.ts",
+            "line": 135,
+            "symbol": "handler",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:ba123ac43990c57d997f315fb347248b911defad1ce038465baf69f3d574d714",
+      "status": "pending",
+      "description": "if (bookingToDelete.status === BookingStatus.CANCELLED) {\n    throw new HttpError({\n      statusCode: 400,\n      message: \"This booking has already been cancelled.\",\n    });",
+      "tags": ["booking", "cancel"]
+    },
+    {
+      "id": "RP-563194",
+      "title": "handler: when not platformClientId and not cancellationReason?.trim() and isReasonRequired an…, throws HttpError",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/handleCancelBooking.ts",
+            "line": 161,
+            "symbol": "handler",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:1938678f66b1f5e61e485377450c2797b34ae2b7f74752b4a7bb3db72df43062",
+      "status": "pending",
+      "description": "if (!platformClientId && !cancellationReason?.trim() && isReasonRequired && !skipCancellationReasonValidation) {\n    throw new HttpError({\n      statusCode: 400,\n      message: \"Cancellation reason is required\",\n    });",
+      "tags": ["cancel"]
+    },
+    {
+      "id": "RP-646710",
+      "title": "isFullDayEvent: when difference % MILLISECONDS_IN_A_DAY is 0, returns true",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 123,
+            "symbol": "isFullDayEvent",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:93cfd16808a8d1a8aafed7dd9a88959cb04c3d88d784416d620db9cc5200c55b",
+      "status": "pending",
+      "description": "if (difference % MILLISECONDS_IN_A_DAY === 0) return true;",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-009393",
+      "title": "isPastBookingRescheduleBehaviourToPreventBooking: when not ENV_PAST_BOOKING_RESCHEDULE_CHANGE_TEAM_IDS, returns false",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/reschedule/determineReschedulePreventionRedirect.ts",
+            "line": 52,
+            "symbol": "isPastBookingRescheduleBehaviourToPreventBooking",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:e01d53b2ad8804ded39d271a65f0b4d3ae9f218dfe0aa67caadfbbc0b5cfa53d",
+      "status": "pending",
+      "description": "if (!ENV_PAST_BOOKING_RESCHEDULE_CHANGE_TEAM_IDS) {\n    return false;\n  }",
+      "tags": ["booking", "event", "reschedule"]
+    },
+    {
+      "id": "RP-923543",
+      "title": "leastRecentlyBookedUser: when eventType.isRRWeightsEnabled, returns 0 (otherwise a.id - b.id)",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 220,
+            "symbol": "leastRecentlyBookedUser",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:9d0a8bc43cf39a880c4509b59a634f485de771e3f0dc3dac5a9ce175ff2f6902",
+      "status": "pending",
+      "description": "eventType.isRRWeightsEnabled ? 0 : a.id - b.id",
+      "tags": ["event"]
+    },
+    {
+      "id": "RP-787609",
+      "title": "leastRecentlyBookedUser: when not booking.attendees.map((attendee) => attendee.email).includes(user.email), returns",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/getLuckyUser.ts",
+            "line": 190,
+            "symbol": "leastRecentlyBookedUser",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:29adb061e21c74b8fd1d569ff05eca6d2cb4f5acdaccdba8c19f339df290bfa5",
+      "status": "pending",
+      "description": "if (!booking.attendees.map((attendee) => attendee.email).includes(user.email)) return;",
+      "tags": ["attendee", "booking"]
+    },
+    {
+      "id": "RP-479917",
+      "title": "processNoShowFeeOnCancellation: when membership and (membership.role is MembershipRole.OWNER or membership.role is M…, calls log.info",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/payment/processNoShowFeeOnCancellation.ts",
+            "line": 37,
+            "symbol": "processNoShowFeeOnCancellation",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d03c1ef6c4611bf84d8bfef41b32e8623c66fe4f2293591652bd90208d7d551a",
+      "status": "pending",
+      "description": "if (\n      membership &&\n      (membership.role === MembershipRole.OWNER || membership.role === MembershipRole.ADMIN)\n    ) {\n      log.info(",
+      "tags": ["cancel"]
+    },
+    {
+      "id": "RP-000414",
+      "title": "processPaymentRefund: when not appData?.refundPolicy or appData.refundPolicy is RefundPolicy.NEVER, returns",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/payment/processPaymentRefund.ts",
+            "line": 42,
+            "symbol": "processPaymentRefund",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:27091fc0f70c5e80649aeadb4a473b56fa67bb7f0960801f2c2b0b45a10fa4d9",
+      "status": "pending",
+      "description": "if (!appData?.refundPolicy || appData.refundPolicy === RefundPolicy.NEVER) return;",
+      "tags": ["payment"]
+    },
+    {
+      "id": "RP-466621",
+      "title": "processPaymentRefund: when refundPolicy is RefundPolicy.DAYS and refundDaysCount, sets refundDeadline",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/payment/processPaymentRefund.ts",
+            "line": 76,
+            "symbol": "processPaymentRefund",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:3610abc62d6720fc4e77e532ef5dd7f0bc1c27a6e8a27fd521933ac5cecfca7e",
+      "status": "pending",
+      "description": "if (refundPolicy === RefundPolicy.DAYS && refundDaysCount) {\n    const refundDeadline =\n      refundCountCalendarDays === true\n        ? dayjs(startTime).subtract(refundDaysCount, \"days\")\n        : // businessDaysSubtract exists on extended dayjs instance, but ts is messing up",
+      "tags": ["payment"]
+    },
+    {
+      "id": "RP-686881",
+      "title": "shouldChargeNoShowCancellationFee: when not cancellationFeeEnabled or paymentOption is not HOLD or not booking?.startTi…, returns false",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/features/bookings/lib/payment/shouldChargeNoShowCancellationFee.ts",
+            "line": 37,
+            "symbol": "shouldChargeNoShowCancellationFee",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:bfdeb49d7a7df5b021bf95db2b40a6a74b8344975b1a914395941e303926f96d",
+      "status": "pending",
+      "description": "if (!cancellationFeeEnabled || paymentOption !== \"HOLD\" || !booking?.startTime) {\n    return false;\n  }",
+      "tags": ["cancel", "payment"]
+    }
+  ]
+}

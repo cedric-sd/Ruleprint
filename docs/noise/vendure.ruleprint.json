@@ -1,0 +1,328 @@
+{
+  "specVersion": "0.1",
+  "project": {
+    "name": "vendure",
+    "commit": "01b752cb4b7ec146726c54d23b799a4df65d876e",
+    "repository": "https://github.com/vendure-ecommerce/vendure"
+  },
+  "generatedAt": "2026-09-08T13:19:57.033Z",
+  "rules": [
+    {
+      "id": "RP-803888",
+      "title": "addPromotion: when order.promotions and not order.promotions.find(p => idsAreEqual(p.id, promotion…, calls order.promotions.push",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-calculator/order-calculator.ts",
+            "line": 386,
+            "symbol": "addPromotion",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:f1e40feaf5e8c7c14797e6d919fb79fb0789ddf60ecfe9e0223f8539ebcd3ade",
+      "status": "pending",
+      "description": "if (order.promotions && !order.promotions.find(p => idsAreEqual(p.id, promotion.id))) {\n            order.promotions.push(promotion);\n        }",
+      "tags": ["order", "promotion"]
+    },
+    {
+      "id": "RP-275163",
+      "title": "applyPriceAdjustments: when taxZoneChanged, calls this.applyTaxes",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-calculator/order-calculator.ts",
+            "line": 89,
+            "symbol": "applyPriceAdjustments",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:b905ae1e56952d72e33e2693cf22189e5ac9c026ec29950175bc8e931c11c7c1",
+      "status": "pending",
+      "description": "if (taxZoneChanged) {\n                // First apply taxes to the non-discounted prices\n                await this.applyTaxes(ctx, order, activeTaxZone);\n            }",
+      "tags": ["price", "tax"]
+    },
+    {
+      "id": "RP-614637",
+      "title": "cancelOrderByOrderLines: when order.active, returns new CancelActiveOrderError({ orderState: order.state })",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 268,
+            "symbol": "cancelOrderByOrderLines",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:db8d8864dfd3fbe4ce8b9d5c0c2dfac374b85b5422505aafbd7e4770f7253911",
+      "status": "pending",
+      "description": "if (order.active) {\n            return new CancelActiveOrderError({ orderState: order.state });\n        }",
+      "tags": ["line", "order"]
+    },
+    {
+      "id": "RP-275486",
+      "title": "coerceValue: when def.type is boolean and typeof existingCustomFields?.[key] is number, returns !!existingCustomFields?.[key] (otherwise existingCustomFields?.[key])",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 904,
+            "symbol": "coerceValue",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0f5d2f434f5d32a79f4173608220ec33d9327ddb9f949729fa372dfb2ed12f60",
+      "status": "pending",
+      "description": "def.type === 'boolean' && typeof existingCustomFields?.[key] === 'number'\n            ? !!existingCustomFields?.[key]\n            : existingCustomFields?.[key]"
+    },
+    {
+      "id": "RP-138057",
+      "title": "customFieldsAreEqual: when def.type is not relation and existingValue is not undefined, sets valuesMatch",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 867,
+            "symbol": "customFieldsAreEqual",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0b1d4a96cc93f624c81355b794c6a4b2f09edd36094ba4413bfe5fb1e0bb1cde",
+      "status": "pending",
+      "description": "if (def.type !== 'relation' && existingValue !== undefined) {\n                const valuesMatch =\n                    JSON.stringify(inputCustomFields?.[key]) === JSON.stringify(existingValue);\n                const undefinedMatchesNull = existingValue === null && inputCustomFields?.[key] === undefined;\n                const defaultValueMatch ="
+    },
+    {
+      "id": "RP-162170",
+      "title": "customFieldsAreEqual: when def.type is relation, sets inputId",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 876,
+            "symbol": "customFieldsAreEqual",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:54de04955f63b82048286b8d53146f0965425ac0a2ca6ace93d861a75eb3052d",
+      "status": "pending",
+      "description": "if (def.type === 'relation') {\n                const inputId = getGraphQlInputName(def);\n                const inputValue = inputCustomFields?.[inputId];\n                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion\n                const existingRelation = (lineWithCustomFieldRelations!.customFields as any)[key];"
+    },
+    {
+      "id": "RP-032106",
+      "title": "getLinesToModify: when not lineIsModified, returns",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-merger/order-merger.ts",
+            "line": 93,
+            "symbol": "getLinesToModify",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:0cf02f8bfb21cff7c8bc5f14403a3a73b958ff4b2418dcf74b1af1bba9750523",
+      "status": "pending",
+      "description": "if (!lineIsModified) {\n                    return;\n                }",
+      "tags": ["line"]
+    },
+    {
+      "id": "RP-774515",
+      "title": "getOrderFromContext: when order and order.active is false, calls this.sessionService.unsetActiveOrder",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/active-order/active-order.service.ts",
+            "line": 52,
+            "symbol": "getOrderFromContext",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:9eb6d2491a7f24d379497ce610f535a8ced614f50f25a10dab411aead35a9b89",
+      "status": "pending",
+      "description": "if (order && order.active === false) {\n            // edge case where an inactive order may not have been\n            // removed from the session, i.e. the regular process was interrupted\n            await this.sessionService.unsetActiveOrder(ctx, ctx.session);\n            order = undefined;",
+      "tags": ["order"]
+    },
+    {
+      "id": "RP-079590",
+      "title": "merge: when guestOrder and not this.orderEmpty(guestOrder) and (not existingOrder or (exist…, returns { order: guestOrder, orderToDelete: existingOrder, }",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-merger/order-merger.ts",
+            "line": 42,
+            "symbol": "merge",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:b8869adca7a7ac2b8355e1671086e5edfe6961af883aa278b13592cf6720dd33",
+      "status": "pending",
+      "description": "if (\n            guestOrder &&\n            !this.orderEmpty(guestOrder) &&\n            (!existingOrder || (existingOrder && this.orderEmpty(existingOrder)))\n        ) {",
+      "tags": ["order"]
+    },
+    {
+      "id": "RP-611342",
+      "title": "merge: when guestOrder and not this.orderEmpty(guestOrder) and existingOrder and not this.o…, sets { mergeStrategy }",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-merger/order-merger.ts",
+            "line": 32,
+            "symbol": "merge",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:54f59decf47ec135a6e789d6fb6a09cdf10baf4c9809799f7a9849000e3ba3c1",
+      "status": "pending",
+      "description": "if (guestOrder && !this.orderEmpty(guestOrder) && existingOrder && !this.orderEmpty(existingOrder)) {\n            const { mergeStrategy } = this.configService.orderOptions;\n            const mergedLines = await mergeStrategy.merge(ctx, guestOrder, existingOrder);\n            return {\n                order: existingOrder,",
+      "tags": ["order"]
+    },
+    {
+      "id": "RP-631848",
+      "title": "modifyOrder: when not canonicalCouponCodes.some(cc => couponCodesMatch(cc, canonicalCode)), calls canonicalCouponCodes.push",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 596,
+            "symbol": "modifyOrder",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:99b77251f0812592d27f3705bff14045ea8fb537efe0cd6198e7b0f84588606a",
+      "status": "pending",
+      "description": "if (!canonicalCouponCodes.some(cc => couponCodesMatch(cc, canonicalCode))) {\n                    canonicalCouponCodes.push(canonicalCode);\n                }",
+      "tags": ["coupon", "order"]
+    },
+    {
+      "id": "RP-384125",
+      "title": "modifyOrder: when not canonicalCouponCodes.some(cc => couponCodesMatch(cc, existingCouponCode)), calls this.historyService.createHistoryEntryForOrder",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 610,
+            "symbol": "modifyOrder",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:ad051ebf706c706f16ec1e45734730642fa17c8a075e06481756cfa51d3de99b",
+      "status": "pending",
+      "description": "if (!canonicalCouponCodes.some(cc => couponCodesMatch(cc, existingCouponCode))) {\n                    // An existing coupon code has been removed\n                    await this.historyService.createHistoryEntryForOrder({\n                        ctx,\n                        orderId: order.id,",
+      "tags": ["coupon", "order"]
+    },
+    {
+      "id": "RP-958988",
+      "title": "modifyOrder: when not order.couponCodes.some(cc => couponCodesMatch(cc, canonicalCode)), calls this.historyService.createHistoryEntryForOrder",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 599,
+            "symbol": "modifyOrder",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:76686a54ca40b4cd300692c548c931dda1fb7914f7d3bd0164c58b68f1cff2c0",
+      "status": "pending",
+      "description": "if (!order.couponCodes.some(cc => couponCodesMatch(cc, canonicalCode))) {\n                    // This is a new coupon code that hadn't been applied before\n                    await this.historyService.createHistoryEntryForOrder({\n                        ctx,\n                        orderId: order.id,",
+      "tags": ["coupon", "order"]
+    },
+    {
+      "id": "RP-616066",
+      "title": "modifyOrder: when order.state is not Modifying, returns new OrderModificationStateError()",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 398,
+            "symbol": "modifyOrder",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:02a099b4478b46583c878214209590fa7bfdb30bd2de2572b084fb0999cd9540",
+      "status": "pending",
+      "description": "if (order.state !== 'Modifying') {\n            return new OrderModificationStateError();\n        }",
+      "tags": ["order", "state"]
+    },
+    {
+      "id": "RP-063548",
+      "title": "updateOrderLineQuantity: when not order.active and order.state is not Draft, calls this.stockMovementService.createAllocationsForOrderLines",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 224,
+            "symbol": "updateOrderLineQuantity",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:eb84be36657e561c467301d21a78acf97c8401bde64bf5c51c766c68e50cc6a5",
+      "status": "pending",
+      "description": "if (!order.active && order.state !== 'Draft') {\n                await this.stockMovementService.createAllocationsForOrderLines(ctx, [\n                    {\n                        orderLineId: orderLine.id,\n                        quantity: quantity - currentQuantity,",
+      "tags": ["line", "order", "quantity", "state"]
+    },
+    {
+      "id": "RP-983873",
+      "title": "updateOrderLineQuantity: when not order.active and order.state is not Draft, calls this.stockMovementService.createCancellationsForOrderLines",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "packages/core/src/service/helpers/order-modifier/order-modifier.ts",
+            "line": 233,
+            "symbol": "updateOrderLineQuantity",
+            "kind": "code"
+          }
+        ]
+      },
+      "fingerprint": "sha256:d3a90da102b8275b35660f5674e36bfbcfbfa5cc76eafa0ccdf576e1cac5c209",
+      "status": "pending",
+      "description": "if (!order.active && order.state !== 'Draft') {\n                // When an Order is not active (i.e. Customer checked out), then we don't want to just\n                // delete the OrderItems - instead we will cancel them\n                // const toSetAsCancelled = orderLine.items.filter(i => !i.cancelled).slice(quantity);\n                // const fulfilledItems = toSetAsCancelled.filter(i => !!i.fulfillment);",
+      "tags": ["line", "order", "quantity", "state"]
+    }
+  ]
+}

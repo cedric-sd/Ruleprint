@@ -84,14 +84,30 @@ sinal, não a forma.
    (`packages/features/bookings/lib` ou equivalente confirmado na hora).
 2. `.ruleprint/config.json` com `include` desse diretório e um glossário de 10 a 20 termos
    tirados do próprio repositório (README, nomes de módulos), registrado na planilha.
-3. `ruleprint scan` com o CLI buildado; o `ruleprint.json` cru vai para
-   `docs/noise/<repo>.ruleprint.json`.
+3. `ruleprint scan` com o CLI buildado; o `ruleprint.json` cru, restrito às regras `inferred`,
+   vai para `docs/noise/<repo>.ruleprint.json`.
 4. Planilha `docs/noise/<repo>.md`: uma linha por candidato (id, arquivo:linha, título), coluna
    `Regra?` vazia para o dono, coluna `Sugestão` com a leitura do agente (`regra` ou `ruído` e
    um motivo curto). O cabeçalho traz total e a taxa sugerida.
 5. Taxa de ruído = candidatos marcados como ruído ÷ total, por repo e no agregado. Acima de 30%
    em qualquer repo, o coletor continua opt-in e marcado como experimental no README, e os
    filtros voltam ao ADR antes de qualquer liberação.
+
+### Ajustes após a primeira medição
+
+Os primeiros scans (183, 190 e 512 candidatos em medusa, vendure e cal.com) mostraram ruído que
+os filtros acima não cobriam. Entraram no coletor antes das planilhas de `docs/noise/`:
+
+- `.length`/`.size`/`.count` nus e `!x?.length` são checagens de presença, não sinal;
+- `map.has(x)` / `set.has(x)` são checagens de presença, como `x in obj`;
+- termo do glossário em referência nua (`order.items`) só conta quando o nome lê como predicado
+  (`isPaid`, `charge.disputed`, `requiresConfirmation`, `hasTargetRules`); em chamadas, o
+  glossário é casado só no callee, nunca nos argumentos;
+- `typeof x === 'string'` dentro de um `||` não empresta o literal `'string'` como sinal.
+
+Resultado da rodada (sugestão do agente, a marcação do dono é o DoD): medusa 29/79 (36,7%),
+vendure 6/16 (37,5%), cal.com 10/37 (27,0%). Acima de 30% em dois repos: o coletor segue opt-in
+e experimental até a marcação do dono.
 
 ## Consequências
 
