@@ -87,6 +87,23 @@ function isSizeAccess(node: Node): boolean {
   );
 }
 
+/** `map.has(key)` / `set.has(value)`: a presence check, like `key in obj`. */
+function isPresenceCall(node: Node): boolean {
+  const inner = unwrap(node);
+  if (inner.type !== 'call_expression') return false;
+  const callee = inner.childForFieldName('function');
+  return (
+    callee?.type === 'member_expression' && callee.childForFieldName('property')?.text === 'has'
+  );
+}
+
+function isTypeofCheck(node: Node): boolean {
+  const inner = unwrap(node);
+  return (
+    inner.type === 'unary_expression' && inner.childForFieldName('operator')?.text === 'typeof'
+  );
+}
+
 function isNullish(node: Node): boolean {
   const inner = unwrap(node);
   return inner.type === 'null' || inner.type === 'undefined';
@@ -177,7 +194,7 @@ function referenceSignals(node: Node, glossary: readonly string[]): string[] {
   const inner = unwrap(node);
   const tags: string[] = [];
   let found = false;
-  if (isSizeAccess(inner)) return [];
+  if (isSizeAccess(inner) || isPresenceCall(inner)) return [];
   if (inner.type === 'identifier' && isScreaming(inner.text)) found = true;
   if (enumLike(inner)) found = true;
   if (inner.type === 'member_expression') {
@@ -242,16 +259,7 @@ function isNoise(node: Node, glossary: readonly string[]): boolean {
       if (operator === 'instanceof') return true;
       if (COMPARISON.has(operator)) {
         if (isNullish(left) || isNullish(right)) return true;
-        if (
-          unwrap(left).type === 'unary_expression' &&
-          unwrap(left).childForFieldName('operator')?.text === 'typeof'
-        )
-          return true;
-        if (
-          unwrap(right).type === 'unary_expression' &&
-          unwrap(right).childForFieldName('operator')?.text === 'typeof'
-        )
-          return true;
+        if (isTypeofCheck(left) || isTypeofCheck(right)) return true;
         if (
           (isSizeAccess(left) && isLiteral(right) && isTrivialLiteral(unwrap(right))) ||
           (isSizeAccess(right) && isLiteral(left) && isTrivialLiteral(unwrap(left)))
@@ -270,7 +278,7 @@ function isNoise(node: Node, glossary: readonly string[]): boolean {
     }
     case 'call_expression': {
       const callee = inner.childForFieldName('function')?.text ?? '';
-      return NOISE_CALLS.has(callee);
+      return NOISE_CALLS.has(callee) || isPresenceCall(inner);
     }
     case 'identifier':
     case 'member_expression':
@@ -289,7 +297,13 @@ function collectSignals(node: Node, glossary: readonly string[], tags: Set<strin
     const operator = inner.childForFieldName('operator')?.text ?? '';
     const left = inner.childForFieldName('left');
     const right = inner.childForFieldName('right');
-    if (left && right && COMPARISON.has(operator)) {
+    if (
+      left &&
+      right &&
+      COMPARISON.has(operator) &&
+      !isTypeofCheck(left) &&
+      !isTypeofCheck(right)
+    ) {
       const literalSide = [left, right].find(
         (side) => isLiteral(unwrap(side)) && !isTrivialLiteral(unwrap(side)),
       );

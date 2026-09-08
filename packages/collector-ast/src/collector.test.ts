@@ -178,6 +178,14 @@ describe('createAstCollector()', () => {
         'a constant mixed with a null check only',
         'function f(a) { if (a === null || a === undefined) { return DEFAULT; } }',
       ],
+      [
+        'a typeof check joined to a trivial comparison',
+        "function f(result) { if (result === false || typeof result === 'string') { return result; } }",
+      ],
+      [
+        'a Map/Set presence check',
+        'function f(seen, code) { if (!seen.has(code)) { seen.set(code, 1); } }',
+      ],
     ])('drops %s', async (_label, source) => {
       expect(titles(await collect(source))).toEqual([]);
     });
@@ -192,6 +200,10 @@ describe('createAstCollector()', () => {
       [
         'a glossary term only in call arguments',
         'function f(e) { if (Object.prototype.hasOwnProperty.call(e, bookingLimits)) { go(); } }',
+      ],
+      [
+        'a presence check on a glossary-named map',
+        'function f(orderMap, id) { if (orderMap.has(id)) { go(); } }',
       ],
     ])('drops %s even with a glossary', async (_label, source) => {
       expect(
