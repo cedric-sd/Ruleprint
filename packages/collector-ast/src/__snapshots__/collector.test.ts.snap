@@ -1,0 +1,124 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`createAstCollector() > against examples/fixture-express-api > matches the snapshot 1`] = `
+{
+  "src/app.ts": [],
+  "src/order.ts": [
+    {
+      "description": "if (count > MAX_ITEMS_PER_ORDER) {
+    throw new OrderError('too many items');
+  }",
+      "normalized": "(if_statement (parenthesized_expression (binary_expression identifier:count identifier:MAX_ITEMS_PER_ORDER ) ) (statement_block (throw_statement (new_expression identifier:OrderError (arguments string:"too many items" ) ) ) ) )",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/order.ts",
+            "kind": "code",
+            "line": 21,
+            "symbol": "assertValidOrder",
+          },
+        ],
+      },
+      "tags": [
+        "order",
+      ],
+      "title": "assertValidOrder: when count > MAX_ITEMS_PER_ORDER, throws OrderError: too many items",
+    },
+    {
+      "description": "if (subtotal(items) < MIN_ORDER_VALUE) {
+    throw new OrderError('below minimum');
+  }",
+      "normalized": "(if_statement (parenthesized_expression (binary_expression (call_expression identifier:subtotal (arguments identifier:items ) ) identifier:MIN_ORDER_VALUE ) ) (statement_block (throw_statement (new_expression identifier:OrderError (arguments string:"below minimum" ) ) ) ) )",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/order.ts",
+            "kind": "code",
+            "line": 24,
+            "symbol": "assertValidOrder",
+          },
+        ],
+      },
+      "tags": [
+        "order",
+      ],
+      "title": "assertValidOrder: when subtotal(items) < MIN_ORDER_VALUE, throws OrderError: below minimum",
+    },
+  ],
+  "src/refund.ts": [
+    {
+      "description": "if (charge.disputed) {
+    return false;
+  }",
+      "normalized": "(if_statement (parenthesized_expression (member_expression identifier:charge property_identifier:disputed ) ) (statement_block (return_statement false:false ) ) )",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/refund.ts",
+            "kind": "code",
+            "line": 10,
+            "symbol": "canRefund",
+          },
+        ],
+      },
+      "tags": [
+        "dispute",
+        "refund",
+      ],
+      "title": "canRefund: when charge.disputed, returns false",
+    },
+  ],
+  "src/shipping.ts": [
+    {
+      "description": "if (subtotal >= FREE_SHIPPING_THRESHOLD && isSoutheast(address)) {
+    return 0;
+  }",
+      "normalized": "(if_statement (parenthesized_expression (binary_expression (binary_expression identifier:subtotal identifier:FREE_SHIPPING_THRESHOLD ) (call_expression identifier:isSoutheast (arguments identifier:address ) ) ) ) (statement_block (return_statement number:0 ) ) )",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/shipping.ts",
+            "kind": "code",
+            "line": 14,
+            "symbol": "calcFreight",
+          },
+        ],
+      },
+      "tags": [
+        "freight",
+        "southeast",
+      ],
+      "title": "calcFreight: when subtotal >= FREE_SHIPPING_THRESHOLD and isSoutheast(address), returns 0",
+    },
+    {
+      "description": "isSoutheast(address) ? 19.9 : 34.9",
+      "normalized": "(ternary_expression (call_expression identifier:isSoutheast (arguments identifier:address ) ) number:19.9 number:34.9 )",
+      "origin": {
+        "collector": "ast",
+        "confidence": "inferred",
+        "sources": [
+          {
+            "file": "src/shipping.ts",
+            "kind": "code",
+            "line": 17,
+            "symbol": "calcFreight",
+          },
+        ],
+      },
+      "tags": [
+        "freight",
+        "southeast",
+      ],
+      "title": "calcFreight: when isSoutheast(address), returns 19.9 (otherwise 34.9)",
+    },
+  ],
+}
+`;

@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 import type { RuleCandidate } from '@ruleprint/core';
+import type { AstConfig } from '@ruleprint/spec';
 import { describe, expect, it, vi } from 'vitest';
 
 import { createAstCollector } from './index.js';
@@ -95,7 +96,7 @@ describe('createAstCollector()', () => {
         origin: {
           collector: 'ast',
           confidence: 'inferred',
-          sources: [{ file: 'src/shipping.ts', line: 15, symbol: 'calcFreight', kind: 'code' }],
+          sources: [{ file: 'src/shipping.ts', line: 14, symbol: 'calcFreight', kind: 'code' }],
         },
       });
       expect(freight?.description).toContain(
