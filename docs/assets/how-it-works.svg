@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="330" viewBox="0 0 1040 330" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="14">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="1040" height="330" rx="12" fill="#f8f7f4"/>
+
+  <!-- Repository -->
+  <rect x="24" y="70" width="200" height="190" rx="10" fill="#ffffff" stroke="#d6d3cd"/>
+  <text x="124" y="98" text-anchor="middle" font-weight="700" fill="#1f2937">Your repository</text>
+  <text x="40" y="128" fill="#374151">📄 tests</text>
+  <text x="56" y="146" fill="#6b7280" font-size="12">vitest / jest describe &amp; it</text>
+  <text x="40" y="174" fill="#374151">📝 .ruleprint/rules/*.md</text>
+  <text x="56" y="192" fill="#6b7280" font-size="12">rules written by people</text>
+  <text x="40" y="220" fill="#374151">🧩 code</text>
+  <text x="56" y="238" fill="#6b7280" font-size="12">@rule comments, conditionals</text>
+
+  <line x1="224" y1="165" x2="268" y2="165" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Collectors -->
+  <rect x="272" y="70" width="180" height="190" rx="10" fill="#ffffff" stroke="#d6d3cd"/>
+  <text x="362" y="98" text-anchor="middle" font-weight="700" fill="#1f2937">Collectors</text>
+  <rect x="290" y="114" width="144" height="26" rx="6" fill="#eef2ff" stroke="#c7d2fe"/>
+  <text x="362" y="132" text-anchor="middle" fill="#3730a3">tests → derived</text>
+  <rect x="290" y="148" width="144" height="26" rx="6" fill="#ecfdf5" stroke="#a7f3d0"/>
+  <text x="362" y="166" text-anchor="middle" fill="#065f46">config → declared</text>
+  <rect x="290" y="182" width="144" height="26" rx="6" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="362" y="200" text-anchor="middle" fill="#374151">annotations → links</text>
+  <rect x="290" y="216" width="144" height="26" rx="6" fill="#f3f4f6" stroke="#d1d5db"/>
+  <text x="362" y="234" text-anchor="middle" fill="#374151">ast → inferred</text>
+
+  <line x1="452" y1="165" x2="496" y2="165" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Core -->
+  <rect x="500" y="70" width="180" height="190" rx="10" fill="#ffffff" stroke="#d6d3cd"/>
+  <text x="590" y="98" text-anchor="middle" font-weight="700" fill="#1f2937">Core (pure)</text>
+  <text x="590" y="130" text-anchor="middle" fill="#374151">merge &amp; dedup</text>
+  <text x="590" y="154" text-anchor="middle" fill="#374151">declared › derived › inferred</text>
+  <text x="590" y="178" text-anchor="middle" fill="#374151">fingerprint (normalised AST)</text>
+  <text x="590" y="202" text-anchor="middle" fill="#374151">diff against ruleprint.lock</text>
+  <text x="590" y="238" text-anchor="middle" fill="#6b7280" font-size="12">→ ruleprint.json</text>
+
+  <line x1="680" y1="120" x2="724" y2="100" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="680" y1="165" x2="724" y2="165" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="680" y1="210" x2="724" y2="230" stroke="#6b7280" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Outputs -->
+  <rect x="728" y="70" width="288" height="56" rx="10" fill="#ffffff" stroke="#d6d3cd"/>
+  <text x="744" y="93" font-weight="700" fill="#1f2937">📖 Rule book</text>
+  <text x="744" y="113" fill="#6b7280" font-size="12">serve (hot reload) · build (static site)</text>
+
+  <rect x="728" y="137" width="288" height="56" rx="10" fill="#ffffff" stroke="#d6d3cd"/>
+  <text x="744" y="160" font-weight="700" fill="#1f2937">✅ Approval memory</text>
+  <text x="744" y="180" fill="#6b7280" font-size="12">approve → ruleprint.lock · check fails on drift</text>
+
+  <rect x="728" y="204" width="288" height="56" rx="10" fill="#ffffff" stroke="#d6d3cd"/>
+  <text x="744" y="227" font-weight="700" fill="#1f2937">🤖 Pull request bot</text>
+  <text x="744" y="247" fill="#6b7280" font-size="12">pr · tick a box to approve and commit the lock</text>
+
+  <text x="520" y="300" text-anchor="middle" fill="#6b7280" font-size="12">Nobody writes documentation. The team's only job is to say "yes" or "no".</text>
+</svg>
