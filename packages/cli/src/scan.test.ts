@@ -27,16 +27,10 @@ describe('scanProject()', () => {
     await expect(`${JSON.stringify(result.document, null, 2)}\n`).toMatchFileSnapshot(GOLDEN);
   });
 
-  it('reads the fixture lock and reports what is pending', async () => {
+  it('reads the fixture lock and reports no changes', async () => {
     const result = await scanProject(FIXTURE, { now: NOW, git: false });
-    // One renamed rule waits to be approved from the pull request (dogfood of ADR-0008).
-    expect(result.changes).toEqual([
-      expect.objectContaining({
-        kind: 'renamed',
-        title: 'refund > janela de 7 dias > recusa reembolso após a janela',
-      }),
-    ]);
-    expect(result.document.rules.filter((rule) => rule.status === 'approved')).toHaveLength(19);
+    expect(result.changes).toEqual([]);
+    expect(result.document.rules.filter((rule) => rule.status === 'approved')).toHaveLength(20);
     expect(result.document.rules.filter((rule) => rule.status === 'orphan')).toHaveLength(1);
     expect(Object.keys(result.lock.rules)).toHaveLength(21);
   });
