@@ -121,11 +121,11 @@
       "approvedBy": "git:fixture@ruleprint.dev"
     },
     "RP-856064": {
-      "title": "refund > janela de 7 dias > bloqueia reembolso após a janela",
+      "title": "refund > janela de 7 dias > recusa reembolso após a janela",
       "collector": "tests",
       "fingerprint": "sha256:4a69f0eb39165bc22ccfc83a988e460ed779b86fa795a688df6fe97bd17309d3",
-      "approvedAt": "2026-09-08T13:10:54.094Z",
-      "approvedBy": "git:fixture@ruleprint.dev"
+      "approvedAt": "2026-09-09T18:01:16.263Z",
+      "approvedBy": "github:cedric-sd"
     },
     "RP-890485": {
       "title": "assertValidOrder: when subtotal(items) < MIN_ORDER_VALUE, throws OrderError: below minimum",
