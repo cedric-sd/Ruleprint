@@ -7,6 +7,7 @@ export {
   type ApproveResult,
 } from './approve.js';
 export { buildSite, type BuildOptions, type BuildResult } from './build.js';
+export { describeRule, type DescribeOptions, type DescribeResult } from './describe.js';
 export { readLock, writeLock } from './lock-io.js';
 export {
   promoteRule,

@@ -61,7 +61,17 @@ describe('ruleprint (bin)', () => {
 
   it('prints help', () => {
     const stdout = ruleprint(['--help']);
-    for (const command of ['init', 'scan', 'serve', 'build', 'check', 'approve', 'promote', 'pr']) {
+    for (const command of [
+      'init',
+      'scan',
+      'serve',
+      'build',
+      'check',
+      'approve',
+      'promote',
+      'describe',
+      'pr',
+    ]) {
       expect(stdout).toContain(command);
     }
   });

@@ -134,6 +134,14 @@ describe('validate()', () => {
     ]);
   });
 
+  it('accepts an optional non-empty group on a rule (ADR-0009)', () => {
+    const golden = readJson(GOLDEN_DIR, 'minimal.ruleprint.json') as { rules: object[] };
+    const [rule] = golden.rules;
+    expect(validate({ ...golden, rules: [{ ...rule, group: 'signup' }] }).valid).toBe(true);
+    expect(issuePaths({ ...golden, rules: [{ ...rule, group: '' }] })).toEqual(['/rules/0/group']);
+    expect(issuePaths({ ...golden, rules: [{ ...rule, group: 3 }] })).toEqual(['/rules/0/group']);
+  });
+
   it('rejects non-object inputs without throwing', () => {
     for (const input of [null, undefined, 42, 'text', [], true]) {
       const result = validate(input);

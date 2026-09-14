@@ -182,6 +182,11 @@
           "description": "Longer explanation, conditions and exceptions.",
           "type": "string"
         },
+        "group": {
+          "description": "Group the rule belongs to in the book: the top-level describe of its test, the function that contains it, or the front-matter group of its declaration.",
+          "type": "string",
+          "minLength": 1
+        },
         "tags": {
           "type": "array",
           "uniqueItems": true,

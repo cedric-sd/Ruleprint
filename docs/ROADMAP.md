@@ -165,6 +165,13 @@ com checkbox; marcar a caixa (ou "Approve all") aprova como `github:<login>` e c
 **DoD:** dogfood no próprio repo: o bot comenta e aprova num PR deste repositório. Pendências do
 dono: publicar `ruleprint` no npm e criar a tag `v1` para a action ser usável fora daqui.
 
+### Entre M7 e M8 — Grupos e descrição editável (concluído)
+
+Campo `group` em `Rule` (describe de primeiro nível, função ou `group` do front-matter), UI com
+uma linha colapsável por grupo, e descrição editável na UI servida (`PUT /api/rules/<id>`) ou por
+`ruleprint describe`, gravada como regra declarada. Decisões em
+`docs/adr/0009-grupos-de-regras-e-descricao-editavel.md`.
+
 ### M8 — Multi-linguagem e distribuição
 
 tree-sitter para Python e Java, coletores pytest e JUnit, imagem Docker, binários em Releases.

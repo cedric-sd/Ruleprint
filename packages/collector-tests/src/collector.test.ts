@@ -100,6 +100,19 @@ describe('testsCollector', () => {
       }
     });
 
+    it('groups every rule under its top-level describe (ADR-0009)', async () => {
+      const shipping = await collect(fixtureFile('shipping.spec.ts'));
+      expect(new Set(shipping.map((c) => c.group))).toEqual(new Set(['shipping']));
+      const refund = await collect(fixtureFile('refund.spec.ts'));
+      expect(refund.map((c) => c.group)).toEqual(['refund', 'refund', 'refund', 'refund']);
+      const loose = await collect({
+        path: 'test/loose.spec.ts',
+        content: "it('stands alone', () => { expect(1).toBe(1); });",
+      });
+      expect(loose).toHaveLength(1);
+      expect(loose[0]).not.toHaveProperty('group');
+    });
+
     it('points the source at the line of the it() call and names the leaf as symbol', async () => {
       const [first] = await collect(fixtureFile('shipping.spec.ts'));
       expect(first?.origin.sources[0]).toEqual({

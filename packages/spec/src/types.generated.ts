@@ -74,6 +74,10 @@ export interface Rule {
    * Longer explanation, conditions and exceptions.
    */
   description?: string;
+  /**
+   * Group the rule belongs to in the book: the top-level describe of its test, the function that contains it, or the front-matter group of its declaration.
+   */
+  group?: string;
   tags?: string[];
   origin: RuleOrigin;
   evidence?: RuleEvidence;

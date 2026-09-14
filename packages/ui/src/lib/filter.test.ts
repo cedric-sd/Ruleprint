@@ -34,6 +34,13 @@ const rules = [
 ];
 
 describe('filterRules()', () => {
+  it('matches the query against the group name too (ADR-0009)', () => {
+    const grouped = [{ ...(rules[0] as Rule), group: 'shipping' }, rules[1] as Rule];
+    expect(filterRules(grouped, { ...EMPTY_FILTER, query: 'shipping' }).map((r) => r.id)).toEqual([
+      'RP-000001',
+    ]);
+  });
+
   it('returns everything for the empty filter', () => {
     expect(filterRules(rules, EMPTY_FILTER)).toEqual(rules);
   });

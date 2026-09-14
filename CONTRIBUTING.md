@@ -46,6 +46,11 @@ CI runs the generated-file check, lint, format check, typecheck, build and tests
   it.
 - **Declared rules link by id.** A `.ruleprint/rules/*.md` with `id: RP-…` merges into that
   rule; without an id it is a new rule. `@rule RP-…` in a code comment only links, never creates.
+  Front-matter keys are `id`, `title`, `tags`, `group`; `ruleprint describe` and the UI editor
+  write these files too, so keep `renderDeclaration` the only place that formats them.
+- **Groups are data, not layout.** A rule's `group` is set by the collector (top-level `describe`,
+  enclosing function, front-matter) and merged in core (ADR-0009); the UI only reads it. A new
+  collector should fill it when the language has a natural first level.
 - **The AST collector is opt-in and measured.** It only runs with `ast.include` in
   `.ruleprint/config.json`. Every new signal or filter in `packages/collector-ast/src/signals.ts`
   needs an inline test case, and a change that alters what the three measured repositories

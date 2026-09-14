@@ -160,12 +160,17 @@ export function isOrphan(confidence: Confidence, sources: readonly RuleSource[])
   return confidence === 'declared' && sources.every((source) => source.kind === 'config');
 }
 
+/** The group of the first member that has one, in precedence order (ADR-0009). */
+function groupOf(group: RuleGroup): string | undefined {
+  return group.members.find((member) => member.group !== undefined)?.group;
+}
+
 export function toRule(
-  group: RuleGroup,
+  group_: RuleGroup,
   state: RuleState,
   sources: [RuleSource, ...RuleSource[]],
 ): Rule {
-  const primary = primaryOf(group);
+  const primary = primaryOf(group_);
   const rule: Rule = {
     id: state.id,
     title: primary.title,
@@ -178,8 +183,10 @@ export function toRule(
     status: state.status,
   };
   if (primary.description !== undefined) rule.description = primary.description;
+  const group = groupOf(group_);
+  if (group !== undefined) rule.group = group;
   if (primary.tags !== undefined) rule.tags = [...primary.tags];
-  const evidence = mergedEvidence(group);
+  const evidence = mergedEvidence(group_);
   if (evidence !== undefined) rule.evidence = evidence;
   if (state.approvedAt !== undefined) rule.approvedAt = state.approvedAt;
   if (state.approvedBy !== undefined) rule.approvedBy = state.approvedBy;

@@ -2,19 +2,25 @@ import type { Project, Rule } from '@ruleprint/spec';
 
 import { sourceLabel, sourceUrl } from '../lib/links.js';
 import { ConfidenceBadge, StatusBadge } from './Badge.js';
+import { DescriptionEditor } from './DescriptionEditor.js';
 
 interface Props {
   readonly project: Project;
   readonly rule: Rule;
+  /** Whether descriptions can be saved (`ruleprint serve`). */
+  readonly editable: boolean;
 }
 
-export function RuleDetail({ project, rule }: Props) {
+export function RuleDetail({ project, rule, editable }: Props) {
   return (
     <article className="detail">
       <p>
         <a href="#/">← All rules</a>
       </p>
-      <p className="rule-id">{rule.id}</p>
+      <p className="rule-id">
+        {rule.id}
+        {rule.group !== undefined && <span className="group-label"> · {rule.group}</span>}
+      </p>
       <h1>{rule.title}</h1>
       <p className="rule-meta">
         <ConfidenceBadge confidence={rule.origin.confidence} />
@@ -25,7 +31,7 @@ export function RuleDetail({ project, rule }: Props) {
           </span>
         ))}
       </p>
-      {rule.description && <p className="description">{rule.description}</p>}
+      <DescriptionEditor rule={rule} editable={editable} />
 
       <h2>Origin</h2>
       <p>

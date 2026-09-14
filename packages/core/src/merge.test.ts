@@ -97,6 +97,25 @@ describe('merge with precedence', () => {
     expect(validate(document).valid).toBe(true);
   });
 
+  it('takes the group from the first member that has one, declared first (ADR-0009)', async () => {
+    const grouped = { ...testCandidate, group: 'shipping' };
+    const plain = await run([grouped]);
+    expect(plain.document.rules[0]?.group).toBe('shipping');
+
+    const fromDeclaration = await run([
+      grouped,
+      { ...declared('Frete grátis no Sudeste', { id: testId }), group: 'checkout' },
+    ]);
+    expect(fromDeclaration.document.rules[0]?.group).toBe('checkout');
+
+    const inherited = await run([grouped, declared('Frete grátis no Sudeste', { id: testId })]);
+    expect(inherited.document.rules[0]?.group).toBe('shipping');
+
+    const none = await run([testCandidate]);
+    expect(none.document.rules[0]).not.toHaveProperty('group');
+    expect(validate(fromDeclaration.document).valid).toBe(true);
+  });
+
   it('gives a fused rule a fingerprint made of its members, so a changed test is still drift', async () => {
     const decl = declared('Frete grátis', { id: testId });
     const fused = (await run([testCandidate, decl])).document.rules[0]?.fingerprint;

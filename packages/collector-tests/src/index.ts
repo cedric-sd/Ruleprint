@@ -11,7 +11,8 @@ const TEST_FILE = /(?:^|\/)(?:__tests__\/[^/]+|[^/]+\.(?:test|spec))\.[cm]?[jt]s
 
 /**
  * Derives one rule per `it`/`test` in vitest/jest-style files. The title is the chain of
- * enclosing `describe` titles plus the test title, joined by {@link TITLE_SEPARATOR}.
+ * enclosing `describe` titles plus the test title, joined by {@link TITLE_SEPARATOR}; the
+ * top-level `describe` is the rule's group (ADR-0009).
  */
 export const testsCollector: Collector = {
   name: 'tests',
@@ -34,8 +35,10 @@ export const testsCollector: Collector = {
     return extractTestCases(tree.rootNode).map((testCase) => {
       const title = testCase.titlePath.join(TITLE_SEPARATOR);
       const leaf = testCase.titlePath[testCase.titlePath.length - 1] ?? title;
+      const [group] = testCase.titlePath;
       return {
         title,
+        ...(testCase.titlePath.length > 1 && group !== undefined && { group }),
         normalized: testCase.normalized,
         origin: {
           collector: 'tests',

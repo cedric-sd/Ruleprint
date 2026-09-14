@@ -49,6 +49,26 @@ function useDocument(): State {
   return state;
 }
 
+/** `ruleprint serve` answers `/api/status`; a static build has no API and is read-only. */
+function useEditable(): boolean {
+  const [editable, setEditable] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    fetch('./api/status', { cache: 'no-cache' })
+      .then((response): Promise<{ editable?: boolean }> =>
+        response.ok ? (response.json() as Promise<{ editable?: boolean }>) : Promise.resolve({}),
+      )
+      .then((status) => {
+        if (!cancelled) setEditable(status.editable === true);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+  return editable;
+}
+
 function useHash(): string {
   const [hash, setHash] = useState(window.location.hash);
   useEffect(() => {
@@ -62,6 +82,7 @@ function useHash(): string {
 export function App() {
   const state = useDocument();
   const route = parseHash(useHash());
+  const editable = useEditable();
   const [filter, setFilter] = useState<RuleFilter>(EMPTY_FILTER);
 
   if (state.kind === 'loading') return <p className="notice">Loading rule book…</p>;
@@ -88,7 +109,7 @@ export function App() {
       <main>
         {route.ruleId && !selected && <p className="notice">Rule {route.ruleId} not found.</p>}
         {selected ? (
-          <RuleDetail project={document.project} rule={selected} />
+          <RuleDetail project={document.project} rule={selected} editable={editable} />
         ) : (
           <RuleList rules={document.rules} filter={filter} onFilter={setFilter} />
         )}
