@@ -140,6 +140,7 @@ export function createAstCollector(config: AstConfig): Collector {
         const condition = item.conditionText ?? humanCondition(item.condition);
         candidates.push({
           title: `${item.symbol}: when ${condition}, ${item.consequence}`,
+          group: item.symbol,
           description: snippet(item.node),
           ...(tags.length > 0 && { tags }),
           normalized: normalizeNode(item.node),

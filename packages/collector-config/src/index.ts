@@ -6,7 +6,7 @@ export const PACKAGE_NAME = '@ruleprint/collector-config' as const;
 
 const RULE_FILE = /(?:^|\/)\.ruleprint\/rules\/.+\.md$/;
 const RULE_ID = /^RP-\d{4,}$/;
-const KNOWN_KEYS = new Set(['id', 'title', 'tags']);
+const KNOWN_KEYS = new Set(['id', 'title', 'tags', 'group']);
 const HEADING = /^#\s+(.+?)\s*$/m;
 
 function asList(value: FrontMatterValue | undefined): string[] | undefined {
@@ -19,16 +19,21 @@ function titleFromFileName(path: string): string {
   return base.replace(/\.md$/, '').replace(/[-_]+/g, ' ').trim();
 }
 
-/** Fingerprint material: title, whitespace-collapsed description and sorted tags (ADR-0006). */
+/**
+ * Fingerprint material: title, whitespace-collapsed description and sorted tags (ADR-0006),
+ * plus the group when there is one (ADR-0009; absent, the material is unchanged).
+ */
 function normalize(
   title: string,
   description: string | undefined,
   tags: readonly string[] | undefined,
+  group: string | undefined,
 ): string {
   return JSON.stringify([
     title,
     (description ?? '').replace(/\s+/g, ' ').trim(),
     [...(tags ?? [])].sort(),
+    ...(group === undefined ? [] : [group]),
   ]);
 }
 
@@ -54,7 +59,9 @@ export const configCollector: Collector = {
 
     for (const key of Object.keys(data)) {
       if (!KNOWN_KEYS.has(key)) {
-        ctx.warn(`${file.path}: unknown front-matter key "${key}" (allowed: id, title, tags)`);
+        ctx.warn(
+          `${file.path}: unknown front-matter key "${key}" (allowed: id, title, tags, group)`,
+        );
         return [];
       }
     }
@@ -82,13 +89,16 @@ export const configCollector: Collector = {
 
     const tags = asList(data['tags']);
     const description = body.trim() === '' ? undefined : body.trim();
+    const rawGroup = typeof data['group'] === 'string' ? data['group'].trim() : '';
+    const group = rawGroup === '' ? undefined : rawGroup;
 
     const candidate: RuleCandidate = {
       ...(rawId !== undefined && { id: rawId }),
       title,
       ...(description !== undefined && { description }),
+      ...(group !== undefined && { group }),
       ...(tags !== undefined && tags.length > 0 && { tags }),
-      normalized: normalize(title, description, tags),
+      normalized: normalize(title, description, tags, group),
       origin: {
         collector: 'config',
         confidence: 'declared',
