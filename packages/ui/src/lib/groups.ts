@@ -38,11 +38,14 @@ export function groupRules(rules: readonly Rule[]): RuleGroupView[] {
   return groups;
 }
 
-/** The title without its `<group> > ` prefix, for listing inside the group. */
+/** The title without its `<group> > ` (tests) or `<group>: ` (ast) prefix, for the group list. */
 export function displayTitle(rule: Rule): string {
   if (rule.group === undefined) return rule.title;
-  const prefix = `${rule.group} > `;
-  if (!rule.title.startsWith(prefix)) return rule.title;
-  const rest = rule.title.slice(prefix.length);
-  return rest.trim() === '' ? rule.title : rest;
+  for (const separator of [' > ', ': ']) {
+    const prefix = `${rule.group}${separator}`;
+    if (!rule.title.startsWith(prefix)) continue;
+    const rest = rule.title.slice(prefix.length);
+    return rest.trim() === '' ? rule.title : rest;
+  }
+  return rule.title;
 }

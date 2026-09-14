@@ -67,6 +67,7 @@ describe('displayTitle()', () => {
     expect(displayTitle(rules[0] as Rule)).toBe('frete grátis > acima de 300');
     expect(displayTitle(rules[4] as Rule)).toBe('Pedido acima de R$300 tem frete grátis');
     expect(displayTitle(rules[1] as Rule)).toBe('Cupom expirado é recusado');
+    expect(displayTitle(rules[5] as Rule)).toBe('when isSoutheast(address), returns 19.9');
     expect(displayTitle(rule('RP-000009', 'shipping', 'shipping'))).toBe('shipping');
     expect(displayTitle(rule('RP-000010', 'shipping > ', 'shipping'))).toBe('shipping > ');
   });

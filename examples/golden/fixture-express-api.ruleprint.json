@@ -23,6 +23,7 @@
       "fingerprint": "sha256:64279d42992bcaebe3af082fb089df39409280161b5b36337d782b5a96c911f1",
       "status": "approved",
       "description": "if (count > MAX_ITEMS_PER_ORDER) {\n    throw new OrderError('too many items');\n  }",
+      "group": "assertValidOrder",
       "tags": [
         "order"
       ],
@@ -47,6 +48,7 @@
       "fingerprint": "sha256:6cdfd521545b02604cb2e63f6d869259f05996262b9d1e8c6a5fba9fe80f865e",
       "status": "approved",
       "description": "if (subtotal(items) < MIN_ORDER_VALUE) {\n    throw new OrderError('below minimum');\n  }",
+      "group": "assertValidOrder",
       "tags": [
         "order"
       ],
@@ -71,6 +73,7 @@
       "fingerprint": "sha256:2456394b363e6a1d926a31f19e0d091c9032b71ff24ac8783e8599b02809a75a",
       "status": "approved",
       "description": "isSoutheast(address) ? 19.9 : 34.9",
+      "group": "calcFreight",
       "tags": [
         "freight",
         "southeast"
@@ -96,6 +99,7 @@
       "fingerprint": "sha256:f59887d3a2c5c416f29f1617eaf29201f244fa3a3d1539cc0717fb6c1d2e94b4",
       "status": "approved",
       "description": "if (subtotal >= FREE_SHIPPING_THRESHOLD && isSoutheast(address)) {\n    return 0;\n  }",
+      "group": "calcFreight",
       "tags": [
         "freight",
         "southeast"
@@ -121,6 +125,7 @@
       "fingerprint": "sha256:8a3e298d1014ede71bfb0f0a553d6122e1a0185f84b52a3c1c81278f3a64d977",
       "status": "approved",
       "description": "if (charge.disputed) {\n    return false;\n  }",
+      "group": "canRefund",
       "tags": [
         "dispute",
         "refund"
@@ -180,6 +185,7 @@
       "fingerprint": "sha256:9e67c3dee20cdb2859e05802f8bb0737ebb65b99a86d0ff3f373ba362e3f9d68",
       "status": "approved",
       "description": "Aplicado apenas para CEPs da região Sudeste. Fora dela vale a tabela cheia,\nmesmo acima de R$300.",
+      "group": "shipping",
       "tags": [
         "frete",
         "checkout"
@@ -234,6 +240,7 @@
       },
       "fingerprint": "sha256:24715dad2690c7104d22118c89f5923e93bb48f6960334ac58fb7594aacf0a24",
       "status": "approved",
+      "group": "order validation",
       "evidence": {
         "tests": [
           "order validation > accepts a valid order"
@@ -259,6 +266,7 @@
       },
       "fingerprint": "sha256:c6b04480b8810cb64c0ff5b86d2ca7abae7aee42b9cb5876ec1bc2d7b187a112",
       "status": "approved",
+      "group": "order validation",
       "evidence": {
         "tests": [
           "order validation > rejects an empty order"
@@ -284,6 +292,7 @@
       },
       "fingerprint": "sha256:e16acda8b65b0aa8e83d7517c5560d98fa786ca9f5b0b7fc96ea5b2c0622b1ab",
       "status": "approved",
+      "group": "order validation",
       "evidence": {
         "tests": [
           "order validation > rejects an order below the minimum value"
@@ -309,6 +318,7 @@
       },
       "fingerprint": "sha256:dc1e958c8ec14f8786a6aaa29aee5e371e2b446687fee8b059c15e68aa22ac72",
       "status": "approved",
+      "group": "order validation",
       "evidence": {
         "tests": [
           "order validation > rejects duplicated skus"
@@ -334,6 +344,7 @@
       },
       "fingerprint": "sha256:2f7fa3caca218c60ffaf7a916a2a0ee05291f55537347be037c2404c3175c399",
       "status": "approved",
+      "group": "order validation",
       "evidence": {
         "tests": [
           "order validation > rejects more than ${MAX_ITEMS_PER_ORDER} items in one order"
@@ -359,6 +370,7 @@
       },
       "fingerprint": "sha256:e492f56f68f8373057935beae045cf5bfd36517a6f62c165734ed5a4d7decf13",
       "status": "approved",
+      "group": "refund",
       "evidence": {
         "tests": [
           "refund > cobrança %s > nunca é reembolsável"
@@ -384,6 +396,7 @@
       },
       "fingerprint": "sha256:123ff2afe47b36c882659394d31a560caca62af86e81ea4351dea729a2008958",
       "status": "approved",
+      "group": "refund",
       "evidence": {
         "tests": [
           "refund > ignora cobranças com valor zero"
@@ -409,6 +422,7 @@
       },
       "fingerprint": "sha256:37bf0cc6c23091fe73ef37f3bf45599ab7c5a5b8b26caca10ccb22d8b4cf9dbd",
       "status": "approved",
+      "group": "refund",
       "evidence": {
         "tests": [
           "refund > janela de 7 dias > permite reembolso dentro da janela"
@@ -434,6 +448,7 @@
       },
       "fingerprint": "sha256:4a69f0eb39165bc22ccfc83a988e460ed779b86fa795a688df6fe97bd17309d3",
       "status": "approved",
+      "group": "refund",
       "evidence": {
         "tests": [
           "refund > janela de 7 dias > recusa reembolso após a janela"
@@ -459,6 +474,7 @@
       },
       "fingerprint": "sha256:663a8c7f43c40d3b2fbdc03582465cbf036869b1ba9c6c4d23ec22958019e858",
       "status": "approved",
+      "group": "shipping",
       "evidence": {
         "tests": [
           "shipping > frete grátis > exatamente ${FREE_SHIPPING_THRESHOLD} reais também é grátis"
@@ -484,6 +500,7 @@
       },
       "fingerprint": "sha256:fe8db3c7619616e521ac6a412e5e3192cd90a147fe1e8374d6023a71fd315a67",
       "status": "approved",
+      "group": "shipping",
       "evidence": {
         "tests": [
           "shipping > frete grátis > não vale fora do Sudeste"
@@ -509,6 +526,7 @@
       },
       "fingerprint": "sha256:8cbd2bbb8bdc760296e9c9c9497cbc8ab10a3fb7d0640239a50b933257f00fa2",
       "status": "approved",
+      "group": "shipping",
       "evidence": {
         "tests": [
           "shipping > tabela cheia > abaixo de 300 reais no %s cobra a tabela da região"
