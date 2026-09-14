@@ -433,12 +433,14 @@
         ]
       },
       "fingerprint": "sha256:4a69f0eb39165bc22ccfc83a988e460ed779b86fa795a688df6fe97bd17309d3",
-      "status": "drifted",
+      "status": "approved",
       "evidence": {
         "tests": [
           "refund > janela de 7 dias > recusa reembolso após a janela"
         ]
-      }
+      },
+      "approvedAt": "2026-09-09T18:01:16.263Z",
+      "approvedBy": "github:cedric-sd"
     },
     {
       "id": "RP-441734",
