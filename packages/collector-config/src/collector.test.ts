@@ -98,6 +98,16 @@ describe('configCollector', () => {
       expect(rule?.tags).toBeUndefined();
     });
 
+    it('reads an optional group from the front-matter and fingerprints it (ADR-0009)', async () => {
+      const [grouped] = await collect('---\ntitle: T\ngroup: checkout\n---\nBody.\n');
+      expect(grouped?.group).toBe('checkout');
+      const [plain] = await collect('---\ntitle: T\n---\nBody.\n');
+      expect(plain).not.toHaveProperty('group');
+      expect(grouped?.normalized).not.toBe(plain?.normalized);
+      const [blank] = await collect('---\ntitle: T\ngroup: ""\n---\nBody.\n');
+      expect(blank).not.toHaveProperty('group');
+    });
+
     it('falls back to the file name when there is no title anywhere', async () => {
       const [rule] = await collect(
         'Só um corpo, sem front-matter nem título.\n',

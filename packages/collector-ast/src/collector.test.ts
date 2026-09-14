@@ -88,6 +88,13 @@ describe('createAstCollector()', () => {
         'calcFreight: when subtotal >= FREE_SHIPPING_THRESHOLD and isSoutheast(address), returns 0',
         'calcFreight: when isSoutheast(address), returns 19.9 (otherwise 34.9)',
       ]);
+      expect(all.map((c) => c.group)).toEqual([
+        'assertValidOrder',
+        'assertValidOrder',
+        'canRefund',
+        'calcFreight',
+        'calcFreight',
+      ]);
       const freight = all[3];
       expect(freight).toMatchObject({
         tags: ['freight', 'southeast'],
