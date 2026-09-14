@@ -1,7 +1,6 @@
 {
   "name": "@ruleprint/spec",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "ruleprint.schema.json and the TypeScript types generated from it.",
   "license": "Apache-2.0",
   "type": "module",
@@ -36,5 +35,15 @@
   },
   "devDependencies": {
     "json-schema-to-typescript": "^16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedric-sd/Ruleprint.git",
+    "directory": "packages/spec"
+  },
+  "homepage": "https://github.com/cedric-sd/Ruleprint#readme",
+  "bugs": "https://github.com/cedric-sd/Ruleprint/issues",
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -1,0 +1,41 @@
+# Releases to npm through trusted publishing (OIDC): no npm token in secrets. With pending
+# changesets on main it opens the "version packages" PR; merging that PR publishes.
+# Each package trusts this file by name on npmjs.com: renaming it breaks publishing.
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write # version commit, tags and GitHub releases
+  pull-requests: write # the "version packages" PR
+  id-token: write # OIDC token exchanged with npm instead of NPM_TOKEN
+
+jobs:
+  release:
+    name: version or publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24 # trusted publishing needs Node 22.14+ and npm 11.5.1+
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # v1, not v2: v2 requires Changesets CLI v3, which ADR-0001 holds back until CI drops Node 20.
+      - uses: changesets/action@v1
+        with:
+          version: pnpm changeset version
+          publish: pnpm release
+          commit: 'chore(release): version packages'
+          title: 'chore(release): version packages'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}

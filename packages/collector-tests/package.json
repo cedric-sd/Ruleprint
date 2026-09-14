@@ -1,7 +1,6 @@
 {
   "name": "@ruleprint/collector-tests",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Collector that derives rules from vitest/jest test trees.",
   "license": "Apache-2.0",
   "type": "module",
@@ -24,5 +23,15 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedric-sd/Ruleprint.git",
+    "directory": "packages/collector-tests"
+  },
+  "homepage": "https://github.com/cedric-sd/Ruleprint#readme",
+  "bugs": "https://github.com/cedric-sd/Ruleprint/issues",
+  "publishConfig": {
+    "access": "public"
+  }
 }

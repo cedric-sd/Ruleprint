@@ -1,7 +1,6 @@
 {
   "name": "@ruleprint/collector-ast",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Collector that infers rules from conditionals in code, opt-in by directory, with domain-signal heuristics (tree-sitter).",
   "license": "Apache-2.0",
   "type": "module",
@@ -23,5 +22,15 @@
     "@ruleprint/core": "workspace:*",
     "@ruleprint/spec": "workspace:*",
     "@ruleprint/tree-sitter-utils": "workspace:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedric-sd/Ruleprint.git",
+    "directory": "packages/collector-ast"
+  },
+  "homepage": "https://github.com/cedric-sd/Ruleprint#readme",
+  "bugs": "https://github.com/cedric-sd/Ruleprint/issues",
+  "publishConfig": {
+    "access": "public"
   }
 }

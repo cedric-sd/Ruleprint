@@ -1,7 +1,6 @@
 {
   "name": "ruleprint",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Command-line interface: init, scan, serve and build a rule book from a repository.",
   "license": "Apache-2.0",
   "type": "module",
@@ -31,5 +30,15 @@
     "@ruleprint/spec": "workspace:*",
     "@ruleprint/ui": "workspace:*",
     "commander": "^14.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedric-sd/Ruleprint.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/cedric-sd/Ruleprint#readme",
+  "bugs": "https://github.com/cedric-sd/Ruleprint/issues",
+  "engines": {
+    "node": ">=20.19.0"
   }
 }
