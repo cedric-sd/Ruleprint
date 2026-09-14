@@ -82,8 +82,10 @@ Commit ruleprint.json and ruleprint.lock so the rule book travels with the code.
 npx ruleprint serve
 ```
 
-Open <http://localhost:4141>. Search, filter by confidence or tag, open a rule to see where it
-comes from. The page reloads whenever a test or rule file changes.
+Open <http://localhost:4141>. Rules come grouped by their top-level `describe` (or by the
+function they were inferred from), one collapsible row per group, open by default. Search,
+filter by confidence or tag, open a rule to see where it comes from. The page reloads whenever a
+test or rule file changes.
 
 <p align="center">
   <img src="docs/assets/rule-detail.png" alt="A rule page: title, description, the test and code it comes from, evidence and approval" width="900">
@@ -157,6 +159,16 @@ Aplicado apenas para CEPs da região Sudeste. Fora dela vale a tabela cheia.
 
 Add `// @rule RP-088272` above the code that implements a rule and the book links to it.
 
+You can also write the description without leaving the browser: open a rule under
+`ruleprint serve`, click **Describe this rule**, type and save. That writes the same markdown
+file, so the rule is `declared` on the next reload and the file is there for your pull request.
+Headless: `npx ruleprint describe RP-088272 "Aplicado apenas para CEPs do Sudeste."`. A static
+`build` is read-only.
+
+<p align="center">
+  <img src="docs/assets/rule-editor.png" alt="Editing a rule's description in the served rule book" width="900">
+</p>
+
 ### 7. Publish the book (optional)
 
 ```sh
@@ -174,6 +186,7 @@ npx ruleprint build            # static site in ruleprint-site/, ready for GitHu
 | `ruleprint check [dir] [--json]`                                                   | compares the scan with `ruleprint.lock`; exit `1` on added, changed, renamed or removed rules; lists orphans |
 | `ruleprint approve [dir] [ids...] [--all] [--by who]`                              | approves changes (interactive in a terminal), writes `ruleprint.lock`, refreshes `ruleprint.json`            |
 | `ruleprint promote <id> [-C dir]`                                                  | writes `.ruleprint/rules/<slug>.md` so the rule becomes `declared` on the next scan                          |
+| `ruleprint describe <id> [text] [--from-file f] [-C dir]`                          | writes the description into that markdown file (creates it when the rule is not declared yet)                |
 | `ruleprint pr [-C dir] [--dry-run] [--no-push] [--no-fail-on-changes] [--limit n]` | GitHub Action: comments on the pull request and approves rules from ticked boxes                             |
 
 Exit codes: `0` ok, `1` (`check` and `pr` on a pull request) changes waiting for approval, `2`

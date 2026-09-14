@@ -64,18 +64,19 @@ Todos os objetos são fechados: propriedade desconhecida é erro.
 
 ### `Rule`
 
-| Campo         | Tipo                                       | Obrigatório | Descrição                                     |
-| ------------- | ------------------------------------------ | ----------- | --------------------------------------------- |
-| `id`          | `RP-` + 4+ dígitos                         | sim         | identificador estável; único no documento     |
-| `title`       | string não vazia                           | sim         | a regra em uma frase, em linguagem de negócio |
-| `description` | string                                     | não         | condições, exceções, contexto                 |
-| `tags`        | string[] sem repetição                     | não         |                                               |
-| `origin`      | `RuleOrigin`                               | sim         | de onde a regra veio                          |
-| `evidence`    | `RuleEvidence`                             | não         | evidência automatizada                        |
-| `fingerprint` | `sha256:` + 64 hex                         | sim         | hash da AST normalizada da origem             |
-| `status`      | `approved \| pending \| drifted \| orphan` | sim         | estado em relação ao lock                     |
-| `approvedAt`  | RFC 3339 date-time                         | não         |                                               |
-| `approvedBy`  | `<provider>:<identidade>`                  | não         | ex.: `git:maria@empresa.com`                  |
+| Campo         | Tipo                                       | Obrigatório | Descrição                                                                                  |
+| ------------- | ------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------ |
+| `id`          | `RP-` + 4+ dígitos                         | sim         | identificador estável; único no documento                                                  |
+| `title`       | string não vazia                           | sim         | a regra em uma frase, em linguagem de negócio                                              |
+| `description` | string                                     | não         | condições, exceções, contexto                                                              |
+| `group`       | string não vazia                           | não         | grupo no livro: `describe` de primeiro nível, função ou `group` do front-matter (ADR-0009) |
+| `tags`        | string[] sem repetição                     | não         |                                                                                            |
+| `origin`      | `RuleOrigin`                               | sim         | de onde a regra veio                                                                       |
+| `evidence`    | `RuleEvidence`                             | não         | evidência automatizada                                                                     |
+| `fingerprint` | `sha256:` + 64 hex                         | sim         | hash da AST normalizada da origem                                                          |
+| `status`      | `approved \| pending \| drifted \| orphan` | sim         | estado em relação ao lock                                                                  |
+| `approvedAt`  | RFC 3339 date-time                         | não         |                                                                                            |
+| `approvedBy`  | `<provider>:<identidade>`                  | não         | ex.: `git:maria@empresa.com`                                                               |
 
 ### `RuleOrigin`
 
@@ -116,15 +117,19 @@ tags: [frete, checkout]
 Aplicado apenas para CEPs da região Sudeste.
 ```
 
-- Front-matter mínimo: `id`, `title`, `tags` (`chave: valor`, lista inline `[a, b]` ou em bloco
-  `- item`). Sem `title`, vale o primeiro `# Título` do corpo e, na falta, o nome do arquivo. O
-  corpo é a `description`.
+- Front-matter mínimo: `id`, `title`, `tags`, `group` (`chave: valor`, lista inline `[a, b]` ou em
+  bloco `- item`). Sem `title`, vale o primeiro `# Título` do corpo e, na falta, o nome do
+  arquivo. O corpo é a `description`. `group` reagrupa a regra no livro; sem ele vale o grupo da
+  evidência (o `describe` de primeiro nível do teste).
 - Com `id`, o arquivo se funde com a regra desse id: título, descrição e tags do markdown vencem,
   as fontes e a evidência do teste se somam, `confidence` passa a `declared`. Sem `id`, é uma regra
   nova; sem nenhuma evidência ela fica `orphan`.
 - `// @rule RP-088272` (ou `#`, `*`, `/* */`) num arquivo de código acrescenta aquele arquivo e
   linha como fonte `annotation` da regra. Não cria regra; id desconhecido gera aviso.
 - `ruleprint promote <id>` escreve o markdown de uma regra existente para ela virar declarada.
+- `ruleprint describe <id> "<texto>"` (ou o botão de editar na UI servida, que chama
+  `PUT /api/rules/<id>`) grava a descrição no mesmo markdown: cria o arquivo se a regra ainda não
+  é declarada, ou substitui só o corpo se já é (ADR-0009).
 
 ## Configuração: `.ruleprint/config.json`
 
