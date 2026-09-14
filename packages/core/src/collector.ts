@@ -27,6 +27,8 @@ export interface RuleCandidate {
   readonly attachTo?: string;
   readonly title: string;
   readonly description?: string;
+  /** Group of the rule in the book (top-level `describe`, enclosing function, …) (ADR-0009). */
+  readonly group?: string;
   /**
    * Normalised representation of the origin (e.g. the S-expression of a test body with
    * formatting and local names abstracted away). It is the fingerprint material; collectors that
