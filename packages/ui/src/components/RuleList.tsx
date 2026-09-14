@@ -7,6 +7,7 @@ import {
   filterRules,
   type RuleFilter,
 } from '../lib/filter.js';
+import { displayTitle, groupRules } from '../lib/groups.js';
 import { ruleHash } from '../lib/route.js';
 import { ConfidenceBadge, StatusBadge } from './Badge.js';
 
@@ -18,6 +19,7 @@ interface Props {
 
 export function RuleList({ rules, filter, onFilter }: Props) {
   const visible = filterRules(rules, filter);
+  const groups = groupRules(visible);
   const tags = allTags(rules);
   const counts = countByConfidence(rules);
 
@@ -82,25 +84,36 @@ export function RuleList({ rules, filter, onFilter }: Props) {
         {visible.length === 0 ? (
           <p className="empty">No rule matches. Try fewer filters.</p>
         ) : (
-          <ol className="rules">
-            {visible.map((rule) => (
-              <li key={rule.id}>
-                <a className="rule" href={ruleHash(rule.id)}>
-                  <span className="rule-id">{rule.id}</span>
-                  <span className="rule-title">{rule.title}</span>
-                  <span className="rule-meta">
-                    <ConfidenceBadge confidence={rule.origin.confidence} />
-                    <StatusBadge status={rule.status} />
-                    {(rule.tags ?? []).map((tag) => (
-                      <span key={tag} className="tag">
-                        {tag}
+          groups.map((group) => (
+            <details key={group.name} className="group" open>
+              <summary className="group-summary">
+                <span className="group-name">{group.name}</span>
+                <span className="group-count">
+                  {group.rules.length} {group.rules.length === 1 ? 'rule' : 'rules'}
+                  {group.pending > 0 && <em> · {group.pending} to review</em>}
+                </span>
+              </summary>
+              <ol className="rules">
+                {group.rules.map((rule) => (
+                  <li key={rule.id}>
+                    <a className="rule" href={ruleHash(rule.id)}>
+                      <span className="rule-id">{rule.id}</span>
+                      <span className="rule-title">{displayTitle(rule)}</span>
+                      <span className="rule-meta">
+                        <ConfidenceBadge confidence={rule.origin.confidence} />
+                        <StatusBadge status={rule.status} />
+                        {(rule.tags ?? []).map((tag) => (
+                          <span key={tag} className="tag">
+                            {tag}
+                          </span>
+                        ))}
                       </span>
-                    ))}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ol>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </details>
+          ))
         )}
       </section>
     </div>

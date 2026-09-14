@@ -11,7 +11,7 @@ export const EMPTY_FILTER: RuleFilter = { query: '', tags: [], confidence: [] };
 export const CONFIDENCES: readonly Confidence[] = ['declared', 'derived', 'inferred'];
 
 function haystack(rule: Rule): string {
-  return [rule.id, rule.title, rule.description ?? '', ...(rule.tags ?? [])]
+  return [rule.id, rule.title, rule.group ?? '', rule.description ?? '', ...(rule.tags ?? [])]
     .join('\n')
     .toLowerCase();
 }
