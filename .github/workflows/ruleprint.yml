@@ -1,5 +1,6 @@
 # Dogfood of the PR bot (ADR-0008): runs the CLI built from this branch against the fixture.
-# Once `ruleprint` is on npm this becomes `uses: cedric-sd/Ruleprint@v1`.
+# It stays on the local build on purpose: `uses: cedric-sd/Ruleprint@v1` would run the version
+# published on npm, not the code of the pull request.
 name: RulePrint
 
 on:

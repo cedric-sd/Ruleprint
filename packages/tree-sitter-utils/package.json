@@ -1,7 +1,6 @@
 {
   "name": "@ruleprint/tree-sitter-utils",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Shared tree-sitter loader, literal helpers and AST normalisation for the collectors.",
   "license": "Apache-2.0",
   "type": "module",
@@ -21,5 +20,15 @@
   },
   "dependencies": {
     "@vscode/tree-sitter-wasm": "0.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cedric-sd/Ruleprint.git",
+    "directory": "packages/tree-sitter-utils"
+  },
+  "homepage": "https://github.com/cedric-sd/Ruleprint#readme",
+  "bugs": "https://github.com/cedric-sd/Ruleprint/issues",
+  "publishConfig": {
+    "access": "public"
   }
 }

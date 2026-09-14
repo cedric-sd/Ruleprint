@@ -118,10 +118,11 @@ avaliada e aprovada pelo dono do projeto antes do M3.
 `ruleprint init`/`scan`, `ruleprint serve` (porta 4141, hot reload por SSE), `ruleprint build`
 (estático). UI: lista pesquisável, filtro por tag e confiança, detalhe com link para
 arquivo/linha. Ids e fingerprints provisórios, `project.repository` e o wiring de build/dist em
-`docs/adr/0004-ids-provisorios-e-pipeline-do-scan.md`. Changesets configurado; publicação no npm
-é manual (`pnpm release`) e depende de token do dono.
-**DoD:** GIF de 20s no README mostrando `npx ruleprint init` num repo real (pendente: exige
-publicar no npm, ação do dono).
+`docs/adr/0004-ids-provisorios-e-pipeline-do-scan.md`. Changesets configurado; a primeira
+publicação no npm (0.1.0, 14/09/2026) foi manual com `pnpm release`, e as seguintes saem pelo
+workflow `release.yml` com trusted publishing.
+**DoD:** GIF de 20s no README mostrando `npx ruleprint init` num repo real (pendente: o pacote já
+está no npm, falta gravar o GIF).
 
 ### M4 — Lockfile, drift e `check` (concluído)
 
@@ -162,8 +163,9 @@ com checkbox; marcar a caixa (ou "Approve all") aprova como `github:<login>` e c
 `npx ruleprint@<version>`); dogfood em `.github/workflows/ruleprint.yml` com o build local contra
 `examples/fixture-express-api`. Decisões e modelo de ameaça em
 `docs/adr/0008-github-action-e-bot-de-pr.md`.
-**DoD:** dogfood no próprio repo: o bot comenta e aprova num PR deste repositório. Pendências do
-dono: publicar `ruleprint` no npm e criar a tag `v1` para a action ser usável fora daqui.
+**DoD:** dogfood no próprio repo: o bot comenta e aprova num PR deste repositório. As pendências
+do dono foram resolvidas em 14/09/2026: `ruleprint` 0.1.0 está no npm e a tag `v1` existe, então
+a action já funciona fora daqui.
 
 ### Entre M7 e M8 — Grupos e descrição editável (concluído)
 

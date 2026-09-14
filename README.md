@@ -51,9 +51,8 @@ Every rule carries a **confidence level**, so readers always know how much to tr
 
 ## Quick start
 
-> **Not on npm yet.** Until the first release, run the CLI from a clone of this repository:
-> `pnpm install && pnpm build`, then use `node packages/cli/dist/bin.js` wherever this guide says
-> `npx ruleprint`. Node 20.19+ and [pnpm](https://pnpm.io) 10 are required.
+> Requires Node 20.19+. `npx ruleprint` fetches the CLI from npm on first use; add it with
+> `npm install --save-dev ruleprint` to pin one version for the whole team.
 
 ### 1. Draft the book
 
@@ -216,9 +215,10 @@ dist-tag of `ruleprint`, default `latest`), `fail-on-changes` (default `true`). 
 - A push made with `github.token` does not trigger other workflows, so the bot's commit shows no
   CI checks until the next human push. Use a personal access token or a GitHub App token in
   `token` (and in `actions/checkout`) when that matters.
-- The action runs `npx ruleprint@<version>`, so it works once the package is on npm. Until then,
-  build from source as this repository's own [`ruleprint.yml`](.github/workflows/ruleprint.yml)
-  does. Decisions and threat model in [ADR-0008](docs/adr/0008-github-action-e-bot-de-pr.md).
+- The action runs `npx ruleprint@<version>`, `latest` by default. Pin `version` to a release
+  (e.g. `0.1.0`) when every run must use the same CLI. To try unreleased changes, build from
+  source as this repository's own [`ruleprint.yml`](.github/workflows/ruleprint.yml) does.
+  Decisions and threat model in [ADR-0008](docs/adr/0008-github-action-e-bot-de-pr.md).
 
 ## Experimental: rules inferred from code
 
@@ -266,8 +266,9 @@ code in the repo → collectors (tests, config, annotations, AST) → RuleCandid
 
 Pre-alpha. **M0–M5** are done, **M6 (AST collector)** waits for the owner's noise marking and
 **M7 (GitHub Action + PR bot)** is in place and dogfooded on this repository's own pull requests.
-Next up: pytest and JUnit collectors, a Docker image and single binaries (M8). Follow the
-milestones in [`docs/ROADMAP.md`](docs/ROADMAP.md).
+The first release, `ruleprint` 0.1.0, is on npm, and the action works in any repository as
+`cedric-sd/Ruleprint@v1`. Next up: pytest and JUnit collectors, a Docker image and single binaries
+(M8). Follow the milestones in [`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Packages
 
