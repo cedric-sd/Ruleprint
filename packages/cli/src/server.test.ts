@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -32,6 +32,12 @@ async function readSseEvent(url: string, trigger: () => Promise<void>): Promise<
   }
   controller.abort();
   return received;
+}
+
+function freshFixture(): string {
+  const dir = mkdtempSync(join(tmpdir(), 'ruleprint-serve-'));
+  cpSync(FIXTURE, dir, { recursive: true, filter: (src) => !src.endsWith('ruleprint.lock') });
+  return dir;
 }
 
 describe('createRuleBookServer()', () => {
@@ -76,5 +82,80 @@ describe('createRuleBookServer()', () => {
 
     const event = await readSseEvent(`${base}/events`, () => server?.rescan() ?? Promise.resolve());
     expect(event).toContain('event: reload');
+  });
+
+  it('saves a description written in the UI as a declared rule and reloads (ADR-0009)', async () => {
+    const dir = freshFixture();
+    server = await createRuleBookServer({
+      dir,
+      uiDist: fakeUiDist(),
+      port: 0,
+      watch: false,
+      scanOptions: { git: false },
+    });
+    const base = `http://127.0.0.1:${server.port}`;
+
+    const status = await fetch(`${base}/api/status`);
+    expect(status.status).toBe(200);
+    expect(await status.json()).toEqual({ editable: true });
+
+    const before = (await (await fetch(`${base}/ruleprint.json`)).json()) as {
+      rules: { id: string; title: string; description?: string }[];
+    };
+    const target = before.rules.find(
+      (r) => r.title === 'order validation > rejects an empty order',
+    );
+    if (!target) throw new Error('rule not found');
+    expect(target.description).toBeUndefined();
+
+    const event = await readSseEvent(`${base}/events`, async () => {
+      const put = await fetch(`${base}/api/rules/${target.id}`, {
+        method: 'PUT',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ description: 'Um pedido precisa de ao menos um item.' }),
+      });
+      expect(put.status).toBe(200);
+      const payload = (await put.json()) as {
+        id: string;
+        path: string;
+        rule: { description?: string };
+      };
+      expect(payload.id).toBe(target.id);
+      expect(payload.path).toBe('.ruleprint/rules/order-validation-rejects-an-empty-order.md');
+      expect(payload.rule.description).toBe('Um pedido precisa de ao menos um item.');
+    });
+    expect(event).toContain('event: reload');
+    expect(
+      existsSync(join(dir, '.ruleprint/rules/order-validation-rejects-an-empty-order.md')),
+    ).toBe(true);
+
+    const after = (await (await fetch(`${base}/ruleprint.json`)).json()) as {
+      rules: { id: string; description?: string; origin: { confidence: string } }[];
+    };
+    expect(after.rules.find((r) => r.id === target.id)).toMatchObject({
+      description: 'Um pedido precisa de ao menos um item.',
+      origin: { confidence: 'declared' },
+    });
+
+    const unknown = await fetch(`${base}/api/rules/RP-999999`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ description: 'x' }),
+    });
+    expect(unknown.status).toBe(404);
+    const malformed = await fetch(`${base}/api/rules/${target.id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: '{not json',
+    });
+    expect(malformed.status).toBe(400);
+    const empty = await fetch(`${base}/api/rules/${target.id}`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ description: '  ' }),
+    });
+    expect(empty.status).toBe(400);
+    const wrongMethod = await fetch(`${base}/api/rules/${target.id}`, { method: 'DELETE' });
+    expect(wrongMethod.status).toBe(405);
   });
 });
