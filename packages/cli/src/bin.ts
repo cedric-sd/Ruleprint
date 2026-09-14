@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { relative, resolve } from 'node:path';
 import { createInterface } from 'node:readline/promises';
@@ -8,6 +8,7 @@ import { exitCodeFor, orphansOf, type Change } from '@ruleprint/core';
 import { Command } from 'commander';
 
 import { approveProject, defaultApprover } from './approve.js';
+import { describeRule } from './describe.js';
 import { runPr } from './pr.js';
 import { buildSite } from './build.js';
 import { CONFIG_FILE } from './config.js';
@@ -198,6 +199,29 @@ program
     out(`${result.rule.id} → ${pretty(result.path)}`);
     out('Edit the description, then run `ruleprint scan` (or `serve`) to see it as declared.');
   });
+
+program
+  .command('describe')
+  .description('write a description for a rule: declares it in .ruleprint/rules/<slug>.md')
+  .argument('<id>', 'rule id, e.g. RP-000042')
+  .argument('[text]', 'the description (or read it from --from-file)')
+  .option('-C, --dir <dir>', 'repository root', '.')
+  .option('--from-file <file>', 'read the description from a file ("-" for stdin)')
+  .action(
+    async (id: string, text: string | undefined, opts: { dir: string; fromFile?: string }) => {
+      let description = text ?? '';
+      if (opts.fromFile !== undefined) {
+        description =
+          opts.fromFile === '-'
+            ? readFileSync(0, 'utf8')
+            : readFileSync(resolve(opts.fromFile), 'utf8');
+      }
+      if (description.trim() === '') throw new Error('give the description as text or --from-file');
+      const result = await describeRule(resolve(opts.dir), id, description);
+      out(`${result.rule.id} → ${pretty(result.path)}${result.created ? ' (new)' : ''}`);
+      out('The rule is declared now; run `ruleprint scan` (or `serve`) to see it.');
+    },
+  );
 
 program
   .command('pr')

@@ -40,6 +40,8 @@ export interface ScanResult {
   readonly warnings: readonly string[];
   /** Number of files handed to collectors. */
   readonly files: number;
+  /** Path of the scanned directory inside its git repository (`''` at the root or without git). */
+  readonly prefix: string;
 }
 
 const SKIPPED_DIRS = new Set(['node_modules', 'dist', 'build', 'coverage', '.git']);
@@ -134,7 +136,14 @@ export async function scanProject(dir: string, options: ScanOptions = {}): Promi
     generatedAt: (options.now ?? new Date()).toISOString(),
     lock,
   });
-  return { document, changes, lock, warnings: [...warnings, ...notes], files: files.length };
+  return {
+    document,
+    changes,
+    lock,
+    warnings: [...warnings, ...notes],
+    files: files.length,
+    prefix,
+  };
 }
 
 export function serializeDocument(document: RulePrintDocument): string {

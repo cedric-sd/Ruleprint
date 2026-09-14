@@ -1,8 +1,9 @@
 import { createReadStream, existsSync, statSync, watch, type FSWatcher } from 'node:fs';
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import type { AddressInfo } from 'node:net';
-import { extname, join, resolve, sep } from 'node:path';
+import { extname, join, relative, resolve, sep } from 'node:path';
 
+import { describeRule } from './describe.js';
 import { scanProject, serializeDocument, type ScanOptions } from './scan.js';
 
 export interface ServerOptions {
@@ -39,6 +40,32 @@ const MIME: Record<string, string> = {
 
 const IGNORED_CHANGES = /(^|[\\/])(node_modules|dist|build|coverage|\.git|\.ruleprint)([\\/]|$)/;
 const DEBOUNCE_MS = 150;
+const RULE_ROUTE = /^\/api\/rules\/(RP-\d{4,})$/;
+const MAX_BODY = 256 * 1024;
+
+function readJsonBody(req: IncomingMessage): Promise<unknown> {
+  return new Promise((done, fail) => {
+    let raw = '';
+    req.setEncoding('utf8');
+    req.on('data', (chunk: string) => {
+      raw += chunk;
+      if (raw.length > MAX_BODY) fail(new Error('body too large'));
+    });
+    req.on('end', () => {
+      try {
+        done(JSON.parse(raw));
+      } catch (error) {
+        fail(new Error(`invalid JSON: ${String(error)}`));
+      }
+    });
+    req.on('error', fail);
+  });
+}
+
+function sendJson(res: ServerResponse, status: number, payload: unknown): void {
+  res.writeHead(status, { 'Content-Type': MIME['.json'] ?? '', 'Cache-Control': 'no-cache' });
+  res.end(`${JSON.stringify(payload)}\n`);
+}
 
 function staticPath(uiDist: string, pathname: string): string | undefined {
   const root = resolve(uiDist);
@@ -70,6 +97,46 @@ export async function createRuleBookServer(options: ServerOptions): Promise<Rule
     for (const client of clients) client.write('event: reload\ndata: {}\n\n');
   }
 
+  /** `PUT /api/rules/<id>` with `{ description }` (ADR-0009): declares the rule and reloads. */
+  async function describe(req: IncomingMessage, res: ServerResponse, id: string): Promise<void> {
+    let payload: unknown;
+    try {
+      payload = await readJsonBody(req);
+    } catch (error) {
+      sendJson(res, 400, { error: String(error instanceof Error ? error.message : error) });
+      return;
+    }
+    const description =
+      typeof payload === 'object' && payload !== null && 'description' in payload
+        ? payload.description
+        : undefined;
+    if (typeof description !== 'string' || description.trim() === '') {
+      sendJson(res, 400, { error: 'expected { "description": "<non-empty text>" }' });
+      return;
+    }
+    try {
+      const result = await describeRule(dir, id, description, {
+        ...(options.scanOptions && { scanOptions: options.scanOptions }),
+      });
+      await rescan();
+      log(`described ${id} → ${relative(dir, result.path)}`);
+      sendJson(res, 200, {
+        id,
+        path: relative(dir, result.path).split(sep).join('/'),
+        created: result.created,
+        rule: result.rule,
+      });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const status = message.includes('is not a rule')
+        ? 404
+        : message.includes('already exists')
+          ? 409
+          : 500;
+      sendJson(res, status, { error: message });
+    }
+  }
+
   function handle(req: IncomingMessage, res: ServerResponse): void {
     const url = new URL(req.url ?? '/', 'http://localhost');
     let pathname: string;
@@ -77,6 +144,20 @@ export async function createRuleBookServer(options: ServerOptions): Promise<Rule
       pathname = decodeURIComponent(url.pathname);
     } catch {
       res.writeHead(400).end();
+      return;
+    }
+
+    if (pathname === '/api/status') {
+      sendJson(res, 200, { editable: true });
+      return;
+    }
+    const rule = RULE_ROUTE.exec(pathname);
+    if (rule?.[1] !== undefined) {
+      if (req.method !== 'PUT') {
+        res.writeHead(405, { Allow: 'PUT' }).end();
+        return;
+      }
+      void describe(req, res, rule[1]);
       return;
     }
 
